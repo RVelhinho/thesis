@@ -6,10 +6,12 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.4",
     "@testing-library/user-event": "^12.6.3",
+    "@turf/turf": "^6.2.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "joi-browser": "^13.4.0",
     "jwt-decode": "^3.1.2",
+    "leaflet": "^1.7.1",
     "lodash": "^4.17.20",
     "node-sass": "^4.0.0",
     "query-string": "^6.13.8",
@@ -20,6 +22,7 @@
     "react-scripts": "4.0.1",
     "react-toastify": "^7.0.3",
     "recharts": "^2.0.3",
+    "topojson": "^3.0.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

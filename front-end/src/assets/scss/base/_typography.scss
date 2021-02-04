@@ -5,8 +5,5 @@ $max-size: 1500;
 
 html {
 	@include fluid-typography($min-font, $max-font, $min-size, $max-size);
-}
-
-.app-container {
-	font-family: sans-serif;
+	font-family: OpenSans-Regular, sans-serif;
 }

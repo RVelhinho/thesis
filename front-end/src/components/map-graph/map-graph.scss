@@ -1,0 +1,24 @@
+.leaflet-container {
+	height: 100%;
+	width: 100%;
+}
+
+.leaflet-popup-content p {
+	margin: 0;
+	&.regionIdFont {
+		margin: 0;
+		font-size: 0.78rem;
+	}
+}
+
+.leaflet-popup-content-wrapper {
+	background: none;
+	box-shadow: none;
+	> .leaflet-popup-content {
+		width: auto;
+		margin: 0;
+		> .custom-tooltip {
+			margin: 0;
+		}
+	}
+}
