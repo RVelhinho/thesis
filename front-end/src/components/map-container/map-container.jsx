@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Map, TileLayer, Popup, Circle } from 'react-leaflet';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
-import './map-graph.scss';
+import './map-container.scss';
 
-export default class MapGraph extends PureComponent {
+export default class MapContainer extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {

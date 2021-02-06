@@ -2,8 +2,14 @@ import React, { Component } from 'react';
 import L from 'leaflet';
 import * as turf from '@turf/turf';
 import worldPoly from '../../mockData/worldPoly.json';
-import MapGraph from '../../components/map-graph/map-graph';
 import './main-page.scss';
+import CalendarContainer from '../../components/calendar-container/calendar-container';
+import CalendarRow from '../../components/calendar-row/calendar-row';
+import MapContainer from '../../components/map-container/map-container';
+import AreaChartContainer from '../../components/area-chart-container/area-chart-container';
+import WordCloudContainer from '../../components/word-cloud-container/word-cloud-container';
+import BarChartContainer from '../../components/bar-chart-container/bar-chart-container';
+import DonutChartContainer from '../../components/donut-chart-container/donut-chart-container';
 
 export default class MainPage extends Component {
 	state = {
@@ -13,11 +19,129 @@ export default class MainPage extends Component {
 			data: [],
 			tooltipType: 'calendar',
 		},
+		areaChartData: {
+			data: [],
+			tooltipType: 'area',
+		},
 		mapData: {
 			data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 			tooltipType: 'map',
 		},
-		crashOverviewData: {
+		donutChartData: {
+			data: [
+				{
+					name: 'Total Survivors',
+					total: 32,
+				},
+				{
+					name: 'Total Fatalities',
+					total: 45,
+				},
+			],
+			tooltipType: 'donut',
+		},
+		wordCloudData: {
+			data: [
+				{
+					text: 'storm',
+					value: 40,
+				},
+				{
+					text: 'fire',
+					value: 20,
+				},
+				{
+					text: 'acident',
+					value: 80,
+				},
+				{
+					text: 'war',
+					value: 10,
+				},
+				{
+					text: 'engine',
+					value: 80,
+				},
+				{
+					text: 'weather',
+					value: 102,
+				},
+				{
+					text: 'failure',
+					value: 17,
+				},
+				{
+					text: 'fatal',
+					value: 65,
+				},
+			],
+			callbacks: {
+				getWordColor: (word) =>
+					this.getWordColorAux(word.value, 325, word.weight),
+				getWordTooltip: (word) =>
+					`${word.text} (${word.value}) [${word.value > 50 ? 'good' : 'bad'}]`,
+			},
+			options: {
+				rotations: 0,
+				fontSizes: [14, 36],
+				fontFamily: 'OpenSans-Regular',
+				padding: 5,
+				fontWeight: 400,
+			},
+			size: undefined,
+			tooltipType: 'wordCloud',
+		},
+		barChartData: {
+			data: [
+				{
+					plane: 'planeA',
+					total: 105,
+				},
+				{
+					plane: 'planeB',
+					total: 87,
+				},
+				{
+					plane: 'planeC',
+					total: 45,
+				},
+				{
+					plane: 'planeD',
+					total: 32,
+				},
+				{
+					plane: 'planeE',
+					total: 24,
+				},
+				{
+					plane: 'planeF',
+					total: 21,
+				},
+				{
+					plane: 'planeG',
+					total: 15,
+				},
+				{
+					plane: 'planeH',
+					total: 17,
+				},
+				{
+					plane: 'planeI',
+					total: 18,
+				},
+				{
+					plane: 'planeJ',
+					total: 15,
+				},
+				{
+					plane: 'planeK',
+					total: 13,
+				},
+			],
+			gradientColors: ['ed8c15', 'e6cbaa'],
+			tooltipType: 'bar',
+		},
+		overviewData: {
 			data: [],
 			tooltipType: 'overview',
 		},
@@ -44,6 +168,37 @@ export default class MainPage extends Component {
 			return this.randomPointInPoly(polygon);
 		}
 	};
+
+	getWordColorAux(value, totalValue, weight) {
+		console.log(weight);
+		if (weight >= 500) {
+			return '#000000';
+		} else {
+			const rate = value / totalValue;
+			console.log(rate);
+			if (rate < 0.1) {
+				return '#ed8c15';
+			} else if (rate < 0.2) {
+				return '#ec7c15';
+			} else if (rate < 0.3) {
+				return '#eb6c15';
+			} else if (rate < 0.4) {
+				return '#ea5c15';
+			} else if (rate < 0.5) {
+				return '#e94c15';
+			} else if (rate < 0.6) {
+				return '#e83c15';
+			} else if (rate < 0.7) {
+				return '#e72c15';
+			} else if (rate < 0.8) {
+				return '#e61c15';
+			} else if (rate < 0.9) {
+				return '#e50c15';
+			} else if (rate < 1) {
+				return '#e4Dc15';
+			}
+		}
+	}
 
 	componentDidMount() {
 		const polyPositions = [...this.state.polyPositions];
@@ -80,26 +235,62 @@ export default class MainPage extends Component {
 	};
 
 	render() {
-		const { mapData, randomPositions } = this.state;
+		const {
+			calendarData,
+			areaChartData,
+			mapData,
+			donutChartData,
+			wordCloudData,
+			barChartData,
+			overviewData,
+			randomPositions,
+		} = this.state;
 		return (
 			<div className='main-page-container'>
-				<div className='row mx-0 main-page-container__top-row'>
-					<div className='col-3 px-0 main-page-container__calendar-container'>
-						Yp
+				<div className='row mx-0 w-100 h-100'>
+					<div className='col-4 px-0'>
+						<div className='row mx-0 main-page-container__top-row'>
+							<div className='col px-0'></div>
+						</div>
+						<div className='row mx-0 h-25 main-page-container__bottom-row'>
+							<div className='col px-0'></div>
+						</div>
 					</div>
-					<div className='col px-0 main-page-container__calendar-container'>
-						<MapGraph
-							data={mapData.data}
-							tooltipType={mapData.tooltipType}
-							randomPositions={randomPositions}
-							onClickMapCircle={this.handleClickMapCircle}
-						/>
+					<div className='col px-0'>
+						<div className='row mx-0 main-page-container__top-row'>
+							<div className='col px-0'>
+								<MapContainer
+									data={mapData.data}
+									tooltipType={mapData.tooltipType}
+									randomPositions={randomPositions}
+									onClickMapCircle={this.handleClickMapCircle}
+								/>
+							</div>
+						</div>
+						<div className='row mx-0 main-page-container__bottom-row'>
+							<div className='col px-0'>
+								<DonutChartContainer
+									data={donutChartData.data}
+									tooltipType={donutChartData.tooltipType}
+								/>
+							</div>
+							<div className='col px-0'>
+								<WordCloudContainer
+									words={wordCloudData.data}
+									callbacks={wordCloudData.callbacks}
+									options={wordCloudData.options}
+									size={wordCloudData.size}
+								/>
+							</div>
+							<div className='col px-0'>
+								<BarChartContainer
+									data={barChartData.data}
+									gradientColors={barChartData.gradientColors}
+									tooltipType={barChartData.tooltipType}
+								/>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div className='row mx-0 h-25 main-page-container__bottom-row'>
-					<div className='col px-0'></div>
-					<div className='col px-0'></div>
-					<div className='col px-0'></div>
 				</div>
 			</div>
 		);

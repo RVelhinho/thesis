@@ -3,9 +3,7 @@ import './custom-tooltip.scss';
 
 function CustomToolTip(props) {
 	const { payload, type, dataKey } = props;
-	console.log(props);
 	if (type === 'map') {
-		console.log(props);
 		return (
 			<div className='custom-tooltip' style={{ borderColor: props.color }}>
 				<div className='row w-100 m-0 mb-2'>
