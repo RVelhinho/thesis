@@ -2,20 +2,37 @@
 	width: 100%;
 	height: 100%;
 	&__left-section {
+		height: 100%;
 		box-sizing: border-box;
 		border-right: 1px solid #4c4c4c;
 		&__top-row {
-			margin-bottom: 1px;
+			height: 59%;
+			margin-bottom: 1%;
+			&__content {
+				height: 80%;
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+			&__legend {
+				height: 20%;
+			}
+		}
+		&__bottom-row {
+			height: 39%;
+			margin-bottom: 2%;
 		}
 	}
 	&__right-section {
+		height: 100%;
 		box-sizing: border-box;
 		border-left: 1px solid #4c4c4c;
 		&__top-row {
+			height: 60%;
 			box-sizing: border-box;
 			border-bottom: 1px solid #4c4c4c;
 		}
 		&__bottom-row {
+			height: 40%;
 			&__chart {
 				box-sizing: border-box;
 			}
@@ -25,15 +42,6 @@
 			&__chart:nth-child(2) {
 				border-right: 1px solid #4c4c4c;
 			}
-		}
-	}
-	&__left-section,
-	&__right-section {
-		&__top-row {
-			height: 60%;
-		}
-		&__bottom-row {
-			height: 40%;
 		}
 	}
 }

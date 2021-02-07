@@ -18,56 +18,55 @@ export default class MainPage extends Component {
 		polyPositions: [],
 		randomPositions: [],
 		calendarData: {
-			data: [],
-			tooltipType: 'calendar',
-		},
-		densityPlotData: {
 			data: [
 				{
 					year: 1908,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1909,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1910,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1911,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1912,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1913,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1914,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1915,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1916,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1917,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 				{
 					year: 1918,
-					value: getRandomValue(20, 150, 0),
+					value: getRandomValue(0, 15, 0),
 				},
 			],
+			tooltipType: 'calendar',
+		},
+		densityPlotData: {
 			lineType: 'monotone',
 			dataKey: 'value',
 			color: '#ed8c15',
@@ -294,7 +293,7 @@ export default class MainPage extends Component {
 			overviewData,
 			randomPositions,
 		} = this.state;
-		const sortedData = _.sortBy(densityPlotData.data, 'year', 'asc');
+		const sortedData = _.sortBy(calendarData.data, 'year', 'asc');
 		const densityPlotValues = sortedData.map((el) => {
 			return el.value;
 		});
@@ -305,7 +304,16 @@ export default class MainPage extends Component {
 				<div className='row mx-0 w-100 h-100'>
 					<div className='col-4 px-0 main-page-container__left-section'>
 						<div className='row mx-0 main-page-container__left-section__top-row'>
-							<div className='col px-0'></div>
+							<div className='col px-0 h-100'>
+								<div className='row mx-0 main-page-container__left-section__top-row__content'>
+									<div className='col px-0'>
+										<CalendarContainer data={sortedData} />
+									</div>
+								</div>
+								<div className='row mx-0 main-page-container__left-section__top-row__content'>
+									<div className='col px-0'></div>
+								</div>
+							</div>
 						</div>
 						<div className='row mx-0 main-page-container__left-section__bottom-row'>
 							<div className='col px-0'>

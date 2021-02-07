@@ -150,9 +150,9 @@ class DensityPlotContainer extends PureComponent {
 					data={data}
 					margin={{
 						top: 20,
-						right: 50,
-						left: 30,
-						bottom: 20,
+						right: 70,
+						left: 5,
+						bottom: 0,
 					}}
 				>
 					<CartesianGrid strokeDasharray='5' />
@@ -162,9 +162,10 @@ class DensityPlotContainer extends PureComponent {
 						tickLine={false}
 						dataKey={categoryAxis}
 						tickSize={10}
-						height={30}
+						height={40}
 						axisLine={false}
 						tick={<this.CustomTickXAxis />}
+						dy={5}
 					/>
 					<YAxis
 						type='number'
@@ -181,7 +182,7 @@ class DensityPlotContainer extends PureComponent {
 						tickLine={false}
 						axisLine={false}
 						tick={<this.CustomTickYAxis />}
-						dx={-10}
+						dx={-5}
 					/>
 					<Tooltip
 						content={<CustomToolTip type={tooltipType} />}
@@ -200,7 +201,7 @@ class DensityPlotContainer extends PureComponent {
 						animationDuration={1000}
 						onMouseOver={this.handleMouseOverDensityArea}
 					/>
-					<Brush dataKey={timeAttr} height={20} />
+					<Brush dataKey={timeAttr} height={20} dy={10} />
 				</AreaChart>
 			</ResponsiveContainer>
 		);

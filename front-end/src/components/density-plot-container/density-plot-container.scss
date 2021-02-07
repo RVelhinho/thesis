@@ -1,3 +1,13 @@
 .custom-cursor-area-chart {
 	fill: rgba(0, 0, 0, 0.03);
 }
+
+.density-plot-container .recharts-cartesian-grid-horizontal line:first-child {
+	display: none;
+}
+
+.density-plot-container
+	.recharts-cartesian-grid-horizontal
+	line:nth-last-child(2) {
+	display: none;
+}
