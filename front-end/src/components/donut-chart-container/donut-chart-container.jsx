@@ -12,9 +12,7 @@ export default class DonutChartContainer extends PureComponent {
 		};
 	}
 
-	static propTypes = {
-		prop: PropTypes,
-	};
+	static propTypes = {};
 
 	renderActiveShape = (props) => {
 		const RADIAN = Math.PI / 180;
@@ -76,7 +74,7 @@ export default class DonutChartContainer extends PureComponent {
 					textAnchor={textAnchor}
 					fill='#606060'
 				>
-					{value}
+					{value}%
 				</text>
 			</g>
 		);

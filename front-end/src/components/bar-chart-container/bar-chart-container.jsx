@@ -20,7 +20,6 @@ const BarChartContainer = React.memo(
 	({ data, tooltipType, gradientColors }) => {
 		data = data.splice(0, 8);
 		const barColors = [];
-		console.log(gradientColors);
 
 		const hex = (x) => {
 			x = x.toString(16);

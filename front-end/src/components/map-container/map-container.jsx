@@ -34,20 +34,19 @@ export default class MapContainer extends PureComponent {
 
 	getInnerColor = (value) => {
 		if (value > 75) {
-			return '#42834b';
+			return '#ea5c15';
 		} else if (value < 75 && value > 50) {
-			return '#58af64';
+			return '#e83c15';
 		} else if (value < 50 && value > 25) {
-			return '#69cf76';
+			return '#e61c15';
 		} else if (value < 25) {
-			return '#8be297';
+			return '#ed8c15';
 		}
 	};
 
 	render() {
 		const { data, tooltipType, onClickMapCircle, randomPositions } = this.props;
 		const { startPosition } = this.state;
-		console.log(randomPositions);
 		if (randomPositions && randomPositions.length !== 0) {
 			return (
 				<Map
@@ -68,7 +67,7 @@ export default class MapContainer extends PureComponent {
 										randomPositions[index].geometry.coordinates[1],
 										randomPositions[index].geometry.coordinates[0],
 									]}
-									fillColor={'green'}
+									fillColor={'#ed8c15'}
 									radius={this.getRadius(loc, 1, 10000 * 5)}
 									weight={0}
 									onMouseOver={(e) => e.target.openPopup()}

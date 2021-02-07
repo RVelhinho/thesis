@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import L from 'leaflet';
 import * as turf from '@turf/turf';
 import worldPoly from '../../mockData/worldPoly.json';
@@ -6,10 +7,11 @@ import './main-page.scss';
 import CalendarContainer from '../../components/calendar-container/calendar-container';
 import CalendarRow from '../../components/calendar-row/calendar-row';
 import MapContainer from '../../components/map-container/map-container';
-import AreaChartContainer from '../../components/area-chart-container/area-chart-container';
+import DensityPlotContainer from '../../components/density-plot-container/density-plot-container';
 import WordCloudContainer from '../../components/word-cloud-container/word-cloud-container';
 import BarChartContainer from '../../components/bar-chart-container/bar-chart-container';
 import DonutChartContainer from '../../components/donut-chart-container/donut-chart-container';
+import { getRandomValue } from '../../utils/mathUtils';
 
 export default class MainPage extends Component {
 	state = {
@@ -19,9 +21,60 @@ export default class MainPage extends Component {
 			data: [],
 			tooltipType: 'calendar',
 		},
-		areaChartData: {
-			data: [],
-			tooltipType: 'area',
+		densityPlotData: {
+			data: [
+				{
+					year: 1908,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1909,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1910,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1911,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1912,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1913,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1914,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1915,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1916,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1917,
+					value: getRandomValue(20, 150, 0),
+				},
+				{
+					year: 1918,
+					value: getRandomValue(20, 150, 0),
+				},
+			],
+			lineType: 'monotone',
+			dataKey: 'value',
+			color: '#ed8c15',
+			categoryAxis: 'year',
+			dateGrouper: 'year',
+			timeAttr: 'year',
+			tooltipType: 'density',
 		},
 		mapData: {
 			data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -30,12 +83,12 @@ export default class MainPage extends Component {
 		donutChartData: {
 			data: [
 				{
-					name: 'Total Survivors',
-					total: 32,
+					name: 'Survival Rate',
+					total: 46,
 				},
 				{
-					name: 'Total Fatalities',
-					total: 45,
+					name: 'Fatality Rate',
+					total: 54,
 				},
 			],
 			tooltipType: 'donut',
@@ -170,12 +223,10 @@ export default class MainPage extends Component {
 	};
 
 	getWordColorAux(value, totalValue, weight) {
-		console.log(weight);
 		if (weight >= 500) {
 			return '#000000';
 		} else {
 			const rate = value / totalValue;
-			console.log(rate);
 			if (rate < 0.1) {
 				return '#ed8c15';
 			} else if (rate < 0.2) {
@@ -230,14 +281,12 @@ export default class MainPage extends Component {
 		});
 	}
 
-	handleClickMapCircle = () => {
-		console.log('Map Circle Clicked');
-	};
+	handleClickMapCircle = () => {};
 
 	render() {
 		const {
 			calendarData,
-			areaChartData,
+			densityPlotData,
 			mapData,
 			donutChartData,
 			wordCloudData,
@@ -245,19 +294,38 @@ export default class MainPage extends Component {
 			overviewData,
 			randomPositions,
 		} = this.state;
+		const sortedData = _.sortBy(densityPlotData.data, 'year', 'asc');
+		const densityPlotValues = sortedData.map((el) => {
+			return el.value;
+		});
+		const minValue = Math.min(...densityPlotValues);
+		const maxValue = Math.max(...densityPlotValues);
 		return (
 			<div className='main-page-container'>
 				<div className='row mx-0 w-100 h-100'>
-					<div className='col-4 px-0'>
-						<div className='row mx-0 main-page-container__top-row'>
+					<div className='col-4 px-0 main-page-container__left-section'>
+						<div className='row mx-0 main-page-container__left-section__top-row'>
 							<div className='col px-0'></div>
 						</div>
-						<div className='row mx-0 h-25 main-page-container__bottom-row'>
-							<div className='col px-0'></div>
+						<div className='row mx-0 main-page-container__left-section__bottom-row'>
+							<div className='col px-0'>
+								<DensityPlotContainer
+									data={sortedData}
+									dateGrouper={densityPlotData.dateGrouper}
+									categoryAxis={densityPlotData.categoryAxis}
+									timeAttr={densityPlotData.timeAttr}
+									lineType={densityPlotData.lineType}
+									dataKey={densityPlotData.dataKey}
+									color={densityPlotData.color}
+									tooltipType={densityPlotData.tooltipType}
+									minValue={minValue}
+									maxValue={maxValue}
+								/>
+							</div>
 						</div>
 					</div>
 					<div className='col px-0'>
-						<div className='row mx-0 main-page-container__top-row'>
+						<div className='row mx-0 main-page-container__right-section__top-row'>
 							<div className='col px-0'>
 								<MapContainer
 									data={mapData.data}
@@ -267,14 +335,14 @@ export default class MainPage extends Component {
 								/>
 							</div>
 						</div>
-						<div className='row mx-0 main-page-container__bottom-row'>
-							<div className='col px-0'>
+						<div className='row mx-0 main-page-container__right-section__bottom-row'>
+							<div className='col-4 px-0 main-page-container__right-section__bottom-row__chart'>
 								<DonutChartContainer
 									data={donutChartData.data}
 									tooltipType={donutChartData.tooltipType}
 								/>
 							</div>
-							<div className='col px-0'>
+							<div className='col-4 px-0 main-page-container__right-section__bottom-row__chart'>
 								<WordCloudContainer
 									words={wordCloudData.data}
 									callbacks={wordCloudData.callbacks}
@@ -282,7 +350,7 @@ export default class MainPage extends Component {
 									size={wordCloudData.size}
 								/>
 							</div>
-							<div className='col px-0'>
+							<div className='col-4 px-0 main-page-container__right-section__bottom-row__chart'>
 								<BarChartContainer
 									data={barChartData.data}
 									gradientColors={barChartData.gradientColors}
