@@ -5,12 +5,12 @@ import * as turf from '@turf/turf';
 import worldPoly from '../../mockData/worldPoly.json';
 import './main-page.scss';
 import CalendarContainer from '../../components/calendar-container/calendar-container';
-import CalendarRow from '../../components/calendar-row/calendar-row';
 import MapContainer from '../../components/map-container/map-container';
 import DensityPlotContainer from '../../components/density-plot-container/density-plot-container';
 import WordCloudContainer from '../../components/word-cloud-container/word-cloud-container';
 import BarChartContainer from '../../components/bar-chart-container/bar-chart-container';
 import DonutChartContainer from '../../components/donut-chart-container/donut-chart-container';
+import OverviewContainer from '../../components/overview-container/overview-container';
 import { getRandomValue } from '../../utils/mathUtils';
 
 export default class MainPage extends Component {
@@ -194,8 +194,12 @@ export default class MainPage extends Component {
 			tooltipType: 'bar',
 		},
 		overviewData: {
-			data: [],
-			tooltipType: 'overview',
+			open: false,
+			location: '',
+			date: '',
+			aircraft: '',
+			operator: '',
+			description: '',
 		},
 	};
 
@@ -280,7 +284,19 @@ export default class MainPage extends Component {
 		});
 	}
 
-	handleClickMapCircle = () => {};
+	handleClickCircle = (location, date, aircraft, operator, description) => {
+		const overviewData = { ...this.state.overviewData };
+		overviewData.location = location;
+		overviewData.date = date;
+		overviewData.aircraft = aircraft;
+		overviewData.operator = operator;
+		overviewData.description = description;
+		overviewData.open = !overviewData.open;
+		console.log(overviewData);
+		this.setState(() => {
+			return { overviewData };
+		});
+	};
 
 	render() {
 		const {
@@ -302,16 +318,66 @@ export default class MainPage extends Component {
 		return (
 			<div className='main-page-container'>
 				<div className='row mx-0 w-100 h-100'>
-					<div className='col-4 px-0 main-page-container__left-section'>
+					<div
+						className={
+							overviewData.open
+								? 'col-3 px-0 main-page-container__left-section'
+								: 'col-4 px-0 main-page-container__left-section'
+						}
+					>
 						<div className='row mx-0 main-page-container__left-section__top-row'>
 							<div className='col px-0 h-100'>
-								<div className='row mx-0 main-page-container__left-section__top-row__content'>
+								<div className='row main-page-container__left-section__top-row__content'>
 									<div className='col px-0'>
-										<CalendarContainer data={sortedData} />
+										<CalendarContainer
+											data={sortedData}
+											onClickCalendarCircle={this.handleClickCircle}
+										/>
 									</div>
 								</div>
-								<div className='row mx-0 main-page-container__left-section__top-row__content'>
-									<div className='col px-0'></div>
+								<div className='row mx-0 main-page-container__left-section__top-bottom-row__content flex-grow-1'>
+									<div className='col px-0'>
+										<div className='row mx-0 h-50'>
+											<div className='col px-0 d-flex justify-content-center align-items-center'>
+												<div className='main-page-container__left-section__top-bottom-row__content__geo-legend-top'></div>
+											</div>
+										</div>
+										<div className='row mx-0 h-50'>
+											<div className='col px-0 d-flex justify-content-center align-items-center'>
+												{_.range(1, 5).map((el, index) => {
+													return (
+														<div
+															key={index}
+															className='main-page-container__left-section__top-bottom-row__content__geo-legend-bottom'
+														>
+															{index + 1}
+														</div>
+													);
+												})}
+											</div>
+										</div>
+									</div>
+									<div className='col px-0'>
+										<div className='row mx-0 h-50'>
+											<div className='col px-0 d-flex justify-content-center align-items-center'>
+												<div className='main-page-container__left-section__top-bottom-row__content__keyword-legend-top'></div>
+											</div>
+										</div>
+										<div className='row mx-0 h-50'>
+											<div className='col px-0 d-flex justify-content-center align-items-center'>
+												{_.range(1, 5).map((el, index) => {
+													return (
+														<div
+															key={index}
+															className='main-page-container__left-section__top-bottom-row__content__keyword-legend-bottom'
+														>
+															{index + 1}
+														</div>
+													);
+												})}
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -339,7 +405,7 @@ export default class MainPage extends Component {
 									data={mapData.data}
 									tooltipType={mapData.tooltipType}
 									randomPositions={randomPositions}
-									onClickMapCircle={this.handleClickMapCircle}
+									onClickMapCircle={this.handleClickCircle}
 								/>
 							</div>
 						</div>
@@ -367,6 +433,15 @@ export default class MainPage extends Component {
 							</div>
 						</div>
 					</div>
+					{overviewData.open && (
+						<OverviewContainer
+							location={overviewData.location}
+							date={overviewData.date}
+							aircraft={overviewData.aircraft}
+							operator={overviewData.operator}
+							description={overviewData.description}
+						/>
+					)}
 				</div>
 			</div>
 		);

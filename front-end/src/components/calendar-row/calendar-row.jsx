@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import './calendar-row.scss';
 
-const CalendarRow = React.memo(({ year, value }) => {
+const CalendarRow = React.memo(({ year, value, onClickCalendarCircle }) => {
 	const circles = _.range(value);
 	return (
 		<div className='calendar-row-container'>
@@ -15,7 +15,10 @@ const CalendarRow = React.memo(({ year, value }) => {
 				{circles.map((el, index) => {
 					return (
 						<div key={`calendar-row-circle-${index}`} className='col-auto p-1'>
-							<div className='calendar-row-container__circle-container__circle'></div>
+							<div
+								className='calendar-row-container__circle-container__circle'
+								onClick={() => onClickCalendarCircle('', '', '', '', '')}
+							></div>
 						</div>
 					);
 				})}
