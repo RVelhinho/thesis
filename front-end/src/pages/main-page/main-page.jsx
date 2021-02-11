@@ -14,196 +14,536 @@ import OverviewContainer from '../../components/overview-container/overview-cont
 import { getRandomValue } from '../../utils/mathUtils';
 
 export default class MainPage extends Component {
-	state = {
-		polyPositions: [],
-		randomPositions: [],
-		calendarData: {
-			data: [
-				{
-					year: 1908,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1909,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1910,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1911,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1912,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1913,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1914,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1915,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1916,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1917,
-					value: getRandomValue(0, 15, 0),
-				},
-				{
-					year: 1918,
-					value: getRandomValue(0, 15, 0),
-				},
-			],
-			tooltipType: 'calendar',
-		},
-		densityPlotData: {
-			lineType: 'monotone',
-			dataKey: 'value',
-			color: '#ed8c15',
-			categoryAxis: 'year',
-			dateGrouper: 'year',
-			timeAttr: 'year',
-			tooltipType: 'density',
-		},
-		mapData: {
-			data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-			tooltipType: 'map',
-		},
-		donutChartData: {
-			data: [
-				{
-					name: 'Survival Rate',
-					total: 46,
-				},
-				{
-					name: 'Fatality Rate',
-					total: 54,
-				},
-			],
-			tooltipType: 'donut',
-		},
-		wordCloudData: {
-			data: [
-				{
-					text: 'storm',
-					value: 40,
-				},
-				{
-					text: 'fire',
-					value: 20,
-				},
-				{
-					text: 'acident',
-					value: 80,
-				},
-				{
-					text: 'war',
-					value: 10,
-				},
-				{
-					text: 'engine',
-					value: 80,
-				},
-				{
-					text: 'weather',
-					value: 102,
-				},
-				{
-					text: 'failure',
-					value: 17,
-				},
-				{
-					text: 'fatal',
-					value: 65,
-				},
-			],
-			callbacks: {
-				getWordColor: (word) =>
-					this.getWordColorAux(word.value, 325, word.weight),
-				getWordTooltip: (word) =>
-					`${word.text} (${word.value}) [${word.value > 50 ? 'good' : 'bad'}]`,
+	constructor(props) {
+		super(props);
+		this.state = {
+			polyPositions: [],
+			randomPositions: [],
+			calendarData: {
+				data: [
+					{
+						year: 1908,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 1,
+					},
+					{
+						year: 1909,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 4,
+					},
+					{
+						year: 1910,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 10,
+					},
+					{
+						year: 1911,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 4,
+					},
+					{
+						year: 1912,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 4,
+					},
+					{
+						year: 1913,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 4,
+					},
+					{
+						year: 1914,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 4,
+					},
+					{
+						year: 1915,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 6,
+					},
+					{
+						year: 1916,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 2,
+					},
+					{
+						year: 1917,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 7,
+					},
+					{
+						year: 1918,
+						crashes: [
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+							{
+								date: '1908-01-01',
+								aircraft: 'aircraft1',
+								operator: 'operator1',
+								country: 'Germany',
+								description: 'A brief description of the accident',
+							},
+						],
+						count: 4,
+					},
+				],
+				hopLegendColors: ['#edc08a', '#eda958', '#db8727', '#ab6b22'],
+				tooltipType: 'calendar',
 			},
-			options: {
-				rotations: 0,
-				fontSizes: [14, 36],
-				fontFamily: 'OpenSans-Regular',
-				padding: 5,
-				fontWeight: 400,
+			densityPlotData: {
+				lineType: 'monotone',
+				dataKey: 'count',
+				color: '#ed8c15',
+				categoryAxis: 'year',
+				dateGrouper: 'year',
+				timeAttr: 'year',
+				tooltipType: 'density',
 			},
-			size: undefined,
-			tooltipType: 'wordCloud',
-		},
-		barChartData: {
-			data: [
-				{
-					plane: 'planeA',
-					total: 105,
+			mapData: {
+				data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+				tooltipType: 'map',
+			},
+			donutChartData: {
+				data: [
+					{
+						name: 'Survival Rate',
+						total: 46,
+					},
+					{
+						name: 'Fatality Rate',
+						total: 54,
+					},
+				],
+				tooltipType: 'donut',
+			},
+			wordCloudData: {
+				data: [
+					{
+						text: 'storm',
+						value: 40,
+					},
+					{
+						text: 'fire',
+						value: 20,
+					},
+					{
+						text: 'acident',
+						value: 80,
+					},
+					{
+						text: 'war',
+						value: 10,
+					},
+					{
+						text: 'engine',
+						value: 80,
+					},
+					{
+						text: 'weather',
+						value: 102,
+					},
+					{
+						text: 'failure',
+						value: 17,
+					},
+					{
+						text: 'fatal',
+						value: 65,
+					},
+				],
+				callbacks: {
+					getWordColor: (word) =>
+						this.getWordColorAux(word.value, 325, word.weight),
+					getWordTooltip: (word) => `${word.text} (${word.value})`,
 				},
-				{
-					plane: 'planeB',
-					total: 87,
+				options: {
+					rotations: 0,
+					fontSizes: [14, 36],
+					fontFamily: 'OpenSans-Regular',
+					padding: 5,
+					fontWeight: 400,
 				},
-				{
-					plane: 'planeC',
-					total: 45,
-				},
-				{
-					plane: 'planeD',
-					total: 32,
-				},
-				{
-					plane: 'planeE',
-					total: 24,
-				},
-				{
-					plane: 'planeF',
-					total: 21,
-				},
-				{
-					plane: 'planeG',
-					total: 15,
-				},
-				{
-					plane: 'planeH',
-					total: 17,
-				},
-				{
-					plane: 'planeI',
-					total: 18,
-				},
-				{
-					plane: 'planeJ',
-					total: 15,
-				},
-				{
-					plane: 'planeK',
-					total: 13,
-				},
-			],
-			gradientColors: ['ed8c15', 'e6cbaa'],
-			tooltipType: 'bar',
-		},
-		overviewData: {
+				size: undefined,
+				tooltipType: 'wordCloud',
+			},
+			barChartData: {
+				data: [
+					{
+						plane: 'planeA',
+						total: 105,
+					},
+					{
+						plane: 'planeB',
+						total: 87,
+					},
+					{
+						plane: 'planeC',
+						total: 45,
+					},
+					{
+						plane: 'planeD',
+						total: 32,
+					},
+					{
+						plane: 'planeE',
+						total: 24,
+					},
+					{
+						plane: 'planeF',
+						total: 21,
+					},
+					{
+						plane: 'planeG',
+						total: 15,
+					},
+					{
+						plane: 'planeH',
+						total: 17,
+					},
+					{
+						plane: 'planeI',
+						total: 18,
+					},
+					{
+						plane: 'planeJ',
+						total: 15,
+					},
+					{
+						plane: 'planeK',
+						total: 13,
+					},
+				],
+				gradientColors: ['ed8c15', 'e6cbaa'],
+				tooltipType: 'bar',
+			},
+			overviewData: {
+				open: false,
+				location: '',
+				date: '',
+				aircraft: '',
+				operator: '',
+				description: '',
+			},
+		};
+		this.baseOverviewData = {
 			open: false,
 			location: '',
 			date: '',
 			aircraft: '',
 			operator: '',
 			description: '',
-		},
-	};
-
-	_isMounted = true;
+		};
+		this._isMounted = true;
+	}
 
 	randomPointInPoly = (polygon) => {
 		let bounds = polygon.getBounds();
@@ -284,15 +624,21 @@ export default class MainPage extends Component {
 		});
 	}
 
-	handleClickCircle = (location, date, aircraft, operator, description) => {
+	handleClickCircle = (circle) => {
 		const overviewData = { ...this.state.overviewData };
-		overviewData.location = location;
-		overviewData.date = date;
-		overviewData.aircraft = aircraft;
-		overviewData.operator = operator;
-		overviewData.description = description;
+		overviewData.location = circle.country;
+		overviewData.date = circle.date;
+		overviewData.aircraft = circle.aircraft;
+		overviewData.operator = circle.operator;
+		overviewData.description = circle.description;
 		overviewData.open = !overviewData.open;
-		console.log(overviewData);
+		this.setState(() => {
+			return { overviewData };
+		});
+	};
+
+	handleCloseOverviewContainer = () => {
+		const overviewData = { ...this.baseOverviewData };
 		this.setState(() => {
 			return { overviewData };
 		});
@@ -311,7 +657,7 @@ export default class MainPage extends Component {
 		} = this.state;
 		const sortedData = _.sortBy(calendarData.data, 'year', 'asc');
 		const densityPlotValues = sortedData.map((el) => {
-			return el.value;
+			return el.count;
 		});
 		const minValue = Math.min(...densityPlotValues);
 		const maxValue = Math.max(...densityPlotValues);
@@ -327,58 +673,12 @@ export default class MainPage extends Component {
 					>
 						<div className='row mx-0 main-page-container__left-section__top-row'>
 							<div className='col px-0 h-100'>
-								<div className='row main-page-container__left-section__top-row__content'>
-									<div className='col px-0'>
-										<CalendarContainer
-											data={sortedData}
-											onClickCalendarCircle={this.handleClickCircle}
-										/>
-									</div>
-								</div>
-								<div className='row mx-0 main-page-container__left-section__top-bottom-row__content flex-grow-1'>
-									<div className='col px-0'>
-										<div className='row mx-0 h-50'>
-											<div className='col px-0 d-flex justify-content-center align-items-center'>
-												<div className='main-page-container__left-section__top-bottom-row__content__geo-legend-top'></div>
-											</div>
-										</div>
-										<div className='row mx-0 h-50'>
-											<div className='col px-0 d-flex justify-content-center align-items-center'>
-												{_.range(1, 5).map((el, index) => {
-													return (
-														<div
-															key={index}
-															className='main-page-container__left-section__top-bottom-row__content__geo-legend-bottom'
-														>
-															{index + 1}
-														</div>
-													);
-												})}
-											</div>
-										</div>
-									</div>
-									<div className='col px-0'>
-										<div className='row mx-0 h-50'>
-											<div className='col px-0 d-flex justify-content-center align-items-center'>
-												<div className='main-page-container__left-section__top-bottom-row__content__keyword-legend-top'></div>
-											</div>
-										</div>
-										<div className='row mx-0 h-50'>
-											<div className='col px-0 d-flex justify-content-center align-items-center'>
-												{_.range(1, 5).map((el, index) => {
-													return (
-														<div
-															key={index}
-															className='main-page-container__left-section__top-bottom-row__content__keyword-legend-bottom'
-														>
-															{index + 1}
-														</div>
-													);
-												})}
-											</div>
-										</div>
-									</div>
-								</div>
+								<CalendarContainer
+									data={sortedData}
+									hopLegendColors={calendarData.hopLegendColors}
+									tooltipType={calendarData.tooltipType}
+									onClickCalendarCircle={this.handleClickCircle}
+								/>
 							</div>
 						</div>
 						<div className='row mx-0 main-page-container__left-section__bottom-row'>
@@ -410,21 +710,19 @@ export default class MainPage extends Component {
 							</div>
 						</div>
 						<div className='row mx-0 main-page-container__right-section__bottom-row'>
-							<div className='col-4 px-0 main-page-container__right-section__bottom-row__chart'>
+							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
 								<DonutChartContainer
 									data={donutChartData.data}
 									tooltipType={donutChartData.tooltipType}
 								/>
 							</div>
-							<div className='col-4 px-0 main-page-container__right-section__bottom-row__chart'>
+							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
 								<WordCloudContainer
-									words={wordCloudData.data}
-									callbacks={wordCloudData.callbacks}
-									options={wordCloudData.options}
-									size={wordCloudData.size}
+									data={wordCloudData.data}
+									id={'word-cloud-container'}
 								/>
 							</div>
-							<div className='col-4 px-0 main-page-container__right-section__bottom-row__chart'>
+							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
 								<BarChartContainer
 									data={barChartData.data}
 									gradientColors={barChartData.gradientColors}
@@ -440,6 +738,8 @@ export default class MainPage extends Component {
 							aircraft={overviewData.aircraft}
 							operator={overviewData.operator}
 							description={overviewData.description}
+							open={overviewData.open}
+							onCloseOverviewContainer={this.handleCloseOverviewContainer}
 						/>
 					)}
 				</div>

@@ -54,6 +54,7 @@ const BarChartContainer = React.memo(
 					textAnchor='middle'
 					dominantBaseline='middle'
 					className='label-font'
+					pointerEvents={'none'}
 				>
 					{value}
 				</text>
@@ -108,7 +109,9 @@ const BarChartContainer = React.memo(
 					barSize={barSize}
 				>
 					<Tooltip
-						content={<CustomToolTip type={tooltipType} id={0} />}
+						content={
+							<CustomToolTip type={tooltipType} id={0} color={barColors[0]} />
+						}
 						wrapperStyle={{ zIndex: 1000 }}
 						cursor={<CustomCursor />}
 					/>
@@ -121,7 +124,12 @@ const BarChartContainer = React.memo(
 						axisLine={false}
 						tick={<CustomTick />}
 					/>
-					<Bar dataKey={'total'} radius={[0, 100, 100, 0]} minPointSize={50}>
+					<Bar
+						dataKey={'total'}
+						radius={[0, 100, 100, 0]}
+						minPointSize={50}
+						cursor={'pointer'}
+					>
 						{data.map((entry, index) => (
 							<Cell key={index} fill={barColors[index]} />
 						))}

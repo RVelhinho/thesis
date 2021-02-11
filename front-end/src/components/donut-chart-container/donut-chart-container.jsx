@@ -96,8 +96,8 @@ export default class DonutChartContainer extends PureComponent {
 						activeIndex={activeIndex}
 						activeShape={this.renderActiveShape}
 						data={data}
-						innerRadius={50}
-						outerRadius={80}
+						innerRadius={'40%'}
+						outerRadius={'60%'}
 						dataKey='total'
 						fill={'#8884d8'}
 						onMouseOver={this.onDonutOver}

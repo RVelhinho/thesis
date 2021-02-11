@@ -1,90 +1,116 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './overview-container.scss';
+import Button from '../button/button';
+import icoClose from '../../assets/images/cancel.svg';
 
-function OverviewContainer({
-	location,
-	date,
-	aircraft,
-	operator,
-	description,
-}) {
-	return (
-		<div className='col-2 px-0 overview-container'>
-			<div className='row mx-0'>
-				<div className='col px-0'>
-					<div className='row mx-0'>
+export default class OverviewContainer extends Component {
+	constructor(props) {
+		super(props);
+	}
+	static propTypes = {};
+	render() {
+		const {
+			location,
+			date,
+			aircraft,
+			operator,
+			description,
+			open,
+			onCloseOverviewContainer,
+		} = this.props;
+		if (open) {
+			return (
+				<div className='overview-container'>
+					<img
+						src={icoClose}
+						alt='close overview container'
+						className='overview-container__close'
+						onClick={onCloseOverviewContainer}
+					/>
+					<div className='row mx-0 mb-2'>
 						<div className='col px-0'>
-							<span className='overview-container__title'></span>
-						</div>
-					</div>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__text'></span>
-						</div>
-					</div>
-				</div>
-				<div className='col px-0'>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__title'></span>
-						</div>
-					</div>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__text'></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className='row mx-0'>
-				<div className='col px-0'>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__sub-title'></span>
-						</div>
-					</div>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__text'></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className='row mx-0'>
-				<div className='col px-0'>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__sub-title'></span>
-						</div>
-					</div>
-					<div className='row mx-0'>
-						<div className='col px-0'>
-							<span className='overview-container__text'></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className='row mx-0'>
-				<div className='col px-0'>
-					<div className='col px-0'>
-						<div className='row mx-0'>
-							<div className='col px-0'>
-								<span className='overview-container__sub-title'></span>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__title'>Location</span>
+								</div>
+							</div>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__text'>{location}</span>
+								</div>
 							</div>
 						</div>
-						<div className='row mx-0'>
-							<div className='col px-0 overview-container__description-container'>
-								<span className='overview-container__description-container__text'></span>
+						<div className='col px-0'>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__title'>Date</span>
+								</div>
+							</div>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__text'>{date}</span>
+								</div>
 							</div>
 						</div>
 					</div>
+					<div className='row mx-0 mb-2'>
+						<div className='col px-0'>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__sub-title'>
+										Aircraft
+									</span>
+								</div>
+							</div>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__text'>{aircraft}</span>
+								</div>
+							</div>
+						</div>
+						<div className='col px-0'>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__sub-title'>
+										Operator
+									</span>
+								</div>
+							</div>
+							<div className='row mx-0'>
+								<div className='col px-0'>
+									<span className='overview-container__text'>{operator}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className='row mx-0 mb-2'>
+						<div className='col px-0'>
+							<div className='row mx-0 mb-2'>
+								<div className='col px-0'>
+									<span className='overview-container__sub-title'>
+										Description
+									</span>
+								</div>
+							</div>
+							<div className='row mx-0'>
+								<div className='col px-0 overview-container__description-container'>
+									<span className='overview-container__description-container__text'>
+										{description}
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className='row mx-0'>
+						<div className='col px-0'>
+							<Button text='Unselect' color='orange' />
+						</div>
+					</div>
+					<hr className='overview-container__separator' />
 				</div>
-			</div>
-		</div>
-	);
+			);
+		}
+		return null;
+	}
 }
-
-OverviewContainer.propTypes = {};
-
-export default OverviewContainer;

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {
 	AreaChart,
@@ -22,47 +23,78 @@ class DensityPlotContainer extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
+			animationEnded: '',
 			pointsCoordinates: [],
+			cx: '',
+			cy: '',
 		};
 	}
 
-	handleMouseOverDensityArea = ({ points }) => {
+	handleMouseOverDensityAreaDot = ({ cx, cy }) => {
 		this.setState(() => {
-			return { pointsCoordinates: points };
+			return { cx, cy };
 		});
 	};
 
 	handleMouseOverDensityArea = ({ points }) => {
+		const pointsCoordinates = [...this.state.pointsCoordinates];
+		if (!_.isEqual(pointsCoordinates.sort(), points.sort())) {
+			this.setState(() => {
+				return { pointsCoordinates: points };
+			});
+		}
+	};
+
+	handleMouseLeaveAreaDot = () => {
 		this.setState(() => {
-			return { pointsCoordinates: points };
+			return { cx: '', cy: '' };
 		});
 	};
 
-	handleMouseLeave = () => {
-		this.setState(() => {
-			return { pointsCoordinates: [] };
-		});
+	handleAnimationStart = () => {
+		this.setState({ animationEnded: false });
+	};
+
+	handleAnimationEnd = () => {
+		setTimeout(() => {
+			this.setState({ animationEnded: true });
+		}, 500);
 	};
 
 	CustomCursor = (props) => {
 		const { height, color, payloadIndex } = props;
-		const { pointsCoordinates } = this.state;
+		const { animationEnded, pointsCoordinates, cx, cy } = this.state;
 		if (
-			pointsCoordinates.length !== 0 &&
-			typeof payloadIndex === 'number' &&
-			pointsCoordinates[payloadIndex]
+			(pointsCoordinates.length !== 0 &&
+				typeof payloadIndex === 'number' &&
+				pointsCoordinates[payloadIndex] &&
+				animationEnded) ||
+			(cx !== '' && cy !== '' && animationEnded)
 		) {
+			let x;
+			let y;
+			if (
+				pointsCoordinates.length !== 0 &&
+				typeof payloadIndex === 'number' &&
+				pointsCoordinates[payloadIndex]
+			) {
+				x = pointsCoordinates[payloadIndex].x;
+				y = pointsCoordinates[payloadIndex].y;
+			} else if (cx !== '' && cy !== '') {
+				x = cx;
+				y = cy;
+			}
 			return (
 				<React.Fragment>
 					<Rectangle
 						className='custom-cursor-area-chart'
-						x={pointsCoordinates[payloadIndex].x - 25}
+						x={x - 25}
 						width={50}
 						radius={10}
 						height={height + 50}
 					/>
 					<Rectangle
-						x={pointsCoordinates[payloadIndex].x}
+						x={x}
 						width={1}
 						y={10}
 						height={height + 10}
@@ -70,17 +102,18 @@ class DensityPlotContainer extends PureComponent {
 					/>
 					<line
 						x1={props.left}
-						y1={pointsCoordinates[payloadIndex].y}
-						x2={pointsCoordinates[payloadIndex].x}
-						y2={pointsCoordinates[payloadIndex].y + 1}
+						y1={y}
+						x2={x}
+						y2={y + 1}
 						stroke={color}
 						strokeWidth={1}
 						strokeDasharray='5 5'
 					/>
 				</React.Fragment>
 			);
+		} else {
+			return null;
 		}
-		return null;
 	};
 
 	CustomTickXAxis = (props) => {
@@ -106,6 +139,14 @@ class DensityPlotContainer extends PureComponent {
 		const { cx, cy, stroke, index } = props;
 		return (
 			<svg key={index}>
+				<Dot
+					cx={cx}
+					cy={cy}
+					r={10}
+					fill='transparent'
+					onMouseOver={() => this.handleMouseOverDensityAreaDot(cx, cy)}
+				/>
+				;
 				<Dot cx={cx} cy={cy} r={4} fill={stroke} />
 				<Dot cx={cx} cy={cy} r={1} fill='#ffffff' />;
 			</svg>
@@ -114,18 +155,22 @@ class DensityPlotContainer extends PureComponent {
 
 	CustomActiveDot = (props) => {
 		const { cx, cy, fill, index } = props;
-		return (
-			<svg key={index}>
-				<Dot
-					cx={cx}
-					cy={cy}
-					r={8}
-					fill='#ffffff'
-					className='area-active-outer-dot'
-				/>
-				<Dot cx={cx} cy={cy} r={2} fill={fill} />;
-			</svg>
-		);
+		if (this.state.animationEnded) {
+			return (
+				<svg key={index}>
+					<Dot
+						cx={cx}
+						cy={cy}
+						r={8}
+						fill='#ffffff'
+						className='area-active-outer-dot'
+						onMouseOut={() => this.handleMouseLeaveAreaDot}
+					/>
+					<Dot cx={cx} cy={cy} r={2} fill={fill} />;
+				</svg>
+			);
+		}
+		return null;
 	};
 
 	render() {
@@ -143,6 +188,7 @@ class DensityPlotContainer extends PureComponent {
 		let tick1 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (1 / 4);
 		let tick2 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (2 / 4);
 		let tick3 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (3 / 4);
+
 		return (
 			<ResponsiveContainer>
 				<AreaChart
@@ -185,7 +231,7 @@ class DensityPlotContainer extends PureComponent {
 						dx={-5}
 					/>
 					<Tooltip
-						content={<CustomToolTip type={tooltipType} />}
+						content={<CustomToolTip type={tooltipType} color={color} />}
 						wrapperStyle={{ zIndex: 1000 }}
 						cursor={<this.CustomCursor color={color} />}
 					/>
@@ -200,6 +246,8 @@ class DensityPlotContainer extends PureComponent {
 						activeDot={<this.CustomActiveDot />}
 						animationDuration={1000}
 						onMouseOver={this.handleMouseOverDensityArea}
+						onAnimationStart={this.handleAnimationStart}
+						onAnimationEnd={this.handleAnimationEnd}
 					/>
 					<Brush dataKey={timeAttr} height={20} dy={10} />
 				</AreaChart>
