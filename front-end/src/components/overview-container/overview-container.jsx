@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './overview-container.scss';
 import Button from '../button/button';
-import icoClose from '../../assets/images/cancel.svg';
+import icoClose from '../../assets/images/remove.svg';
 
 export default class OverviewContainer extends Component {
 	constructor(props) {
@@ -28,7 +28,7 @@ export default class OverviewContainer extends Component {
 						className='overview-container__close'
 						onClick={onCloseOverviewContainer}
 					/>
-					<div className='row mx-0 mb-2'>
+					<div className='row mx-0 mb-4'>
 						<div className='col px-0'>
 							<div className='row mx-0'>
 								<div className='col px-0'>
@@ -54,7 +54,7 @@ export default class OverviewContainer extends Component {
 							</div>
 						</div>
 					</div>
-					<div className='row mx-0 mb-2'>
+					<div className='row mx-0 mb-4'>
 						<div className='col px-0'>
 							<div className='row mx-0'>
 								<div className='col px-0'>
@@ -84,7 +84,7 @@ export default class OverviewContainer extends Component {
 							</div>
 						</div>
 					</div>
-					<div className='row mx-0 mb-2'>
+					<div className='row mx-0 mb-4'>
 						<div className='col px-0'>
 							<div className='row mx-0 mb-2'>
 								<div className='col px-0'>
@@ -94,7 +94,7 @@ export default class OverviewContainer extends Component {
 								</div>
 							</div>
 							<div className='row mx-0'>
-								<div className='col px-0 overview-container__description-container'>
+								<div className='col overview-container__description-container d-flex justify-content-start align-items-start'>
 									<span className='overview-container__description-container__text'>
 										{description}
 									</span>
@@ -104,7 +104,7 @@ export default class OverviewContainer extends Component {
 					</div>
 					<div className='row mx-0'>
 						<div className='col px-0'>
-							<Button text='Unselect' color='orange' />
+							<Button text='Remove' color='red' />
 						</div>
 					</div>
 					<hr className='overview-container__separator' />

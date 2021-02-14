@@ -12,6 +12,10 @@
 		border: none;
 		background-color: #d13b3b;
 	}
+	&--grey {
+		border-color: #d7d7d7;
+		background-color: #e7e7e7;
+	}
 	&__text {
 		height: 100%;
 		font-family: OpenSans-Regular;
@@ -22,6 +26,9 @@
 		&--orange,
 		&--red {
 			color: white;
+		}
+		&--grey {
+			color: #606060;
 		}
 	}
 }

@@ -626,6 +626,9 @@ export default class MainPage extends Component {
 
 	handleClickCircle = (circle) => {
 		const overviewData = { ...this.state.overviewData };
+		if (overviewData.location === circle.country) {
+			return null;
+		}
 		overviewData.location = circle.country;
 		overviewData.date = circle.date;
 		overviewData.aircraft = circle.aircraft;

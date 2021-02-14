@@ -2,13 +2,13 @@
 	position: relative;
 	width: 20%;
 	background-color: #4c4c4c;
-	padding: 2.5em;
+	padding: 4em 2.5em;
 	&__close {
 		position: absolute;
 		top: 1.5%;
 		left: 5%;
-		width: 1em;
-		height: 1em;
+		width: 2em;
+		height: 2em;
 		cursor: pointer;
 	}
 	&__title {
@@ -34,7 +34,12 @@
 		border-radius: 8px;
 		min-height: 5em;
 		height: auto;
+		padding: 1em;
 		&__text {
+			font-size: 0.96rem;
+			font-family: OpenSans-Regular;
+			font-weight: 600;
+			color: #d6d6d6;
 		}
 	}
 	&__separator {

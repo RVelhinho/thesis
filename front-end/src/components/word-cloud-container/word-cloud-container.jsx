@@ -28,7 +28,7 @@ export default class WordCloudContainer extends PureComponent {
 		cloud()
 			.size([w, h])
 			.words(data)
-			.rotate(() => randomRotate(Math.round(Math.random())))
+			.rotate(0)
 			.fontSize((d) => wordScale(d.value))
 			.padding(5)
 			.on('end', draw)
