@@ -13,6 +13,7 @@ export default class CalendarContainer extends PureComponent {
 		this.state = {
 			tooltip: {
 				open: false,
+				color: '',
 				cx: '',
 				cy: '',
 				date: '',
@@ -34,6 +35,21 @@ export default class CalendarContainer extends PureComponent {
 		tooltip.aircraft = circle.aircraft;
 		tooltip.description = circle.description;
 		tooltip.open = true;
+		if (circle.date.split('-')[0] >= 1985) {
+			tooltip.color = '#283ade';
+		} else if (
+			circle.date.split('-')[0] < 1985 &&
+			circle.date.split('-')[0] >= 1960
+		) {
+			tooltip.color = '#4e5cde';
+		} else if (
+			circle.date.split('-')[0] < 1960 &&
+			circle.date.split('-')[0] >= 1935
+		) {
+			tooltip.color = '#7983e0';
+		} else if (circle.date.split('-')[0] < 1935) {
+			tooltip.color = '#9da4e3';
+		}
 		this.setState(() => {
 			return { tooltip };
 		});
@@ -87,7 +103,7 @@ export default class CalendarContainer extends PureComponent {
 								type={'calendar'}
 								left={tooltip.cx}
 								top={tooltip.cy}
-								color='#ed8c15'
+								color={tooltip.color}
 							/>
 						)}
 					</div>
@@ -110,7 +126,7 @@ export default class CalendarContainer extends PureComponent {
 														hopLegendColors[index % hopLegendColors.length],
 												}}
 											>
-												{index + 1}
+												{index !== 3 ? index + 1 : index + '+'}
 											</div>
 										);
 									})}
@@ -135,7 +151,7 @@ export default class CalendarContainer extends PureComponent {
 														hopLegendColors[index % hopLegendColors.length],
 												}}
 											>
-												{index + 1}
+												{index !== 3 ? index + 1 : index + '+'}
 											</div>
 										);
 									})}

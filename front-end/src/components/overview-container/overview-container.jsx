@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './overview-container.scss';
 import Button from '../button/button';
-import icoClose from '../../assets/images/remove.svg';
+import icoClose from '../../assets/images/cancel.svg';
 
 export default class OverviewContainer extends Component {
 	constructor(props) {

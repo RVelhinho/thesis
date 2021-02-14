@@ -201,6 +201,21 @@ class DensityPlotContainer extends PureComponent {
 						bottom: 0,
 					}}
 				>
+					<svg height={0} width={0}>
+						<linearGradient
+							id={'density-plot-gradient'}
+							x1='0'
+							y1='0'
+							x2='1'
+							y2='0'
+						>
+							<stop offset={'0%'} stopColor={'#9da4e3'} stopOpacity={1} />
+							<stop offset={'33%'} stopColor={'#7983e0'} stopOpacity={1} />
+							<stop offset={'66%'} stopColor={'#4e5cde'} stopOpacity={1} />
+							<stop offset={'99%'} stopColor={'#283ade'} stopOpacity={1} />
+						</linearGradient>
+					</svg>
+
 					<CartesianGrid strokeDasharray='5' />
 					<XAxis
 						type='category'
@@ -208,10 +223,10 @@ class DensityPlotContainer extends PureComponent {
 						tickLine={false}
 						dataKey={categoryAxis}
 						tickSize={10}
-						height={40}
+						height={55}
 						axisLine={false}
 						tick={<this.CustomTickXAxis />}
-						dy={5}
+						dy={15}
 					/>
 					<YAxis
 						type='number'
@@ -219,16 +234,16 @@ class DensityPlotContainer extends PureComponent {
 						allowDataOverflow={true}
 						tickLine={false}
 						ticks={[
-							Math.floor(minValue * 0.85),
+							Math.floor(minValue),
 							Math.floor(tick1),
 							Math.floor(tick2),
 							Math.floor(tick3),
-							Math.floor(maxValue * 1.15),
+							Math.floor(maxValue),
 						]}
 						tickLine={false}
 						axisLine={false}
 						tick={<this.CustomTickYAxis />}
-						dx={-5}
+						dx={-15}
 					/>
 					<Tooltip
 						content={<CustomToolTip type={tooltipType} color={color} />}
@@ -240,8 +255,8 @@ class DensityPlotContainer extends PureComponent {
 						dataKey={dataKey}
 						stroke={color}
 						height={100}
-						fill={color}
-						fillOpacity={0.3}
+						fill={'url(#density-plot-gradient)'}
+						fillOpacity={0.8}
 						dot={<this.CustomDot />}
 						activeDot={<this.CustomActiveDot />}
 						animationDuration={1000}

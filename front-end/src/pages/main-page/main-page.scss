@@ -4,7 +4,7 @@
 	&__left-section {
 		height: 100%;
 		box-sizing: border-box;
-		border-right: 1px solid #4c4c4c;
+		border-right: 1px solid #969696;
 		&__top-row {
 			height: 59%;
 			margin-bottom: 1%;
@@ -20,11 +20,11 @@
 	&__right-section {
 		height: 100%;
 		box-sizing: border-box;
-		border-left: 1px solid #4c4c4c;
+		border-left: 1px solid #969696;
 		&__top-row {
 			height: 60%;
 			box-sizing: border-box;
-			border-bottom: 1px solid #4c4c4c;
+			border-bottom: 1px solid #969696;
 		}
 		&__bottom-row {
 			height: 40%;
@@ -32,10 +32,10 @@
 				box-sizing: border-box;
 			}
 			&__chart:first-child {
-				border-right: 1px solid #4c4c4c;
+				border-right: 1px solid #969696;
 			}
 			&__chart:nth-child(2) {
-				border-right: 1px solid #4c4c4c;
+				border-right: 1px solid #969696;
 			}
 		}
 	}

@@ -16,6 +16,11 @@ export default class MapContainer extends PureComponent {
 				zoom: 3,
 			},
 		};
+		this.startingPosition = {
+			lat: 39.23449743795502,
+			lon: -8.302584862719087,
+			zoom: 3,
+		};
 	}
 
 	getNewValue = (value, oldMax, oldMin, newMax, newMin) => {
@@ -54,9 +59,9 @@ export default class MapContainer extends PureComponent {
 		if (value >= 1985) {
 			return '#283ade';
 		} else if (value < 1985 && value >= 1960) {
-			return '#e83c15';
-		} else if (value < 1960 && value >= 1935) {
 			return '#4e5cde';
+		} else if (value < 1960 && value >= 1935) {
+			return '#7983e0';
 		} else if (value < 1935) {
 			return '#9da4e3';
 		}
@@ -72,6 +77,16 @@ export default class MapContainer extends PureComponent {
 				return { zoomLevel: 'low' };
 			});
 		}
+	};
+
+	handleResetZoom = () => {
+		const position = { ...this.state.position };
+		position.lat = this.startingPosition.lat;
+		position.lon = this.startingPosition.lon;
+		position.zoom = this.startingPosition.zoom;
+		this.setState(() => {
+			return { position };
+		});
 	};
 
 	handleClickMapRing = (e) => {
@@ -159,7 +174,7 @@ export default class MapContainer extends PureComponent {
 										<Popup>
 											<CustomToolTip
 												type={tooltipType}
-												color={this.getInnerColor(loc)}
+												color={this.getCircleColor(loc)}
 											/>
 										</Popup>
 									</Circle>
@@ -194,7 +209,7 @@ export default class MapContainer extends PureComponent {
 										<Popup>
 											<CustomToolTip
 												type={tooltipType}
-												color={this.getInnerColor(loc)}
+												color={this.getCircleColor(loc)}
 											/>
 										</Popup>
 									</Circle>
@@ -204,7 +219,11 @@ export default class MapContainer extends PureComponent {
 					<div className='map-container__legend'>
 						<div className='row mx-0 map-container__legend__row'>
 							<div className='col px-0'>
-								<Button text={'Reset Zoom'} color={'grey'} />
+								<Button
+									text={'Reset Zoom'}
+									color={'grey'}
+									onResetZoom={this.handleResetZoom}
+								/>
 							</div>
 						</div>
 						<div className='row mx-0 map-container__legend__row'>

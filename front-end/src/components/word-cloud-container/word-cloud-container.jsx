@@ -56,13 +56,13 @@ export default class WordCloudContainer extends PureComponent {
 				.style('font-size', (d) => d.size + 'px')
 				.style('fill', (d) => {
 					if (d.value >= 75) {
-						return '#ed8c15';
+						return '#de2874';
 					} else if (d.value >= 50) {
-						return '#f09e3a';
+						return '#d64b85';
 					} else if (d.value >= 25) {
-						return '#edaa58';
+						return '#d9759f';
 					} else {
-						return '#e8b77b';
+						return '#de97b5';
 					}
 				})
 				.style('cursor', 'pointer')
@@ -70,7 +70,7 @@ export default class WordCloudContainer extends PureComponent {
 				.attr('transform', (d) => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
 				.text((d) => d.text)
 				.on('mouseover', function (d) {
-					select(this).style('fill', '#c97712');
+					select(this).style('fill', '#9e1b52');
 					select(`#${id} .custom-tooltip`)
 						.style('display', 'block')
 						.style('top', pointer(d, svg.node())[1] + 50 + 'px')
@@ -79,13 +79,13 @@ export default class WordCloudContainer extends PureComponent {
 				.on('mouseout', function (d) {
 					select(this).style('fill', (d) => {
 						if (d.value >= 75) {
-							return '#ed8c15';
+							return '#de2874';
 						} else if (d.value >= 50) {
-							return '#f09e3a';
+							return '#d64b85';
 						} else if (d.value >= 25) {
-							return '#edaa58';
+							return '#d9759f';
 						} else {
-							return '#e8b77b';
+							return '#de97b5';
 						}
 					});
 					select(`#${id} .custom-tooltip`).style('display', 'none');
@@ -106,10 +106,10 @@ export default class WordCloudContainer extends PureComponent {
 	}
 
 	render() {
-		const { id } = this.props;
+		const { id, tooltipType, color } = this.props;
 		return (
 			<div id={id} ref={this.myRef}>
-				<CustomToolTip type={'word'} color='#ed8c15' />
+				<CustomToolTip type={tooltipType} color={color} />
 			</div>
 		);
 	}

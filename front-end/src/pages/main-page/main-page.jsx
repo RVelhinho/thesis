@@ -402,7 +402,7 @@ export default class MainPage extends Component {
 			densityPlotData: {
 				lineType: 'monotone',
 				dataKey: 'count',
-				color: '#ed8c15',
+				color: '#283ade',
 				categoryAxis: 'year',
 				dateGrouper: 'year',
 				timeAttr: 'year',
@@ -460,20 +460,8 @@ export default class MainPage extends Component {
 						value: 65,
 					},
 				],
-				callbacks: {
-					getWordColor: (word) =>
-						this.getWordColorAux(word.value, 325, word.weight),
-					getWordTooltip: (word) => `${word.text} (${word.value})`,
-				},
-				options: {
-					rotations: 0,
-					fontSizes: [14, 36],
-					fontFamily: 'OpenSans-Regular',
-					padding: 5,
-					fontWeight: 400,
-				},
-				size: undefined,
-				tooltipType: 'wordCloud',
+				color: '#de2874',
+				tooltipType: 'word',
 			},
 			barChartData: {
 				data: [
@@ -522,7 +510,7 @@ export default class MainPage extends Component {
 						total: 13,
 					},
 				],
-				gradientColors: ['ed8c15', 'e6cbaa'],
+				gradientColors: ['de2874', 'de97b5'],
 				tooltipType: 'bar',
 			},
 			overviewData: {
@@ -722,6 +710,8 @@ export default class MainPage extends Component {
 							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
 								<WordCloudContainer
 									data={wordCloudData.data}
+									tooltipType={wordCloudData.tooltipType}
+									color={wordCloudData.color}
 									id={'word-cloud-container'}
 								/>
 							</div>
