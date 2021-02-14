@@ -21,12 +21,13 @@ export default class CalendarContainer extends PureComponent {
 				aircraft: '',
 				description: '',
 			},
+			currentCircle: '',
 		};
 	}
 
 	static propTypes = {};
 
-	handleMouseOverCalendarCircle = (e, circle) => {
+	handleMouseOverCalendarCircle = (e, circle, index) => {
 		const tooltip = { ...this.state.tooltip };
 		tooltip.cx = e.clientX - e.target.offsetLeft;
 		tooltip.cy = e.clientY - e.target.offsetTop;
@@ -51,7 +52,10 @@ export default class CalendarContainer extends PureComponent {
 			tooltip.color = '#9da4e3';
 		}
 		this.setState(() => {
-			return { tooltip };
+			return {
+				tooltip,
+				currentCircle: circle.date.split('-')[0] + '-' + index,
+			};
 		});
 	};
 
@@ -65,7 +69,7 @@ export default class CalendarContainer extends PureComponent {
 		tooltip.description = '';
 		tooltip.open = false;
 		this.setState(() => {
-			return { tooltip };
+			return { tooltip, currentCircle: '' };
 		});
 	};
 
@@ -76,7 +80,7 @@ export default class CalendarContainer extends PureComponent {
 			tooltipStyle,
 			onClickCalendarCircle,
 		} = this.props;
-		const { tooltip } = this.state;
+		const { tooltip, currentCircle } = this.state;
 		return (
 			<div className='calendar-container'>
 				<React.Fragment>
@@ -88,6 +92,7 @@ export default class CalendarContainer extends PureComponent {
 										key={`calendar-row-${index}`}
 										year={el.year}
 										data={el.crashes}
+										currentCircle={currentCircle}
 										tooltipStyle={tooltipStyle}
 										onClickCalendarCircle={onClickCalendarCircle}
 										onMouseOverCalendarCircle={

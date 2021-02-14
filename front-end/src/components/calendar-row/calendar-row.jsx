@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { getTimeColor } from '../../utils/time';
 import './calendar-row.scss';
 import PropTypes from 'prop-types';
 
@@ -7,6 +8,7 @@ const CalendarRow = React.memo(
 	({
 		year,
 		data,
+		currentCircle,
 		onClickCalendarCircle,
 		onMouseOverCalendarCircle,
 		onMouseOutCalendarCircle,
@@ -30,8 +32,13 @@ const CalendarRow = React.memo(
 							>
 								<div
 									className='calendar-row-container__circle-container__circle'
+									style={
+										currentCircle === year + '-' + index
+											? { borderColor: getTimeColor(1935) }
+											: {}
+									}
 									onClick={() => onClickCalendarCircle(el)}
-									onMouseOver={(e) => onMouseOverCalendarCircle(e, el)}
+									onMouseOver={(e) => onMouseOverCalendarCircle(e, el, index)}
 								></div>
 							</div>
 						);

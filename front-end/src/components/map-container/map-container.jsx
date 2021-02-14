@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { Map, TileLayer, Popup, Circle, Tooltip } from 'react-leaflet';
 import Button from '../button/button';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
+import { getTimeColor } from '../../utils/time';
 import './map-container.scss';
 
 export default class MapContainer extends PureComponent {
@@ -52,18 +53,6 @@ export default class MapContainer extends PureComponent {
 			return '#e61c15';
 		} else if (value < 25) {
 			return '#ed8c15';
-		}
-	};
-
-	getCircleColor = (value) => {
-		if (value >= 1985) {
-			return '#283ade';
-		} else if (value < 1985 && value >= 1960) {
-			return '#4e5cde';
-		} else if (value < 1960 && value >= 1935) {
-			return '#7983e0';
-		} else if (value < 1935) {
-			return '#9da4e3';
 		}
 	};
 
@@ -134,7 +123,7 @@ export default class MapContainer extends PureComponent {
 										<stop offset={'5%'} stopColor={'#9da4e3'} stopOpacity={1} />
 										<stop
 											offset={'100%'}
-											stopColor={this.getCircleColor(2000)}
+											stopColor={getTimeColor(2000)}
 											stopOpacity={1}
 										/>
 									</linearGradient>
@@ -152,7 +141,7 @@ export default class MapContainer extends PureComponent {
 											randomPositions[index].geometry.coordinates[1],
 											randomPositions[index].geometry.coordinates[0],
 										]}
-										fillColor={this.getCircleColor(loc)}
+										fillColor={getTimeColor(loc)}
 										radius={10000 * 5}
 										weight={0}
 										onMouseOver={(e) => e.target.openPopup()}
@@ -166,7 +155,7 @@ export default class MapContainer extends PureComponent {
 												randomPositions[index].geometry.coordinates[1],
 												randomPositions[index].geometry.coordinates[0],
 											]}
-											fillColor={this.getCircleColor(loc)}
+											fillColor={getTimeColor(loc)}
 											fillOpacity={1}
 											radius={10000}
 											weight={0}
@@ -174,7 +163,7 @@ export default class MapContainer extends PureComponent {
 										<Popup>
 											<CustomToolTip
 												type={tooltipType}
-												color={this.getCircleColor(loc)}
+												color={getTimeColor(loc)}
 											/>
 										</Popup>
 									</Circle>
@@ -209,7 +198,7 @@ export default class MapContainer extends PureComponent {
 										<Popup>
 											<CustomToolTip
 												type={tooltipType}
-												color={this.getCircleColor(loc)}
+												color={getTimeColor(loc)}
 											/>
 										</Popup>
 									</Circle>
