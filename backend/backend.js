@@ -48,6 +48,9 @@ const keyMap = {
     Summary: 'description'
 }
 
+const keywords= [ 'military', 'transport', 'missing', 'crash', 'rain', 'thunder', 'storm', 'fire', 'war', 'mountaineous', 'flames', 'weather', 'landing', 'mountain', 'winds', 'wind', 'windy', 'air', 'fog', 'malfunction', 'ravine', 'volcano', 'engine', 'military']
+
+
 const accepted_countries = [
 	"Afghanistan",
 	"Albania",
@@ -341,6 +344,40 @@ const converter = csv()
                             else {
                                 row.total_survivors = parseInt(row.total_survivors)
                             }
+
+							// Split description into array of words
+							let words = row.description.split('.')[0].split(' ');
+							// Clean whitespaces / remove special characters / remove useless words
+							let wordsMapped = words.map((el, index) => {
+								let newEl = el.replace(/[^A-Za-z0-9]/g,"")
+								newEl.trim()
+								newEl.toLowerCase()
+								return newEl
+								
+							})
+
+							// Filter undefineds or empty words
+							let wordsFiltered = wordsMapped.filter((el, index) => {
+								if (el) {
+									if (keywords.includes(el)){
+										return true
+									}
+									return false
+								}
+								else {
+									return false
+								}
+							})
+
+							// Remove unnecessary words
+							let wordsCounted = _.countBy(wordsFiltered, el => {
+								return el
+							})
+
+							console.log(wordsCounted)
+							// Group by for each word
+
+							// Create keyword key for most used key
                             
 
                             // Create year key
@@ -395,6 +432,8 @@ const converter = csv()
                     aircraftData = _.chain(data).groupBy(row => row.aircraft).mapValues(row => row.length).value()
                     aircraftData = _.fromPairs(_.sortBy(_.toPairs(aircraftData), 1).reverse())
                 })
+				.then(() => {
+				})
 
 
 app.get('/api/data/:minDate/:maxDate', (req, res) => {
