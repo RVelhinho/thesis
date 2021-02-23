@@ -4,7 +4,6 @@ const config = require('config')
 const helmet = require('helmet')
 const morgan = require('morgan')
 const express = require('express')
-const { forEach } = require('lodash')
 const app = express();
 
 // Middleware
@@ -48,7 +47,7 @@ const keyMap = {
     Summary: 'description'
 }
 
-const keywords= [ 'military', 'transport', 'missing', 'crash', 'rain', 'thunder', 'storm', 'fire', 'war', 'mountaineous', 'flames', 'weather', 'landing', 'mountain', 'winds', 'wind', 'windy', 'air', 'fog', 'malfunction', 'ravine', 'volcano', 'engine', 'military']
+const keywords= ['crash', 'crashed', 'military', 'transport', 'missing', 'knife','smoke','water','mist', 'engines', 'crash', 'rain', 'rainstorm', 'thunder', 'thunderstorm', 'thunderstorms', 'storm', 'fire', 'war', 'mountaineous', 'flames', 'weather', 'landing', 'mountain', 'winds', 'wind', 'windy', 'air', 'fog', 'malfunction', 'ravine', 'volcano', 'engine', 'military', 'exploded', 'explosion', 'midair', 'airport', 'obstacle', 'mount', 'road', 'runway', 'forest', 'steep', 'jungle', 'slope', 'field', 'veered', 'dive', 'hijack', 'hijacked', 'exploding', 'witness', 'witnesses', 'witnessed', 'turn', 'mountainside', 'typhoon', 'trees', 'helicopter', 'cloud', 'fuel']
 
 
 const accepted_countries = [
@@ -302,15 +301,17 @@ const accepted_countries = [
 	"Zimbabwe",
 	"Åland Islands"
 ];
-let data = [];
-let calendarData = [];
-let mapData = [];
+let data = []
+let calendarData = []
+let calendarAuxData = []
+let mapData = []
 let survivalRateData = []
-let keywordData = [];
+let keywordData = {}
 let aircraftData = []
 
 
-const converter = csv()
+const dataGenerator = () => {
+	 const converter = csv()
                 .fromFile('../datasets/airplane_crashes.csv')
                 .then(json => {
                     _.forEach(json, (row, index) => {
@@ -356,7 +357,7 @@ const converter = csv()
 								
 							})
 
-							// Filter undefineds or empty words
+							// Filter undefineds or empty words / Remove unnecessary words
 							let wordsFiltered = wordsMapped.filter((el, index) => {
 								if (el) {
 									if (keywords.includes(el)){
@@ -369,16 +370,16 @@ const converter = csv()
 								}
 							})
 
-							// Remove unnecessary words
+							// Count occurrences of each word
 							let wordsCounted = _.countBy(wordsFiltered, el => {
 								return el
 							})
 
-							console.log(wordsCounted)
-							// Group by for each word
-
-							// Create keyword key for most used key
-                            
+							// Create array with custom object for each word to associate with count
+							row.keywords = []
+							_.forEach(_.entries(wordsCounted), el =>{
+								row.keywords.push({word: el[0], counter: el[1]})
+							} )
 
                             // Create year key
                             row.year = row.date.split('/')[2]
@@ -410,7 +411,11 @@ const converter = csv()
                 })
                 // Get calendar data
                 .then( () => {
-                    calendarData = _.chain(data).sortBy('year').groupBy(data, row => row.year).value()                    
+                    calendarData = _.chain(data).sortBy('year').groupBy(row => row.year).value() 
+                })
+				// Get calendar counter data
+				.then( () => {
+                    calendarAuxData = _.chain(data).sortBy('year').groupBy(row => row.year).mapValues(row => row.length).value() 
                 })
                 // Get map data
                 .then(() => {
@@ -422,63 +427,58 @@ const converter = csv()
                     survivalRateData = { survivalRate: _.sumBy(data, row => row.total_survivors)/totalInvolved, fatalityRate: _.sumBy(data, row => row.total_fatalities)/totalInvolved}
                 
                 })
-                // // Get keyword data
-                // .then(() => {
-                //     keywordData = _.chain(data).groupBy(row => row.keyword).mapValues(row => row.length).value()
-                //     keywordData = _.fromPairs(_.sortBy(_.toPairs(keywordData), 1).reverse())
-                // })
+                // Get keyword data
+                .then(() => {
+					 _.forEach(data, el => {
+						 _.forEach(el.keywords, keyword => {
+							if (keywordData[keyword.word]){
+								keywordData[keyword.word] += keyword.counter
+							}
+							else{
+								keywordData[keyword.word] = keyword.counter
+							}
+						 })
+					})
+                })
                 // Get aircraft data
                 .then(() => {
                     aircraftData = _.chain(data).groupBy(row => row.aircraft).mapValues(row => row.length).value()
                     aircraftData = _.fromPairs(_.sortBy(_.toPairs(aircraftData), 1).reverse())
                 })
-				.then(() => {
-				})
+			}
 
+dataGenerator()
 
-app.get('/api/data/:minDate/:maxDate', (req, res) => {
-    if (req.params.minDate == null || req.params.maxDate == null){
-        res.status(404).send('No crash data found!')
-        return
-    }
-    data = _.filter( data, (row) => new Date(row.date) >= new Date(req.params.minDate) &&  new Date(row.date) <= new Date(req.params.maxDate)) 
-    res.send('yo')
+app.get('/api/data', (req, res) => {
+    res.send(data)
 })
 
-app.get('/api/data/:country', (req, res) => {
-    if (req.params.country == null){
-        res.status(404).send('No crash data found!')
-        return
-    }
-    data = _.filter( data, (row) => row.country === req.params.country ) 
-    res.send('yo')
+app.get('/api/data/calendar', (req, res) => {
+	res.send(calendarData)
 })
 
-app.get('/api/data/:keyword', (req, res) => {
-    if (req.params.keyword == null){
-        res.status(404).send('No crash data found!')
-        return
-    }
-    data = _.filter( data, (row) => row.keyword === req.params.keyword ) 
-    res.send('yo')
+app.get('/api/data/calendar/aux', (req, res) => {
+    res.send(calendarAuxData)
 })
 
-app.get('/api/data/:aircraft', (req, res) => {
-    if (req.params.aircraft == null){
-        res.status(404).send('No crash data found!')
-        return
-    }
-    data = _.filter( data, (row) => row.aircraft === req.params.aircraft ) 
-    res.send('yo')
+app.get('/api/data/map', (req, res) => {
+	dataGenerator()
+    res.send(mapData)
 })
 
-app.get('/api/data/:id', (req, res) => {
-    if (req.params.id == null){
-        res.status(404).send('No crash data found!')
-        return
-    }
-    data = _.filter( data, (row) => row.id === req.params.id ) 
-    res.send('yo')
+app.get('/api/data/keyword', (req, res) => {
+	dataGenerator()
+    res.send(keywordData)
+})
+
+app.get('/api/data/survival-rate', (req, res) => {
+	dataGenerator()
+    res.send(survivalRateData)
+})
+
+app.get('/api/data/aircraft', (req, res) => {
+	dataGenerator()
+    res.send(aircraftData)
 })
 
 

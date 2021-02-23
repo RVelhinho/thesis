@@ -15,7 +15,7 @@ import {
 	Brush,
 } from 'recharts';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
-import { getRoundedValue } from '../../utils/mathUtils';
+import { getRoundedValue } from '../../utils/math';
 import './density-plot-container.scss';
 import { points } from '@turf/turf';
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import _ from 'lodash';
 import L from 'leaflet';
 import * as turf from '@turf/turf';
 import worldPoly from '../../mockData/worldPoly.json';
-import './main-page.scss';
 import CalendarContainer from '../../components/calendar-container/calendar-container';
 import MapContainer from '../../components/map-container/map-container';
 import DensityPlotContainer from '../../components/density-plot-container/density-plot-container';
@@ -11,7 +11,9 @@ import WordCloudContainer from '../../components/word-cloud-container/word-cloud
 import BarChartContainer from '../../components/bar-chart-container/bar-chart-container';
 import DonutChartContainer from '../../components/donut-chart-container/donut-chart-container';
 import OverviewContainer from '../../components/overview-container/overview-container';
-import { getRandomValue } from '../../utils/mathUtils';
+import Spinner from '../../components/spinner/spinner';
+import crashService from '../../services/crashService';
+import './main-page.scss';
 
 export default class MainPage extends Component {
 	constructor(props) {
@@ -19,383 +21,9 @@ export default class MainPage extends Component {
 		this.state = {
 			polyPositions: [],
 			randomPositions: [],
+			loading: false,
 			calendarData: {
-				data: [
-					{
-						year: 1908,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 1,
-					},
-					{
-						year: 1909,
-						crashes: [
-							{
-								date: '1909-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1909-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1909-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1909-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 4,
-					},
-					{
-						year: 1910,
-						crashes: [
-							{
-								date: '1910-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1910-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1910-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1910-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 10,
-					},
-					{
-						year: 1911,
-						crashes: [
-							{
-								date: '1911-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1911-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1911-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1911-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 4,
-					},
-					{
-						year: 1912,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 4,
-					},
-					{
-						year: 1913,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 4,
-					},
-					{
-						year: 1914,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 4,
-					},
-					{
-						year: 1915,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 6,
-					},
-					{
-						year: 1916,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 2,
-					},
-					{
-						year: 1917,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 7,
-					},
-					{
-						year: 1918,
-						crashes: [
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-							{
-								date: '1908-01-01',
-								aircraft: 'aircraft1',
-								operator: 'operator1',
-								country: 'Germany',
-								description: 'A brief description of the accident',
-							},
-						],
-						count: 4,
-					},
-				],
+				data: [],
 				hopLegendColors: ['#edc08a', '#eda958', '#db8727', '#ab6b22'],
 				tooltipType: 'calendar',
 			},
@@ -582,7 +210,108 @@ export default class MainPage extends Component {
 		}
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		this.createRandomPositions();
+		const previousCalendarData = { ...this.state.calendarData };
+		const calendarData = { ...this.state.calendarData };
+		const previousDensityPlotData = { ...this.state.densityPlotData };
+		const densityPlotData = { ...this.state.densityPlotData };
+		const previousMapData = { ...this.state.mapData };
+		const mapData = { ...this.state.mapData };
+		const previousDonutChartData = { ...this.state.donutChartData };
+		const donutChartData = { ...this.state.donutChartData };
+		const previousWordCloudData = { ...this.state.wordCloudData };
+		const wordCloudData = { ...this.state.wordCloudData };
+		const previousBarChartData = { ...this.state.barChartData };
+		const barChartData = { ...this.state.barChartData };
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const [
+				{ data: yearData },
+				{ data: yearAuxData },
+				{ data: countryData },
+				{ data: survivalRateData },
+				{ data: keywordData },
+				{ data: aircraftData },
+			] = await axios.all([
+				crashService.getCalendarData(
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					undefined
+				),
+				crashService.getCalendarAuxData(
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					undefined
+				),
+				crashService.getMapData(
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					undefined
+				),
+				crashService.getSurvivalRateData(
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					undefined
+				),
+				crashService.getKeywordData(
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					undefined
+				),
+				crashService.getAircraftData(
+					undefined,
+					undefined,
+					undefined,
+					undefined,
+					undefined
+				),
+			]);
+			this.cancelTokenSource = null;
+			calendarData.data = yearData;
+			densityPlotData.data = yearAuxData;
+			mapData.data = countryData;
+			donutChartData.data = survivalRateData;
+			wordCloudData.data = keywordData;
+			barChartData.data = aircraftData;
+			console.log(yearData);
+			console.log(yearAuxData);
+			console.log(countryData);
+			console.log(survivalRateData);
+			console.log(keywordData);
+			console.log(aircraftData);
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//ignore
+			} else if (error.response && error.response.status === 404) {
+				alert('Data not found');
+				this.setState({
+					previousCalendarData,
+					previousDensityPlotData,
+					previousMapData,
+					previousDonutChartData,
+					previousWordCloudData,
+					previousBarChartData,
+				});
+			}
+		}
+	}
+
+	componentWillUnmount() {
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+	}
+
+	createRandomPositions = () => {
 		const polyPositions = [...this.state.polyPositions];
 		const randomPositions = [...this.state.randomPositions];
 		const mapData = { ...this.state.mapData };
@@ -610,7 +339,7 @@ export default class MainPage extends Component {
 		this.setState(() => {
 			return { polyPositions, randomPositions };
 		});
-	}
+	};
 
 	handleClickCircle = (circle) => {
 		const overviewData = { ...this.state.overviewData };

@@ -1,0 +1,31 @@
+.spinner-container {
+	position: fixed;
+	top: inherit;
+	left: inherit;
+	width: inherit;
+	height: 100%;
+	background: #f7f7f7;
+	z-index: 2000;
+	&__container {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		&__spinner {
+			width: 10rem;
+			height: 10rem;
+			display: inline-block;
+			transform: translate('-50%', '-50%');
+			border: 3px solid #e6e6e6;
+			border-radius: 50%;
+			border-top-color: #c6c6c6;
+			animation: 1s spin infinite ease-in-out;
+		}
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
