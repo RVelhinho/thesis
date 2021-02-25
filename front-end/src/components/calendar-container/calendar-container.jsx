@@ -86,12 +86,12 @@ export default class CalendarContainer extends PureComponent {
 				<React.Fragment>
 					<div className='row calendar-container__content'>
 						<div className='col px-0'>
-							{data.map((el, index) => {
+							{_.entries(data).map((el, index) => {
 								return (
 									<CalendarRow
 										key={`calendar-row-${index}`}
-										year={el.year}
-										data={el.crashes}
+										year={el[0]}
+										data={el[1]}
 										currentCircle={currentCircle}
 										tooltipStyle={tooltipStyle}
 										onClickCalendarCircle={onClickCalendarCircle}

@@ -97,12 +97,10 @@ export default class WordCloudContainer extends PureComponent {
 		}
 	}
 
-	componentDidMount() {
-		this.drawCloud();
-	}
-
 	componentDidUpdate() {
-		this.drawCloud();
+		if (this.props.data.length !== 0) {
+			this.drawCloud();
+		}
 	}
 
 	render() {

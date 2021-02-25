@@ -28,6 +28,7 @@ export default class MainPage extends Component {
 				tooltipType: 'calendar',
 			},
 			densityPlotData: {
+				data: [],
 				lineType: 'monotone',
 				dataKey: 'count',
 				color: '#283ade',
@@ -37,107 +38,20 @@ export default class MainPage extends Component {
 				tooltipType: 'density',
 			},
 			mapData: {
-				data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+				data: [],
 				tooltipType: 'map',
 			},
 			donutChartData: {
-				data: [
-					{
-						name: 'Survival Rate',
-						total: 46,
-					},
-					{
-						name: 'Fatality Rate',
-						total: 54,
-					},
-				],
+				data: [],
 				tooltipType: 'donut',
 			},
 			wordCloudData: {
-				data: [
-					{
-						text: 'storm',
-						value: 40,
-					},
-					{
-						text: 'fire',
-						value: 20,
-					},
-					{
-						text: 'acident',
-						value: 80,
-					},
-					{
-						text: 'war',
-						value: 10,
-					},
-					{
-						text: 'engine',
-						value: 80,
-					},
-					{
-						text: 'weather',
-						value: 102,
-					},
-					{
-						text: 'failure',
-						value: 17,
-					},
-					{
-						text: 'fatal',
-						value: 65,
-					},
-				],
+				data: [],
 				color: '#de2874',
 				tooltipType: 'word',
 			},
 			barChartData: {
-				data: [
-					{
-						plane: 'planeA',
-						total: 105,
-					},
-					{
-						plane: 'planeB',
-						total: 87,
-					},
-					{
-						plane: 'planeC',
-						total: 45,
-					},
-					{
-						plane: 'planeD',
-						total: 32,
-					},
-					{
-						plane: 'planeE',
-						total: 24,
-					},
-					{
-						plane: 'planeF',
-						total: 21,
-					},
-					{
-						plane: 'planeG',
-						total: 15,
-					},
-					{
-						plane: 'planeH',
-						total: 17,
-					},
-					{
-						plane: 'planeI',
-						total: 18,
-					},
-					{
-						plane: 'planeJ',
-						total: 15,
-					},
-					{
-						plane: 'planeK',
-						total: 13,
-					},
-				],
+				data: [],
 				gradientColors: ['de2874', 'de97b5'],
 				tooltipType: 'bar',
 			},
@@ -211,7 +125,6 @@ export default class MainPage extends Component {
 	}
 
 	async componentDidMount() {
-		this.createRandomPositions();
 		const previousCalendarData = { ...this.state.calendarData };
 		const calendarData = { ...this.state.calendarData };
 		const previousDensityPlotData = { ...this.state.densityPlotData };
@@ -284,12 +197,17 @@ export default class MainPage extends Component {
 			donutChartData.data = survivalRateData;
 			wordCloudData.data = keywordData;
 			barChartData.data = aircraftData;
-			console.log(yearData);
-			console.log(yearAuxData);
-			console.log(countryData);
-			console.log(survivalRateData);
-			console.log(keywordData);
-			console.log(aircraftData);
+			this.setState(() => {
+				return {
+					calendarData,
+					densityPlotData,
+					mapData,
+					donutChartData,
+					wordCloudData,
+					barChartData,
+				};
+			});
+			this.createRandomPositions();
 		} catch (error) {
 			if (axios.isCancel(error)) {
 				//ignore
@@ -375,10 +293,7 @@ export default class MainPage extends Component {
 			overviewData,
 			randomPositions,
 		} = this.state;
-		const sortedData = _.sortBy(calendarData.data, 'year', 'asc');
-		const densityPlotValues = sortedData.map((el) => {
-			return el.count;
-		});
+		const densityPlotValues = _.map(densityPlotData.data, (el) => el.count);
 		const minValue = Math.min(...densityPlotValues);
 		const maxValue = Math.max(...densityPlotValues);
 		return (
@@ -394,7 +309,7 @@ export default class MainPage extends Component {
 						<div className='row mx-0 main-page-container__left-section__top-row'>
 							<div className='col px-0 h-100'>
 								<CalendarContainer
-									data={sortedData}
+									data={calendarData.data}
 									hopLegendColors={calendarData.hopLegendColors}
 									tooltipType={calendarData.tooltipType}
 									onClickCalendarCircle={this.handleClickCircle}
@@ -404,7 +319,7 @@ export default class MainPage extends Component {
 						<div className='row mx-0 main-page-container__left-section__bottom-row'>
 							<div className='col px-0'>
 								<DensityPlotContainer
-									data={sortedData}
+									data={densityPlotData.data}
 									dateGrouper={densityPlotData.dateGrouper}
 									categoryAxis={densityPlotData.categoryAxis}
 									timeAttr={densityPlotData.timeAttr}

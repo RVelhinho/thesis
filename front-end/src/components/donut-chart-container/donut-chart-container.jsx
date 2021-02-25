@@ -41,7 +41,7 @@ export default class DonutChartContainer extends PureComponent {
 		return (
 			<g>
 				<text x={cx} y={cy} dy={8} textAnchor='middle' fill={fill}>
-					{payload.name}
+					{payload.label}
 				</text>
 				<Sector
 					cx={cx}

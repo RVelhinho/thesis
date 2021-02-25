@@ -80,7 +80,9 @@ const BarChartContainer = React.memo(
 			const { payload } = props;
 			return (
 				<Text {...props} className='custom-tick'>
-					{payload.value}
+					{payload.value.length > 10
+						? `${payload.value.slice(0, 10)}...`
+						: payload.value}
 				</Text>
 			);
 		};

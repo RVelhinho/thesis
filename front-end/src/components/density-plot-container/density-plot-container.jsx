@@ -69,7 +69,7 @@ class DensityPlotContainer extends PureComponent {
 				typeof payloadIndex === 'number' &&
 				pointsCoordinates[payloadIndex] &&
 				animationEnded) ||
-			(cx !== '' && cy !== '' && animationEnded)
+			(cx && cy && animationEnded)
 		) {
 			let x;
 			let y;
@@ -80,9 +80,11 @@ class DensityPlotContainer extends PureComponent {
 			) {
 				x = pointsCoordinates[payloadIndex].x;
 				y = pointsCoordinates[payloadIndex].y;
-			} else if (cx !== '' && cy !== '') {
+			} else if (cx && cy) {
 				x = cx;
 				y = cy;
+				console.log(cx);
+				console.log(cy);
 			}
 			return (
 				<React.Fragment>
@@ -188,7 +190,6 @@ class DensityPlotContainer extends PureComponent {
 		let tick1 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (1 / 4);
 		let tick2 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (2 / 4);
 		let tick3 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (3 / 4);
-
 		return (
 			<ResponsiveContainer>
 				<AreaChart

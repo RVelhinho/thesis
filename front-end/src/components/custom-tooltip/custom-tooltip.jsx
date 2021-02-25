@@ -24,7 +24,9 @@ function CustomToolTip(props) {
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'></p>
+						<p className='custom-tooltip__font custom-tooltip__font--content'>
+							{props.country}
+						</p>
 					</div>
 				</div>
 				<div className='row w-100 m-0'>

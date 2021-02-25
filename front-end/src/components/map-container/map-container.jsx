@@ -1,10 +1,11 @@
 import L, { svg } from 'leaflet';
 import React, { PureComponent } from 'react';
-import { Map, TileLayer, Popup, Circle, Tooltip } from 'react-leaflet';
+import { Map, TileLayer, Popup, CircleMarker, Tooltip } from 'react-leaflet';
 import Button from '../button/button';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import { getTimeColor } from '../../utils/time';
 import './map-container.scss';
+import { random } from '@turf/turf';
 
 export default class MapContainer extends PureComponent {
 	constructor(props) {
@@ -120,10 +121,14 @@ export default class MapContainer extends PureComponent {
 										x2='0'
 										y2='1'
 									>
-										<stop offset={'5%'} stopColor={'#9da4e3'} stopOpacity={1} />
+										<stop
+											offset={'5%'}
+											stopColor={getTimeColor(loc.minDate)}
+											stopOpacity={1}
+										/>
 										<stop
 											offset={'100%'}
-											stopColor={getTimeColor(2000)}
+											stopColor={getTimeColor(loc.maxDate)}
 											stopOpacity={1}
 										/>
 									</linearGradient>
@@ -134,54 +139,53 @@ export default class MapContainer extends PureComponent {
 
 					{zoomLevel === 'high' &&
 						data.map((loc, index) => {
-							return (
-								<React.Fragment key={index}>
-									<Circle
-										center={[
-											randomPositions[index].geometry.coordinates[1],
-											randomPositions[index].geometry.coordinates[0],
-										]}
-										fillColor={getTimeColor(loc)}
-										radius={10000 * 5}
-										weight={0}
-										onMouseOver={(e) => e.target.openPopup()}
-										onMouseOut={(e) => e.target.closePopup()}
-										onClick={() => {
-											onClickMapCircle(index);
-										}}
-									>
-										<Circle
+							loc.total.map((el) => {
+								return (
+									<React.Fragment key={index}>
+										<CircleMarker
 											center={[
 												randomPositions[index].geometry.coordinates[1],
 												randomPositions[index].geometry.coordinates[0],
 											]}
-											fillColor={getTimeColor(loc)}
-											fillOpacity={1}
-											radius={10000}
+											fillColor={getTimeColor(loc.total)}
+											radius={10}
 											weight={0}
-										></Circle>
-										<Popup>
-											<CustomToolTip
-												type={tooltipType}
-												color={getTimeColor(loc)}
-											/>
-										</Popup>
-									</Circle>
-								</React.Fragment>
-							);
+											onMouseOver={(e) => e.target.openPopup()}
+											onMouseOut={(e) => e.target.closePopup()}
+											onClick={() => {
+												onClickMapCircle(index);
+											}}
+										>
+											<CircleMarker
+												center={[
+													randomPositions[index].geometry.coordinates[1],
+													randomPositions[index].geometry.coordinates[0],
+												]}
+												fillColor={getTimeColor(loc.total)}
+												fillOpacity={1}
+												radius={5}
+												weight={0}
+											></CircleMarker>
+											<Popup>
+												<CustomToolTip
+													type={tooltipType}
+													color={getTimeColor(loc.total)}
+												/>
+											</Popup>
+										</CircleMarker>
+									</React.Fragment>
+								);
+							});
 						})}
 					{zoomLevel === 'low' &&
 						data.map((loc, index) => {
 							return (
 								<React.Fragment key={index}>
-									<Circle
-										center={[
-											randomPositions[index].geometry.coordinates[1],
-											randomPositions[index].geometry.coordinates[0],
-										]}
+									<CircleMarker
+										center={[loc.lat, loc.lon]}
 										color={`url(#ring-gradient-${index})`}
 										fillOpacity={0}
-										radius={this.getRadius(loc, 1, 10000 * 2)}
+										radius={this.getRadius(loc.total.length, 30, 20)}
 										weight={5}
 										onMouseOver={(e) => e.target.openPopup()}
 										onMouseOut={(e) => e.target.closePopup()}
@@ -193,15 +197,17 @@ export default class MapContainer extends PureComponent {
 											opacity={1}
 											permanent
 										>
-											160
+											{loc.total.length}
 										</Tooltip>
 										<Popup>
 											<CustomToolTip
 												type={tooltipType}
-												color={getTimeColor(loc)}
+												country={loc.country}
+												total={loc.total}
+												color={getTimeColor(loc.maxDate)}
 											/>
 										</Popup>
-									</Circle>
+									</CircleMarker>
 								</React.Fragment>
 							);
 						})}
