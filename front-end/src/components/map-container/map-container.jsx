@@ -17,6 +17,7 @@ export default class MapContainer extends PureComponent {
 				lon: -8.302584862719087,
 				zoom: 3,
 			},
+			selectedCountry: '',
 		};
 		this.startingPosition = {
 			lat: 39.23449743795502,
@@ -79,20 +80,20 @@ export default class MapContainer extends PureComponent {
 		});
 	};
 
-	handleClickMapRing = (e) => {
+	handleClickMapRing = (e, country) => {
 		const position = { ...this.state.position };
 		position.lat = e.latlng.lat;
 		position.lon = e.latlng.lng;
 		position.zoom = 5;
 		this.setState(() => {
-			return { position };
+			return { position, selectedCountry: country };
 		});
 	};
 
 	render() {
 		const { data, tooltipType, onClickMapCircle, randomPositions } = this.props;
-		const { position, zoomLevel } = this.state;
-		if (randomPositions && randomPositions.length !== 0) {
+		const { position, zoomLevel, selectedCountry } = this.state;
+		if (data.length !== 0) {
 			return (
 				<Map
 					center={[position.lat, position.lon]}
@@ -139,43 +140,46 @@ export default class MapContainer extends PureComponent {
 
 					{zoomLevel === 'high' &&
 						data.map((loc, index) => {
-							loc.total.map((el) => {
+							if (loc.country === selectedCountry) {
 								return (
 									<React.Fragment key={index}>
-										<CircleMarker
-											center={[
-												randomPositions[index].geometry.coordinates[1],
-												randomPositions[index].geometry.coordinates[0],
-											]}
-											fillColor={getTimeColor(loc.total)}
-											radius={10}
-											weight={0}
-											onMouseOver={(e) => e.target.openPopup()}
-											onMouseOut={(e) => e.target.closePopup()}
-											onClick={() => {
-												onClickMapCircle(index);
-											}}
-										>
-											<CircleMarker
-												center={[
-													randomPositions[index].geometry.coordinates[1],
-													randomPositions[index].geometry.coordinates[0],
-												]}
-												fillColor={getTimeColor(loc.total)}
-												fillOpacity={1}
-												radius={5}
-												weight={0}
-											></CircleMarker>
-											<Popup>
-												<CustomToolTip
-													type={tooltipType}
-													color={getTimeColor(loc.total)}
-												/>
-											</Popup>
-										</CircleMarker>
+										{loc.total.map((el, index2) => {
+											if (el.lat) {
+												return (
+													<CircleMarker
+														key={index2}
+														center={[el.lat, el.lon]}
+														fillColor={getTimeColor(parseInt(el.year))}
+														radius={10}
+														weight={0}
+														onMouseOver={(e) => e.target.openPopup()}
+														onMouseOut={(e) => e.target.closePopup()}
+														onClick={() => {
+															onClickMapCircle(index);
+														}}
+													>
+														<CircleMarker
+															center={[el.lat, el.lon]}
+															fillColor={getTimeColor(parseInt(el.year))}
+															fillOpacity={1}
+															radius={3}
+															weight={0}
+														></CircleMarker>
+														<Popup>
+															<CustomToolTip
+																type={tooltipType}
+																country={loc.country}
+																color={getTimeColor(parseInt(el.year))}
+															/>
+														</Popup>
+													</CircleMarker>
+												);
+											}
+											return null;
+										})}
 									</React.Fragment>
 								);
-							});
+							}
 						})}
 					{zoomLevel === 'low' &&
 						data.map((loc, index) => {
@@ -184,12 +188,13 @@ export default class MapContainer extends PureComponent {
 									<CircleMarker
 										center={[loc.lat, loc.lon]}
 										color={`url(#ring-gradient-${index})`}
-										fillOpacity={0}
-										radius={this.getRadius(loc.total.length, 30, 20)}
+										opacity={0.6}
+										fillOpacity={0.2}
+										radius={this.getRadius(loc.total.length, 30, 15)}
 										weight={5}
 										onMouseOver={(e) => e.target.openPopup()}
 										onMouseOut={(e) => e.target.closePopup()}
-										onClick={(e) => this.handleClickMapRing(e)}
+										onClick={(e) => this.handleClickMapRing(e, loc.country)}
 									>
 										<Tooltip
 											direction='bottom'

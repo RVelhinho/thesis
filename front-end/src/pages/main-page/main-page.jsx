@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import L from 'leaflet';
 import * as turf from '@turf/turf';
-import worldPoly from '../../mockData/worldPoly.json';
+import worldPoly from '../../utils/world-poly.json';
 import CalendarContainer from '../../components/calendar-container/calendar-container';
 import MapContainer from '../../components/map-container/map-container';
 import DensityPlotContainer from '../../components/density-plot-container/density-plot-container';
@@ -191,6 +191,7 @@ export default class MainPage extends Component {
 				),
 			]);
 			this.cancelTokenSource = null;
+			this.createRandomPositions(countryData);
 			calendarData.data = yearData;
 			densityPlotData.data = yearAuxData;
 			mapData.data = countryData;
@@ -207,7 +208,6 @@ export default class MainPage extends Component {
 					barChartData,
 				};
 			});
-			this.createRandomPositions();
 		} catch (error) {
 			if (axios.isCancel(error)) {
 				//ignore
@@ -229,33 +229,39 @@ export default class MainPage extends Component {
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
 	}
 
-	createRandomPositions = () => {
-		const polyPositions = [...this.state.polyPositions];
+	createRandomPositions = (data) => {
 		const randomPositions = [...this.state.randomPositions];
-		const mapData = { ...this.state.mapData };
-		for (let coord of worldPoly) {
-			polyPositions.push([coord.lon, coord.lat]);
-		}
-		let polygon = L.polygon(polyPositions);
-		for (let i = 0; i < mapData.data.length; i++) {
-			let found = false;
-			const randomPoint = this.randomPointInPoly(polygon);
-			for (let j = 0; j < randomPositions.length; j++) {
-				if (
-					randomPoint.geometry.coordinates[1] ===
-					randomPositions[j].geometry.coordinates[1]
-				) {
-					found = true;
-					break;
+		_.forEach(data, (country) => {
+			const polyPositions = [...this.state.polyPositions];
+			let foundCountry = false;
+			for (let coord of worldPoly) {
+				if (coord.country === country.country) {
+					foundCountry = true;
+					polyPositions.push([coord.lon, coord.lat]);
 				}
 			}
-			if (found) {
-				i--;
-				continue;
-			} else randomPositions.push(randomPoint);
-		}
-		this.setState(() => {
-			return { polyPositions, randomPositions };
+			if (!foundCountry) return;
+			let polygon = L.polygon(polyPositions);
+			_.forEach(country.total, (row) => {
+				let found = false;
+				const randomPoint = this.randomPointInPoly(polygon);
+				for (let j = 0; j < randomPositions.length; j++) {
+					if (
+						randomPoint.geometry.coordinates[1] ===
+						randomPositions[j].geometry.coordinates[1]
+					) {
+						found = true;
+						break;
+					}
+				}
+				if (found) {
+					return;
+				} else {
+					row.lat = randomPoint.geometry.coordinates[0];
+					row.lon = randomPoint.geometry.coordinates[1];
+					randomPositions.push(randomPoint);
+				}
+			});
 		});
 	};
 

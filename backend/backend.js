@@ -648,7 +648,6 @@ const dataGenerator = () => {
 					});
 				})
 				.value();
-			console.log(calendarData);
 		})
 		// Get calendar counter data
 		.then(() => {

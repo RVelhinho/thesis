@@ -113,53 +113,87 @@ export default class CalendarContainer extends PureComponent {
 						)}
 					</div>
 					<div className='row mx-0 calendar-container__bottom-row'>
-						<div className='col px-0'>
-							<div className='row mx-0 h-50'>
-								<div className='col px-0 d-flex justify-content-center align-items-center'>
-									<div className='calendar-container__bottom-row__geo-legend-top'></div>
+						<div className='col px-0 h-100 d-flex flex-column justify-content-center'>
+							<div className='row mx-0 w-100 d-flex flex-wrap justify-content-center align-items-center mb-4'>
+								<div className='calendar-container__bottom-row__circle-container'>
+									<div
+										className='calendar-container__bottom-row__circle-container__circle'
+										style={{ backgroundColor: '#456dc4' }}
+									></div>
+								</div>
+								<div className='calendar-container__bottom-row__text-container'>
+									<span className='calendar-container__bottom-row__text-container__text'>
+										North America
+									</span>
 								</div>
 							</div>
-							<div className='row mx-0 h-50'>
-								<div className='col px-0 d-flex justify-content-center align-items-center'>
-									{_.range(1, 5).map((el, index) => {
-										return (
-											<div
-												key={index}
-												className='calendar-container__bottom-row__geo-legend-bottom'
-												style={{
-													backgroundColor:
-														hopLegendColors[index % hopLegendColors.length],
-												}}
-											>
-												{index !== 3 ? index + 1 : index + '+'}
-											</div>
-										);
-									})}
+							<div className='row mx-0 w-100 d-flex flex-wrap justify-content-center align-items-center'>
+								<div className='calendar-container__bottom-row__circle-container'>
+									<div
+										className='calendar-container__bottom-row__circle-container__circle'
+										style={{ backgroundColor: '#45c449' }}
+									></div>
+								</div>
+								<div className='calendar-container__bottom-row__text-container'>
+									<span className='calendar-container__bottom-row__text-container__text'>
+										South America
+									</span>
 								</div>
 							</div>
 						</div>
-						<div className='col px-0'>
-							<div className='row mx-0 h-50'>
-								<div className='col px-0 d-flex justify-content-center align-items-center'>
-									<div className='calendar-container__bottom-row__keyword-legend-top'></div>
+						<div className='col px-0 h-100 d-flex flex-column justify-content-center'>
+							<div className='row mx-0 w-100 d-flex flex-wrap justify-content-center align-items-center mb-4'>
+								<div className='calendar-container__bottom-row__circle-container'>
+									<div
+										className='calendar-container__bottom-row__circle-container__circle'
+										style={{ backgroundColor: '#c2c445' }}
+									></div>
+								</div>
+								<div className='calendar-container__bottom-row__text-container'>
+									<span className='calendar-container__bottom-row__text-container__text'>
+										Europe
+									</span>
 								</div>
 							</div>
-							<div className='row mx-0 h-50'>
-								<div className='col px-0 d-flex justify-content-center align-items-center'>
-									{_.range(1, 5).map((el, index) => {
-										return (
-											<div
-												key={index}
-												className='calendar-container__bottom-row__keyword-legend-bottom'
-												style={{
-													backgroundColor:
-														hopLegendColors[index % hopLegendColors.length],
-												}}
-											>
-												{index !== 3 ? index + 1 : index + '+'}
-											</div>
-										);
-									})}
+							<div className='row mx-0 w-100 d-flex flex-wrap justify-content-center align-items-center '>
+								<div className='calendar-container__bottom-row__circle-container'>
+									<div
+										className='calendar-container__bottom-row__circle-container__circle'
+										style={{ backgroundColor: '#c48b45' }}
+									></div>
+								</div>
+								<div className='calendar-container__bottom-row__text-container'>
+									<span className='calendar-container__bottom-row__text-container__text'>
+										Africa
+									</span>
+								</div>
+							</div>
+						</div>
+						<div className='col px-0 h-100 d-flex flex-column justify-content-center'>
+							<div className='row mx-0 w-100 d-flex flex-wrap justify-content-center align-items-center mb-4'>
+								<div className='calendar-container__bottom-row__circle-container'>
+									<div
+										className='calendar-container__bottom-row__circle-container__circle'
+										style={{ backgroundColor: '#c445ad' }}
+									></div>
+								</div>
+								<div className='calendar-container__bottom-row__text-container'>
+									<span className='calendar-container__bottom-row__text-container__text'>
+										Asia
+									</span>
+								</div>
+							</div>
+							<div className='row mx-0 w-100 d-flex flex-wrap justify-content-center align-items-center'>
+								<div className='calendar-container__bottom-row__circle-container'>
+									<div
+										className='calendar-container__bottom-row__circle-container__circle'
+										style={{ backgroundColor: '#a645c4' }}
+									></div>
+								</div>
+								<div className='calendar-container__bottom-row__text-container'>
+									<span className='calendar-container__bottom-row__text-container__text'>
+										Oceania
+									</span>
 								</div>
 							</div>
 						</div>
