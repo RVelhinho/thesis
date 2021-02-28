@@ -48,8 +48,6 @@ const keyMap = {
 };
 
 const keywords = [
-	'crash',
-	'crashed',
 	'military',
 	'transport',
 	'missing',
@@ -602,6 +600,10 @@ const dataGenerator = () => {
 						return el;
 					});
 
+					// Remove rows with no keywords
+					if (_.isEmpty(wordsCounted)) {
+						return;
+					}
 					// Create array with custom object for each word to associate with count
 					row.keywords = [];
 					_.forEach(_.entries(wordsCounted), (el) => {
@@ -742,31 +744,53 @@ const dataGenerator = () => {
 
 dataGenerator();
 
-app.get('/api/data', (req, res) => {
-	res.send(data);
-});
+const filterDataByDate = (minDate, maxDate) => {};
+const filterDataByCountry = (country) => {};
+const filterDataByKeyword = (keyword) => {};
+const filterDataByAircraft = (aircraft) => {};
+
+const checkParamsFilter = (req) => {
+	if (req.params.minDate || req.params.maxDate) {
+		filterDataByDate(req.params.minDate, req.params.maxDate);
+	}
+	if (req.params.country) {
+		filterDataByCountry(req.params.country);
+	}
+	if (req.params.keyword) {
+		filterDataByKeyword(req.params.keyword);
+	}
+	if (req.params.aircraft) {
+		filterDataByAircraft(req.params.aircraft);
+	}
+};
 
 app.get('/api/data/calendar', (req, res) => {
+	checkParamsFilter(req);
 	res.send(calendarData);
 });
 
 app.get('/api/data/calendar/aux', (req, res) => {
+	checkParamsFilter(req);
 	res.send(yearData);
 });
 
 app.get('/api/data/map', (req, res) => {
+	checkParamsFilter(req);
 	res.send(mapData);
 });
 
 app.get('/api/data/keyword', (req, res) => {
+	checkParamsFilter(req);
 	res.send(keywordData.slice(0, 10));
 });
 
 app.get('/api/data/survival-rate', (req, res) => {
+	checkParamsFilter(req);
 	res.send(survivalRateData);
 });
 
 app.get('/api/data/aircraft', (req, res) => {
+	checkParamsFilter(req);
 	res.send(aircraftData.slice(0, 10));
 });
 

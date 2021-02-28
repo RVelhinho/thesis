@@ -255,9 +255,8 @@ class DensityPlotContainer extends PureComponent {
 						type={lineType}
 						dataKey={dataKey}
 						stroke={color}
-						height={100}
-						fill={'url(#density-plot-gradient)'}
-						fillOpacity={0.8}
+						fill={'#de2874'}
+						fillOpacity={0.5}
 						dot={<this.CustomDot />}
 						activeDot={<this.CustomActiveDot />}
 						animationDuration={1000}

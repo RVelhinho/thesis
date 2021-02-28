@@ -133,7 +133,7 @@ const BarChartContainer = React.memo(
 						cursor={'pointer'}
 					>
 						{data.map((entry, index) => (
-							<Cell key={index} fill={barColors[index]} />
+							<Cell key={index} fill={barColors[index]} opacity={0.7} />
 						))}
 						<LabelList dataKey={'total'} content={<CustomLabel />} />
 					</Bar>

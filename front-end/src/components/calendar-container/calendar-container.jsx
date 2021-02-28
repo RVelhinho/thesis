@@ -34,27 +34,21 @@ export default class CalendarContainer extends PureComponent {
 		tooltip.date = circle.date;
 		tooltip.country = circle.country;
 		tooltip.aircraft = circle.aircraft;
-		tooltip.description = circle.description;
+		tooltip.keywords = circle.keywords;
 		tooltip.open = true;
-		if (circle.date.split('-')[0] >= 1985) {
+		if (parseInt(circle.year) >= 1985) {
 			tooltip.color = '#283ade';
-		} else if (
-			circle.date.split('-')[0] < 1985 &&
-			circle.date.split('-')[0] >= 1960
-		) {
+		} else if (parseInt(circle.year) < 1985 && parseInt(circle.year) >= 1960) {
 			tooltip.color = '#4e5cde';
-		} else if (
-			circle.date.split('-')[0] < 1960 &&
-			circle.date.split('-')[0] >= 1935
-		) {
+		} else if (parseInt(circle.year) < 1960 && parseInt(circle.year) >= 1935) {
 			tooltip.color = '#7983e0';
-		} else if (circle.date.split('-')[0] < 1935) {
+		} else if (parseInt(circle.year) < 1935) {
 			tooltip.color = '#9da4e3';
 		}
 		this.setState(() => {
 			return {
 				tooltip,
-				currentCircle: circle.date.split('-')[0] + '-' + index,
+				currentCircle: circle.year + '-' + index,
 			};
 		});
 	};
@@ -106,6 +100,10 @@ export default class CalendarContainer extends PureComponent {
 						{tooltip.open && tooltip.cx !== '' && tooltip.cy !== '' && (
 							<CustomToolTip
 								type={'calendar'}
+								date={tooltip.date}
+								country={tooltip.country}
+								keywords={tooltip.keywords}
+								aircraft={tooltip.aircraft}
 								left={tooltip.cx}
 								top={tooltip.cy}
 								color={tooltip.color}

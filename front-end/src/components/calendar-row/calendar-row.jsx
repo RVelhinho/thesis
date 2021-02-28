@@ -31,8 +31,12 @@ const CalendarRow = React.memo(
 		return (
 			<div className='calendar-row-container'>
 				<div className='row mx-0'>
-					<div className='col px-0'>
+					<div className='col px-0 d-flex justify-content-between'>
 						<span className='calendar-row-container__year'>{year}</span>
+						<span> </span>
+						<span className='calendar-row-container__count'>
+							( {data.length} )
+						</span>
 					</div>
 				</div>
 				<div

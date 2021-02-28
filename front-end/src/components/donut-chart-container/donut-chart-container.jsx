@@ -107,6 +107,7 @@ export default class DonutChartContainer extends PureComponent {
 								<Cell
 									key={`cell-${index}`}
 									fill={donutColors[index % donutColors.length]}
+									opacity={0.7}
 								/>
 							);
 						})}

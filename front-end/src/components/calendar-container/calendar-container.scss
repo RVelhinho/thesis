@@ -19,7 +19,7 @@
 			&__circle {
 				width: 12px;
 				height: 12px;
-				border: 1px solid #606060;
+				box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
 				border-radius: 50%;
 				cursor: pointer;
 			}

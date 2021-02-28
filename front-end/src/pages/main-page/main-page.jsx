@@ -31,7 +31,7 @@ export default class MainPage extends Component {
 				data: [],
 				lineType: 'monotone',
 				dataKey: 'count',
-				color: '#283ade',
+				color: '#de2874',
 				categoryAxis: 'year',
 				dateGrouper: 'year',
 				timeAttr: 'year',
@@ -53,7 +53,7 @@ export default class MainPage extends Component {
 			barChartData: {
 				data: [],
 				gradientColors: ['de2874', 'de97b5'],
-				tooltipType: 'bar',
+				tooltipType: 'aircraft',
 			},
 			overviewData: {
 				open: false,

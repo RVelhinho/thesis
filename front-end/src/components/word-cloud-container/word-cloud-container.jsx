@@ -12,11 +12,16 @@ export default class WordCloudContainer extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.myRef = React.createRef();
+		this.state = {
+			word: '',
+			count: 0,
+		};
 	}
 	static propTypes = {};
 
 	drawCloud() {
 		const { id, data, threshold = 20 } = this.props;
+		const handleOverWord = this.handleOverWord;
 		const myRef = this.myRef;
 		const w = $(`#${id}`).width();
 		const h = $(`#${id}`).height();
@@ -65,12 +70,13 @@ export default class WordCloudContainer extends PureComponent {
 						return '#de97b5';
 					}
 				})
+				.style('opacity', 0.7)
 				.style('cursor', 'pointer')
 				.attr('text-anchor', 'middle')
 				.attr('transform', (d) => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
 				.text((d) => d.text)
 				.on('mouseover', function (d) {
-					select(this).style('fill', '#9e1b52');
+					select(this).style('fill', (d) => handleOverWord(d));
 					select(`#${id} .custom-tooltip`)
 						.style('display', 'block')
 						.style('top', pointer(d, svg.node())[1] + 50 + 'px')
@@ -98,16 +104,29 @@ export default class WordCloudContainer extends PureComponent {
 	}
 
 	componentDidUpdate() {
-		if (this.props.data.length !== 0) {
+		if (this.props.data.length !== 0 && select('.svg-container').size() == 0) {
 			this.drawCloud();
 		}
 	}
 
+	handleOverWord = (d) => {
+		this.setState(() => {
+			return { word: d.text, count: d.value };
+		});
+		return '#9e1b52';
+	};
+
 	render() {
 		const { id, tooltipType, color } = this.props;
+		const { count, word } = this.state;
 		return (
 			<div id={id} ref={this.myRef}>
-				<CustomToolTip type={tooltipType} color={color} />
+				<CustomToolTip
+					type={tooltipType}
+					color={color}
+					count={count}
+					word={word}
+				/>
 			</div>
 		);
 	}

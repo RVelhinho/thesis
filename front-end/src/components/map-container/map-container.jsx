@@ -65,7 +65,7 @@ export default class MapContainer extends PureComponent {
 			});
 		} else {
 			this.setState(() => {
-				return { zoomLevel: 'low' };
+				return { zoomLevel: 'low', selectedCountry: '' };
 			});
 		}
 	};
@@ -76,7 +76,7 @@ export default class MapContainer extends PureComponent {
 		position.lon = this.startingPosition.lon;
 		position.zoom = this.startingPosition.zoom;
 		this.setState(() => {
-			return { position };
+			return { position, selectedCountry: '' };
 		});
 	};
 
@@ -137,8 +137,53 @@ export default class MapContainer extends PureComponent {
 							})}
 						</defs>
 					</svg>
-
 					{zoomLevel === 'high' &&
+						selectedCountry === '' &&
+						data.map((loc, index) => {
+							return (
+								<React.Fragment key={index}>
+									{loc.total.map((el, index2) => {
+										if (el.lat) {
+											return (
+												<CircleMarker
+													key={index2}
+													center={[el.lat, el.lon]}
+													fillColor={getTimeColor(parseInt(el.year))}
+													radius={10}
+													weight={0}
+													onMouseOver={(e) => e.target.openPopup()}
+													onMouseOut={(e) => e.target.closePopup()}
+													onClick={() => {
+														onClickMapCircle(index);
+													}}
+												>
+													<CircleMarker
+														center={[el.lat, el.lon]}
+														fillColor={getTimeColor(parseInt(el.year))}
+														fillOpacity={1}
+														radius={3}
+														weight={0}
+													></CircleMarker>
+													<Popup>
+														<CustomToolTip
+															type={tooltipType + '--circle'}
+															country={el.country}
+															date={el.date}
+															aircraft={el.aircraft}
+															keywords={el.keywords}
+															color={getTimeColor(parseInt(el.year))}
+														/>
+													</Popup>
+												</CircleMarker>
+											);
+										}
+										return null;
+									})}
+								</React.Fragment>
+							);
+						})}
+					{zoomLevel === 'high' &&
+						selectedCountry !== '' &&
 						data.map((loc, index) => {
 							if (loc.country === selectedCountry) {
 								return (
@@ -167,8 +212,11 @@ export default class MapContainer extends PureComponent {
 														></CircleMarker>
 														<Popup>
 															<CustomToolTip
-																type={tooltipType}
-																country={loc.country}
+																type={tooltipType + '--circle'}
+																country={el.country}
+																date={el.date}
+																aircraft={el.aircraft}
+																keywords={el.keywords}
 																color={getTimeColor(parseInt(el.year))}
 															/>
 														</Popup>
@@ -189,9 +237,13 @@ export default class MapContainer extends PureComponent {
 										center={[loc.lat, loc.lon]}
 										color={`url(#ring-gradient-${index})`}
 										opacity={0.6}
-										fillOpacity={0.2}
-										radius={this.getRadius(loc.total.length, 30, 15)}
-										weight={5}
+										fillOpacity={0.7}
+										radius={this.getRadius(
+											loc.total.length,
+											30,
+											15 + loc.total.length * 0.3
+										)}
+										weight={0}
 										onMouseOver={(e) => e.target.openPopup()}
 										onMouseOut={(e) => e.target.closePopup()}
 										onClick={(e) => this.handleClickMapRing(e, loc.country)}
@@ -202,13 +254,17 @@ export default class MapContainer extends PureComponent {
 											opacity={1}
 											permanent
 										>
-											{loc.total.length}
+											{
+												<span style={{ color: '#e6e6e6' }}>
+													{loc.total.length}
+												</span>
+											}
 										</Tooltip>
 										<Popup>
 											<CustomToolTip
-												type={tooltipType}
+												type={tooltipType + '--ring'}
 												country={loc.country}
-												total={loc.total}
+												total={loc.total.length}
 												color={getTimeColor(loc.maxDate)}
 											/>
 										</Popup>
