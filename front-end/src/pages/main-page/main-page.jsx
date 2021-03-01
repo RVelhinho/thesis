@@ -21,7 +21,16 @@ export default class MainPage extends Component {
 		this.state = {
 			polyPositions: [],
 			randomPositions: [],
+			countryPositions: {},
 			loading: false,
+			selected: {
+				minDate: undefined,
+				maxDate: undefined,
+				country: undefined,
+				continent: undefined,
+				keyword: undefined,
+				aircraft: undefined,
+			},
 			calendarData: {
 				data: [],
 				hopLegendColors: ['#edc08a', '#eda958', '#db8727', '#ab6b22'],
@@ -137,16 +146,83 @@ export default class MainPage extends Component {
 	}
 
 	handleClickContinentCircle = (continent) => {
+		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		if (continent === selected.continent) {
+			selected.continent = undefined;
+		} else {
+			selected.continent = continent;
+		}
 		this.handleDataInteraction(
-			undefined,
-			undefined,
-			undefined,
-			continent,
-			undefined,
-			undefined,
+			selected.minDate,
+			selected.maxDate,
+			selected.country,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
 			''
 		);
+		this.setState(() => {
+			return { selected };
+		});
+	};
+
+	handleClickMapRing = (country) => {
+		const selected = _.cloneDeep(this.state.selected);
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		selected.country = country;
+		this.handleDataInteraction(
+			selected.minDate,
+			selected.maxDate,
+			selected.country,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
+			''
+		);
+		this.setState(() => {
+			return { selected };
+		});
+	};
+
+	handleZoomOut = () => {
+		const selected = _.cloneDeep(this.state.selected);
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		this.handleDataInteraction(
+			selected.minDate,
+			selected.maxDate,
+			undefined,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
+			''
+		);
+		selected.country = undefined;
+		this.setState(() => {
+			return { selected };
+		});
+	};
+
+	handleClickBar = ({ plane: aircraft }) => {
+		const selected = _.cloneDeep(this.state.selected);
+		if (aircraft === selected.aircraft) {
+			selected.aircraft = undefined;
+		} else {
+			selected.aircraft = aircraft;
+		}
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		this.handleDataInteraction(
+			selected.minDate,
+			selected.maxDate,
+			selected.country,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
+			''
+		);
+		this.setState(() => {
+			return { selected };
+		});
 	};
 
 	handleDataInteraction = async (
@@ -236,7 +312,7 @@ export default class MainPage extends Component {
 				),
 			]);
 			this.cancelTokenSource = null;
-			if (run === 'initial') this.createRandomPositions(countryData);
+			this.createRandomPositions(countryData, run);
 			calendarData.data = yearData;
 			densityPlotData.data = yearAuxData;
 			mapData.data = countryData;
@@ -274,40 +350,60 @@ export default class MainPage extends Component {
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
 	}
 
-	createRandomPositions = (data) => {
+	createRandomPositions = (data, run) => {
 		const randomPositions = [...this.state.randomPositions];
-		_.forEach(data, (country) => {
-			const polyPositions = [...this.state.polyPositions];
-			let foundCountry = false;
-			for (let coord of worldPoly) {
-				if (coord.country === country.country) {
-					foundCountry = true;
-					polyPositions.push([coord.lon, coord.lat]);
-				}
-			}
-			if (!foundCountry) return;
-			let polygon = L.polygon(polyPositions);
-			_.forEach(country.total, (row) => {
-				let found = false;
-				const randomPoint = this.randomPointInPoly(polygon);
-				for (let j = 0; j < randomPositions.length; j++) {
-					if (
-						randomPoint.geometry.coordinates[1] ===
-						randomPositions[j].geometry.coordinates[1]
-					) {
-						found = true;
-						break;
+		const countryPositions = { ...this.state.countryPositions };
+		if (run === 'initial') {
+			_.forEach(data, (country) => {
+				const polyPositions = [...this.state.polyPositions];
+				countryPositions[country.country] = { lat: [], lon: [] };
+				let foundCountry = false;
+				for (let coord of worldPoly) {
+					if (coord.country === country.country) {
+						foundCountry = true;
+						polyPositions.push([coord.lon, coord.lat]);
 					}
 				}
-				if (found) {
-					return;
-				} else {
-					row.lat = randomPoint.geometry.coordinates[0];
-					row.lon = randomPoint.geometry.coordinates[1];
-					randomPositions.push(randomPoint);
-				}
+				if (!foundCountry) return;
+				let polygon = L.polygon(polyPositions);
+				_.forEach(country.total, (row) => {
+					let found = false;
+					const randomPoint = this.randomPointInPoly(polygon);
+					for (let j = 0; j < randomPositions.length; j++) {
+						if (
+							randomPoint.geometry.coordinates[1] ===
+							randomPositions[j].geometry.coordinates[1]
+						) {
+							found = true;
+							break;
+						}
+					}
+					if (found) {
+						return;
+					} else {
+						row.lat = randomPoint.geometry.coordinates[0];
+						row.lon = randomPoint.geometry.coordinates[1];
+						countryPositions[row.country].lat.push(
+							randomPoint.geometry.coordinates[0]
+						);
+						countryPositions[row.country].lon.push(
+							randomPoint.geometry.coordinates[1]
+						);
+						randomPositions.push(randomPoint);
+					}
+				});
 			});
-		});
+			this.setState(() => {
+				return { countryPositions };
+			});
+		} else {
+			_.forEach(data, (country) => {
+				_.forEach(country.total, (row, index) => {
+					row.lat = countryPositions[row.country].lat[index];
+					row.lon = countryPositions[row.country].lon[index];
+				});
+			});
+		}
 	};
 
 	handleClickCircle = (circle) => {
@@ -393,6 +489,8 @@ export default class MainPage extends Component {
 									tooltipType={mapData.tooltipType}
 									randomPositions={randomPositions}
 									onClickMapCircle={this.handleClickCircle}
+									onClickMapRing={this.handleClickMapRing}
+									onZoomOut={this.handleZoomOut}
 								/>
 							</div>
 						</div>
@@ -416,6 +514,7 @@ export default class MainPage extends Component {
 									data={barChartData.data}
 									gradientColors={barChartData.gradientColors}
 									tooltipType={barChartData.tooltipType}
+									onClickBar={this.handleClickBar}
 								/>
 							</div>
 						</div>

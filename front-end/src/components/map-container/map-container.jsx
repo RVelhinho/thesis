@@ -59,25 +59,27 @@ export default class MapContainer extends PureComponent {
 	};
 
 	handleChangeZoom = (zoom) => {
+		const position = { ...this.state.position };
+		position.zoom = zoom;
 		if (zoom >= 5) {
 			this.setState(() => {
-				return { zoomLevel: 'high' };
+				return { position, zoomLevel: 'high' };
 			});
 		} else {
 			this.setState(() => {
-				return { zoomLevel: 'low', selectedCountry: '' };
+				return { position, zoomLevel: 'low', selectedCountry: '' };
 			});
 		}
+		this.props.onZoomOut();
 	};
 
 	handleResetZoom = () => {
 		const position = { ...this.state.position };
-		position.lat = this.startingPosition.lat;
-		position.lon = this.startingPosition.lon;
 		position.zoom = this.startingPosition.zoom;
 		this.setState(() => {
-			return { position, selectedCountry: '' };
+			return { position, zoomLevel: 'low', selectedCountry: '' };
 		});
+		this.props.onZoomOut();
 	};
 
 	handleClickMapRing = (e, country) => {
@@ -88,6 +90,7 @@ export default class MapContainer extends PureComponent {
 		this.setState(() => {
 			return { position, selectedCountry: country };
 		});
+		this.props.onClickMapRing(country);
 	};
 
 	render() {

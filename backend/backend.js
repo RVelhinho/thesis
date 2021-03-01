@@ -538,6 +538,14 @@ let keywordData = [];
 let aircraftDataAux = {};
 let aircraftData = [];
 
+let globalDataView = [];
+let globalCalendarDataView = [];
+let globalYearDataView = [];
+let globalMapDataView = [];
+let globalSurvivalRateDataView = [];
+let globalKeywordDataView = [];
+let globalAircraftDataView = [];
+
 const dataGenerator = () => {
 	const converter = csv()
 		.fromFile('../datasets/airplane_crashes.csv')
@@ -738,7 +746,15 @@ const dataGenerator = () => {
 				aircraftData.push({ plane: el[0], total: el[1] });
 			});
 		})
-		.then(() => {});
+		.then(() => {
+			globalDataView = _.cloneDeep(data);
+			globalCalendarDataView = _.cloneDeep(calendarData);
+			globalYearDataView = _.cloneDeep(yearData);
+			globalMapDataView = _.cloneDeep(mapData);
+			globalSurvivalRateDataView = _.cloneDeep(survivalRateData);
+			globalKeywordDataView = _.cloneDeep(keywordData);
+			globalAircraftDataView = _.cloneDeep(aircraftData);
+		});
 };
 
 const computeData = (data) => {
@@ -833,50 +849,118 @@ const computeData = (data) => {
 
 dataGenerator();
 
-const filterDataByDate = (minDate, maxDate) => {};
-const filterDataByCountry = (country) => {};
-const filterDataByContinent = (continent) => {
-	const replicateData = _.filter(data, (el) =>
-		continent ? el.continent === continent : el
+const checkQueryFilter = (req) => {
+	let replicateData = _.cloneDeep(data);
+	replicateData = _.filter(replicateData, (el) =>
+		req.query.minDate ? parseInt(el.year) >= parseInt(req.query.minDate) : el
+	);
+	replicateData = _.filter(replicateData, (el) =>
+		req.query.maxDate ? parseInt(el.year) <= parseInt(req.query.maxDate) : el
+	);
+	replicateData = _.filter(replicateData, (el) =>
+		req.query.country ? el.country === req.query.country : el
+	);
+	replicateData = _.filter(replicateData, (el) =>
+		req.query.continent ? el.continent === req.query.continent : el
+	);
+	replicateData = _.filter(replicateData, (el) =>
+		req.query.keyword ? el.keyword.includes(req.query.keyword) : el
+	);
+	replicateData = _.filter(replicateData, (el) =>
+		req.query.aircraft ? el.aircraft === req.query.aircraft : el
 	);
 	computeData(replicateData);
 };
-const filterDataByKeyword = (keyword) => {};
-const filterDataByAircraft = (aircraft) => {};
-
-const checkQueryFilter = (req) => {
-	filterDataByDate(req.query.minDate, req.query.maxDate);
-	filterDataByCountry(req.query.country);
-
-	filterDataByContinent(req.query.continent);
-
-	filterDataByKeyword(req.query.keyword);
-	filterDataByAircraft(req.query.aircraft);
-};
 
 app.get('/api/data/calendar', (req, res) => {
-	checkQueryFilter(req);
-	res.send(calendarData);
+	if (
+		!req.query.minDate &&
+		!req.query.maxDate &&
+		!req.query.country &&
+		!req.query.continent &&
+		!req.query.keyword &&
+		!req.query.aircraft
+	) {
+		res.send(globalCalendarDataView);
+	} else {
+		checkQueryFilter(req);
+		res.send(calendarData);
+	}
 });
 
 app.get('/api/data/calendar/aux', (req, res) => {
-	res.send(yearData);
+	if (
+		!req.query.minDate &&
+		!req.query.maxDate &&
+		!req.query.country &&
+		!req.query.continent &&
+		!req.query.keyword &&
+		!req.query.aircraft
+	) {
+		res.send(globalYearDataView);
+	} else {
+		res.send(yearData);
+	}
 });
 
 app.get('/api/data/map', (req, res) => {
-	res.send(mapData);
+	if (
+		!req.query.minDate &&
+		!req.query.maxDate &&
+		!req.query.country &&
+		!req.query.continent &&
+		!req.query.keyword &&
+		!req.query.aircraft
+	) {
+		res.send(globalMapDataView);
+	} else {
+		res.send(mapData);
+	}
 });
 
 app.get('/api/data/keyword', (req, res) => {
-	res.send(keywordData.slice(0, 10));
+	if (
+		!req.query.minDate &&
+		!req.query.maxDate &&
+		!req.query.country &&
+		!req.query.continent &&
+		!req.query.keyword &&
+		!req.query.aircraft
+	) {
+		res.send(globalKeywordDataView.slice(0, 10));
+	} else {
+		res.send(keywordData.slice(0, 10));
+	}
 });
 
 app.get('/api/data/survival-rate', (req, res) => {
-	res.send(survivalRateData);
+	if (
+		!req.query.minDate &&
+		!req.query.maxDate &&
+		!req.query.country &&
+		!req.query.continent &&
+		!req.query.keyword &&
+		!req.query.aircraft
+	) {
+		res.send(globalSurvivalRateDataView);
+	} else {
+		res.send(survivalRateData);
+	}
 });
 
 app.get('/api/data/aircraft', (req, res) => {
-	res.send(aircraftData.slice(0, 10));
+	if (
+		!req.query.minDate &&
+		!req.query.maxDate &&
+		!req.query.country &&
+		!req.query.continent &&
+		!req.query.keyword &&
+		!req.query.aircraft
+	) {
+		res.send(globalAircraftDataView.slice(0, 10));
+	} else {
+		res.send(aircraftData.slice(0, 10));
+	}
 });
 
 const port = process.env.PORT || 5000;

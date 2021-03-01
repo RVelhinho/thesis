@@ -17,7 +17,7 @@ import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import './bar-chart-container.scss';
 
 const BarChartContainer = React.memo(
-	({ data, tooltipType, gradientColors }) => {
+	({ data, tooltipType, gradientColors, onClickBar }) => {
 		data = data.splice(0, 8);
 		const barColors = [];
 
@@ -133,7 +133,12 @@ const BarChartContainer = React.memo(
 						cursor={'pointer'}
 					>
 						{data.map((entry, index) => (
-							<Cell key={index} fill={barColors[index]} opacity={0.7} />
+							<Cell
+								key={index}
+								fill={barColors[index]}
+								opacity={0.7}
+								onClick={() => onClickBar(entry)}
+							/>
 						))}
 						<LabelList dataKey={'total'} content={<CustomLabel />} />
 					</Bar>
