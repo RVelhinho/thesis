@@ -124,19 +124,52 @@ export default class MainPage extends Component {
 		}
 	}
 
-	async componentDidMount() {
-		const previousCalendarData = { ...this.state.calendarData };
-		const calendarData = { ...this.state.calendarData };
-		const previousDensityPlotData = { ...this.state.densityPlotData };
-		const densityPlotData = { ...this.state.densityPlotData };
-		const previousMapData = { ...this.state.mapData };
-		const mapData = { ...this.state.mapData };
-		const previousDonutChartData = { ...this.state.donutChartData };
-		const donutChartData = { ...this.state.donutChartData };
-		const previousWordCloudData = { ...this.state.wordCloudData };
-		const wordCloudData = { ...this.state.wordCloudData };
-		const previousBarChartData = { ...this.state.barChartData };
-		const barChartData = { ...this.state.barChartData };
+	componentDidMount() {
+		this.handleDataInteraction(
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			'initial'
+		);
+	}
+
+	handleClickContinentCircle = (continent) => {
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		this.handleDataInteraction(
+			undefined,
+			undefined,
+			undefined,
+			continent,
+			undefined,
+			undefined,
+			''
+		);
+	};
+
+	handleDataInteraction = async (
+		minDate,
+		maxDate,
+		country,
+		continent,
+		keyword,
+		aircraft,
+		run
+	) => {
+		const calendarData = _.cloneDeep(this.state.calendarData);
+		const densityPlotData = _.cloneDeep(this.state.densityPlotData);
+		const mapData = _.cloneDeep(this.state.mapData);
+		const donutChartData = _.cloneDeep(this.state.donutChartData);
+		const wordCloudData = _.cloneDeep(this.state.wordCloudData);
+		const barChartData = _.cloneDeep(this.state.barChartData);
+		const previousCalendarData = _.cloneDeep(this.state.calendarData);
+		const previousDensityPlotData = _.cloneDeep(this.state.densityPlotData);
+		const previousMapData = _.cloneDeep(this.state.mapData);
+		const previousDonutChartData = _.cloneDeep(this.state.donutChartData);
+		const previousWordCloudData = _.cloneDeep(this.state.wordCloudData);
+		const previousBarChartData = _.cloneDeep(this.state.barChartData);
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const [
@@ -148,50 +181,62 @@ export default class MainPage extends Component {
 				{ data: aircraftData },
 			] = await axios.all([
 				crashService.getCalendarData(
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					undefined
+					this.cancelTokenSource.token,
+					minDate,
+					maxDate,
+					country,
+					continent,
+					keyword,
+					aircraft
 				),
 				crashService.getCalendarAuxData(
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					undefined
+					this.cancelTokenSource.token,
+					minDate,
+					maxDate,
+					country,
+					continent,
+					keyword,
+					aircraft
 				),
 				crashService.getMapData(
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					undefined
+					this.cancelTokenSource.token,
+					minDate,
+					maxDate,
+					country,
+					continent,
+					keyword,
+					aircraft
 				),
 				crashService.getSurvivalRateData(
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					undefined
+					this.cancelTokenSource.token,
+					minDate,
+					maxDate,
+					country,
+					continent,
+					keyword,
+					aircraft
 				),
 				crashService.getKeywordData(
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					undefined
+					this.cancelTokenSource.token,
+					minDate,
+					maxDate,
+					country,
+					continent,
+					keyword,
+					aircraft
 				),
 				crashService.getAircraftData(
-					undefined,
-					undefined,
-					undefined,
-					undefined,
-					undefined
+					this.cancelTokenSource.token,
+					minDate,
+					maxDate,
+					country,
+					continent,
+					keyword,
+					aircraft
 				),
 			]);
 			this.cancelTokenSource = null;
-			this.createRandomPositions(countryData);
+			if (run === 'initial') this.createRandomPositions(countryData);
 			calendarData.data = yearData;
 			densityPlotData.data = yearAuxData;
 			mapData.data = countryData;
@@ -223,7 +268,7 @@ export default class MainPage extends Component {
 				});
 			}
 		}
-	}
+	};
 
 	componentWillUnmount() {
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
@@ -319,6 +364,7 @@ export default class MainPage extends Component {
 									hopLegendColors={calendarData.hopLegendColors}
 									tooltipType={calendarData.tooltipType}
 									onClickCalendarCircle={this.handleClickCircle}
+									onClickContinentCircle={this.handleClickContinentCircle}
 								/>
 							</div>
 						</div>

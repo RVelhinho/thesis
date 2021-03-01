@@ -192,7 +192,6 @@ const accepted_countries = [
 	'French Southern Territories (the)',
 	'Gabon',
 	'Gambia (the)',
-	'Georgia',
 	'Germany',
 	'Ghana',
 	'Gibraltar',
@@ -417,7 +416,6 @@ let countryToContinent = {
 		lon: -151.443588,
 	},
 	Gabon: { continent: 'Africa', lat: 0.3901, lon: 9.4544 },
-	Georgia: { continent: 'Europe', lat: 33.247875, lon: -83.441162 },
 	Germany: { continent: 'Europe', lat: 52.520008, lon: 13.404954 },
 	Ghana: { continent: 'Africa', lat: 5.55, lon: -0.02 },
 	Greece: { continent: 'Europe', lat: 37.98381, lon: 23.727539 },
@@ -739,58 +737,145 @@ const dataGenerator = () => {
 			_.forEach(_.entries(aircraftDataAux), (el) => {
 				aircraftData.push({ plane: el[0], total: el[1] });
 			});
+		})
+		.then(() => {});
+};
+
+const computeData = (data) => {
+	yearData = [];
+	mapData = [];
+	keywordData = [];
+	aircraftData = [];
+	calendarData = _.chain(data)
+		.sortBy('year')
+		.groupBy((row) => row.year)
+		.forEach((row) => {
+			_.forEach(row, (el) => {
+				el.continent = countryToContinent[el.country].continent;
+			});
+		})
+		.value();
+	yearAuxData = _.chain(data)
+		.sortBy('year')
+		.groupBy((row) => row.year)
+		.mapValues((row) => row.length)
+		.value();
+	_.forEach(_.entries(yearAuxData), (el) => {
+		yearData.push({
+			year: el[0],
+			count: el[1],
 		});
+	});
+	mapAuxData = _.chain(data)
+		.sortBy('country')
+		.groupBy((row) => row.country)
+		.value();
+	_.forEach(_.entries(mapAuxData), (el) => {
+		let minDate = 100000;
+		let maxDate = -1;
+		_.forEach(el[1], (nestedEl) => {
+			if (parseInt(nestedEl.year) > maxDate) {
+				maxDate = nestedEl.year;
+			}
+			if (parseInt(nestedEl.year) < minDate) {
+				minDate = nestedEl.year;
+			}
+		});
+		mapData.push({
+			country: el[0],
+			total: el[1].slice(0, 30),
+			minDate: minDate,
+			maxDate: maxDate,
+			lat: countryToContinent[el[0]].lat,
+			lon: countryToContinent[el[0]].lon,
+		});
+	});
+	const totalInvolved =
+		_.sumBy(data, (row) => row.total_survivors) +
+		_.sumBy(data, (row) => row.total_fatalities);
+	survivalRateData = [
+		{
+			label: 'Survival Rate',
+			total: Math.round(
+				(_.sumBy(data, (row) => row.total_survivors) / totalInvolved) * 100
+			),
+		},
+		{
+			label: 'Fatality Rate',
+			total: Math.round(
+				(_.sumBy(data, (row) => row.total_fatalities) / totalInvolved) * 100
+			),
+		},
+	];
+	_.forEach(data, (el) => {
+		_.forEach(el.keywords, (keyword) => {
+			if (keywordDataAux[keyword.word]) {
+				keywordDataAux[keyword.word] += keyword.counter;
+			} else {
+				keywordDataAux[keyword.word] = keyword.counter;
+			}
+		});
+	});
+	_.forEach(_.entries(keywordDataAux), (el) => {
+		keywordData.push({ text: el[0], value: el[1] });
+	});
+	aircraftDataAux = _.chain(data)
+		.groupBy((row) => row.aircraft)
+		.mapValues((row) => row.length)
+		.value();
+	aircraftDataAux = _.fromPairs(
+		_.sortBy(_.toPairs(aircraftDataAux), 1).reverse()
+	);
+	_.forEach(_.entries(aircraftDataAux), (el) => {
+		aircraftData.push({ plane: el[0], total: el[1] });
+	});
 };
 
 dataGenerator();
 
 const filterDataByDate = (minDate, maxDate) => {};
 const filterDataByCountry = (country) => {};
+const filterDataByContinent = (continent) => {
+	const replicateData = _.filter(data, (el) =>
+		continent ? el.continent === continent : el
+	);
+	computeData(replicateData);
+};
 const filterDataByKeyword = (keyword) => {};
 const filterDataByAircraft = (aircraft) => {};
 
-const checkParamsFilter = (req) => {
-	if (req.params.minDate || req.params.maxDate) {
-		filterDataByDate(req.params.minDate, req.params.maxDate);
-	}
-	if (req.params.country) {
-		filterDataByCountry(req.params.country);
-	}
-	if (req.params.keyword) {
-		filterDataByKeyword(req.params.keyword);
-	}
-	if (req.params.aircraft) {
-		filterDataByAircraft(req.params.aircraft);
-	}
+const checkQueryFilter = (req) => {
+	filterDataByDate(req.query.minDate, req.query.maxDate);
+	filterDataByCountry(req.query.country);
+
+	filterDataByContinent(req.query.continent);
+
+	filterDataByKeyword(req.query.keyword);
+	filterDataByAircraft(req.query.aircraft);
 };
 
 app.get('/api/data/calendar', (req, res) => {
-	checkParamsFilter(req);
+	checkQueryFilter(req);
 	res.send(calendarData);
 });
 
 app.get('/api/data/calendar/aux', (req, res) => {
-	checkParamsFilter(req);
 	res.send(yearData);
 });
 
 app.get('/api/data/map', (req, res) => {
-	checkParamsFilter(req);
 	res.send(mapData);
 });
 
 app.get('/api/data/keyword', (req, res) => {
-	checkParamsFilter(req);
 	res.send(keywordData.slice(0, 10));
 });
 
 app.get('/api/data/survival-rate', (req, res) => {
-	checkParamsFilter(req);
 	res.send(survivalRateData);
 });
 
 app.get('/api/data/aircraft', (req, res) => {
-	checkParamsFilter(req);
 	res.send(aircraftData.slice(0, 10));
 });
 

@@ -259,7 +259,7 @@ class DensityPlotContainer extends PureComponent {
 						fillOpacity={0.5}
 						dot={<this.CustomDot />}
 						activeDot={<this.CustomActiveDot />}
-						animationDuration={1000}
+						animationDuration={300}
 						onMouseOver={this.handleMouseOverDensityArea}
 						onAnimationStart={this.handleAnimationStart}
 						onAnimationEnd={this.handleAnimationEnd}

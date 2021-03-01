@@ -4,30 +4,33 @@ import './custom-tooltip.scss';
 function CustomToolTip(props) {
 	const { payload, type, dataKey } = props;
 	if (type === 'map--ring') {
-		console.log(props);
 		const { color, country, total } = props;
 		return (
 			<div className='custom-tooltip' style={{ borderColor: color }}>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Country
+						<p className='custom-tooltip__font custom-tooltip__font--title'>
+							COUNTRY
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
+						<p className='custom-tooltip__font custom-tooltip__font--title-bold'>
 							{country}
 						</p>
 					</div>
 				</div>
+				<hr className='separator' />
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
 						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Total
+							TOTAL
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
+						<p
+							className='custom-tooltip__font custom-tooltip__font--content'
+							style={{ color: color }}
+						>
 							{total}
 						</p>
 					</div>
@@ -40,8 +43,8 @@ function CustomToolTip(props) {
 			<div className='custom-tooltip' style={{ borderColor: color }}>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Country
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							COUNTRY
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -52,8 +55,8 @@ function CustomToolTip(props) {
 				</div>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Date
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							DATE
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -64,8 +67,8 @@ function CustomToolTip(props) {
 				</div>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Aircraft
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							AIRCRAFT
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -76,8 +79,8 @@ function CustomToolTip(props) {
 				</div>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Keywords
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							KEYWORDS
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -111,7 +114,7 @@ function CustomToolTip(props) {
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
 						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Total crashes
+							TOTAL
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -126,8 +129,9 @@ function CustomToolTip(props) {
 			</div>
 		);
 	} else if (type === 'aircraft' && payload && payload.length !== 0) {
+		const { color } = props;
 		return (
-			<div className='custom-tooltip' style={{ borderColor: props.color }}>
+			<div className='custom-tooltip' style={{ borderColor: color }}>
 				<div className='row w-100 m-0 '>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
 						<p className='custom-tooltip__font custom-tooltip__font--title'>
@@ -146,11 +150,14 @@ function CustomToolTip(props) {
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
 						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Total crashes
+							TOTAL
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
+						<p
+							className='custom-tooltip__font custom-tooltip__font--content'
+							style={{ color: color }}
+						>
 							{payload[0].payload.total}
 						</p>
 					</div>
@@ -166,8 +173,8 @@ function CustomToolTip(props) {
 			>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Date
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							DATE
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -178,8 +185,8 @@ function CustomToolTip(props) {
 				</div>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Country
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							COUNTRY
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -190,8 +197,8 @@ function CustomToolTip(props) {
 				</div>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Aircraft
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							AIRCRAFT
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -202,8 +209,8 @@ function CustomToolTip(props) {
 				</div>
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Keywords
+						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
+							KEYWORDS
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
@@ -239,7 +246,7 @@ function CustomToolTip(props) {
 				<div className='row w-100 m-0'>
 					<div className='col p-0 d-flex justify-content-start align-items-center'>
 						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							Total
+							TOTAL
 						</p>
 					</div>
 					<div className='col p-0 d-flex justify-content-end align-items-center'>
