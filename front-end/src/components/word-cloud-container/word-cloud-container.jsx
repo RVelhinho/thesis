@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { select, pointer } from 'd3-selection';
 import { transition } from 'd3-transition';
@@ -20,13 +21,14 @@ export default class WordCloudContainer extends PureComponent {
 	static propTypes = {};
 
 	drawCloud() {
-		const { id, data, threshold = 20 } = this.props;
+		const { id, data, threshold = 20, max } = this.props;
+		console.log(max);
 		const handleOverWord = this.handleOverWord;
 		const myRef = this.myRef;
 		const w = $(`#${id}`).width();
 		const h = $(`#${id}`).height();
 
-		const wordScale = scaleLinear().domain([0, 75]).range([10, 30]);
+		const wordScale = scaleLinear().domain([0, 1]).range([10, 30]);
 
 		const randomRotate = scaleLinear().domain([0, 1]).range([0, 90]);
 
@@ -34,7 +36,7 @@ export default class WordCloudContainer extends PureComponent {
 			.size([w, h])
 			.words(data)
 			.rotate(0)
-			.fontSize((d) => wordScale(d.value))
+			.fontSize((d) => wordScale(d.value / max))
 			.padding(5)
 			.on('end', draw)
 			.start();
@@ -60,11 +62,11 @@ export default class WordCloudContainer extends PureComponent {
 				.append('text')
 				.style('font-size', (d) => d.size + 'px')
 				.style('fill', (d) => {
-					if (d.value >= 75) {
+					if (d.value / max >= 0.75) {
 						return '#de2874';
-					} else if (d.value >= 50) {
+					} else if (d.value / max >= 0.5) {
 						return '#d64b85';
-					} else if (d.value >= 25) {
+					} else if (d.value / max >= 0.25) {
 						return '#d9759f';
 					} else {
 						return '#de97b5';
@@ -84,11 +86,11 @@ export default class WordCloudContainer extends PureComponent {
 				})
 				.on('mouseout', function (d) {
 					select(this).style('fill', (d) => {
-						if (d.value >= 75) {
+						if (d.value / max >= 0.75) {
 							return '#de2874';
-						} else if (d.value >= 50) {
+						} else if (d.value / max >= 0.5) {
 							return '#d64b85';
-						} else if (d.value >= 25) {
+						} else if (d.value / max >= 0.25) {
 							return '#d9759f';
 						} else {
 							return '#de97b5';
@@ -103,8 +105,9 @@ export default class WordCloudContainer extends PureComponent {
 		}
 	}
 
-	componentDidUpdate() {
-		if (this.props.data.length !== 0 && select('.svg-container').size() == 0) {
+	componentDidUpdate(prevProps, prevState) {
+		if (!_.isEqual(prevProps.data, this.props.data)) {
+			select('.svg-container').remove();
 			this.drawCloud();
 		}
 	}

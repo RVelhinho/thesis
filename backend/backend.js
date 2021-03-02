@@ -760,6 +760,7 @@ const dataGenerator = () => {
 const computeData = (data) => {
 	yearData = [];
 	mapData = [];
+	keywordDataAux = {};
 	keywordData = [];
 	aircraftData = [];
 	calendarData = _.chain(data)
@@ -851,12 +852,21 @@ dataGenerator();
 
 const checkQueryFilter = (req) => {
 	let replicateData = _.cloneDeep(data);
-	replicateData = _.filter(replicateData, (el) =>
-		req.query.minDate ? parseInt(el.year) >= parseInt(req.query.minDate) : el
-	);
-	replicateData = _.filter(replicateData, (el) =>
-		req.query.maxDate ? parseInt(el.year) <= parseInt(req.query.maxDate) : el
-	);
+	if (!req.query.minDate || !req.query.maxDate) {
+		replicateData = _.filter(replicateData, (el) =>
+			req.query.minDate ? parseInt(el.year) > parseInt(req.query.minDate) : el
+		);
+		replicateData = _.filter(replicateData, (el) =>
+			req.query.maxDate ? parseInt(el.year) < parseInt(req.query.maxDate) : el
+		);
+	} else {
+		replicateData = _.filter(replicateData, (el) =>
+			req.query.minDate ? parseInt(el.year) >= parseInt(req.query.minDate) : el
+		);
+		replicateData = _.filter(replicateData, (el) =>
+			req.query.maxDate ? parseInt(el.year) <= parseInt(req.query.maxDate) : el
+		);
+	}
 	replicateData = _.filter(replicateData, (el) =>
 		req.query.country ? el.country === req.query.country : el
 	);

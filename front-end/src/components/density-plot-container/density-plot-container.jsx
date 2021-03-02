@@ -227,7 +227,6 @@ class DensityPlotContainer extends PureComponent {
 						height={55}
 						axisLine={false}
 						tick={<this.CustomTickXAxis />}
-						dy={15}
 					/>
 					<YAxis
 						type='number'
@@ -244,7 +243,6 @@ class DensityPlotContainer extends PureComponent {
 						tickLine={false}
 						axisLine={false}
 						tick={<this.CustomTickYAxis />}
-						dx={-15}
 					/>
 					<Tooltip
 						content={<CustomToolTip type={tooltipType} color={color} />}
@@ -264,7 +262,6 @@ class DensityPlotContainer extends PureComponent {
 						onAnimationStart={this.handleAnimationStart}
 						onAnimationEnd={this.handleAnimationEnd}
 					/>
-					<Brush dataKey={timeAttr} height={20} dy={10} />
 				</AreaChart>
 			</ResponsiveContainer>
 		);

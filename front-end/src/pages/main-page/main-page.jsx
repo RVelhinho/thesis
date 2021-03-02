@@ -58,6 +58,7 @@ export default class MainPage extends Component {
 				data: [],
 				color: '#de2874',
 				tooltipType: 'word',
+				max: -1,
 			},
 			barChartData: {
 				data: [],
@@ -171,6 +172,44 @@ export default class MainPage extends Component {
 		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
 		selected.country = country;
+		this.handleDataInteraction(
+			selected.minDate,
+			selected.maxDate,
+			selected.country,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
+			''
+		);
+		this.setState(() => {
+			return { selected };
+		});
+	};
+
+	handleClickTimeRing = (minDate, maxDate) => {
+		const selected = _.cloneDeep(this.state.selected);
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		selected.minDate = minDate;
+		selected.maxDate = maxDate;
+		this.handleDataInteraction(
+			selected.minDate,
+			selected.maxDate,
+			selected.country,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
+			''
+		);
+		this.setState(() => {
+			return { selected };
+		});
+	};
+
+	handleClickYear = (year) => {
+		const selected = _.cloneDeep(this.state.selected);
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		selected.minDate = year;
+		selected.maxDate = year;
 		this.handleDataInteraction(
 			selected.minDate,
 			selected.maxDate,
@@ -317,6 +356,11 @@ export default class MainPage extends Component {
 			densityPlotData.data = yearAuxData;
 			mapData.data = countryData;
 			donutChartData.data = survivalRateData;
+			let max = -1;
+			_.forEach(keywordData, (el) => {
+				if (el.value > max) max = el.value;
+			});
+			wordCloudData.max = max;
 			wordCloudData.data = keywordData;
 			barChartData.data = aircraftData;
 			this.setState(() => {
@@ -443,6 +487,7 @@ export default class MainPage extends Component {
 		const densityPlotValues = _.map(densityPlotData.data, (el) => el.count);
 		const minValue = Math.min(...densityPlotValues);
 		const maxValue = Math.max(...densityPlotValues);
+		console.log(wordCloudData.max);
 		return (
 			<div className='main-page-container'>
 				<div className='row mx-0 w-100 h-100'>
@@ -461,6 +506,7 @@ export default class MainPage extends Component {
 									tooltipType={calendarData.tooltipType}
 									onClickCalendarCircle={this.handleClickCircle}
 									onClickContinentCircle={this.handleClickContinentCircle}
+									onClickYear={this.handleClickYear}
 								/>
 							</div>
 						</div>
@@ -490,6 +536,7 @@ export default class MainPage extends Component {
 									randomPositions={randomPositions}
 									onClickMapCircle={this.handleClickCircle}
 									onClickMapRing={this.handleClickMapRing}
+									onClickTimeRing={this.handleClickTimeRing}
 									onZoomOut={this.handleZoomOut}
 								/>
 							</div>
@@ -506,6 +553,7 @@ export default class MainPage extends Component {
 									data={wordCloudData.data}
 									tooltipType={wordCloudData.tooltipType}
 									color={wordCloudData.color}
+									max={wordCloudData.max}
 									id={'word-cloud-container'}
 								/>
 							</div>

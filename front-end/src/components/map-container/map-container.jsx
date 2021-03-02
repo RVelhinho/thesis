@@ -18,6 +18,7 @@ export default class MapContainer extends PureComponent {
 				zoom: 3,
 			},
 			selectedCountry: '',
+			selectedTimeFrame: -1,
 		};
 		this.startingPosition = {
 			lat: 39.23449743795502,
@@ -93,9 +94,37 @@ export default class MapContainer extends PureComponent {
 		this.props.onClickMapRing(country);
 	};
 
+	handleClickTimeRing = (timeFrameIndex) => {
+		const selectedTimeFrame = this.state.selectedTimeFrame;
+		if (timeFrameIndex === selectedTimeFrame) {
+			this.setState(() => {
+				return { selectedTimeFrame: -1 };
+			});
+			this.props.onClickTimeRing(undefined, undefined);
+		} else {
+			this.setState(() => {
+				return { selectedTimeFrame: timeFrameIndex };
+			});
+			if (timeFrameIndex === 0) {
+				this.props.onClickTimeRing(undefined, 1935);
+			} else if (timeFrameIndex === 1) {
+				this.props.onClickTimeRing(1935, 1960);
+			} else if (timeFrameIndex === 2) {
+				this.props.onClickTimeRing(1960, 1985);
+			} else if (timeFrameIndex === 3) {
+				this.props.onClickTimeRing(1985, undefined);
+			}
+		}
+	};
+
 	render() {
 		const { data, tooltipType, onClickMapCircle, randomPositions } = this.props;
-		const { position, zoomLevel, selectedCountry } = this.state;
+		const {
+			position,
+			zoomLevel,
+			selectedCountry,
+			selectedTimeFrame,
+		} = this.state;
 		if (data.length !== 0) {
 			return (
 				<Map
@@ -285,7 +314,15 @@ export default class MapContainer extends PureComponent {
 								/>
 							</div>
 						</div>
-						<div className='row mx-0 map-container__legend__row'>
+						<div
+							className='row mx-0 map-container__legend__row'
+							style={
+								selectedTimeFrame !== 0 && selectedTimeFrame !== -1
+									? { opacity: 0.3 }
+									: { opacity: 1 }
+							}
+							onClick={() => this.handleClickTimeRing(0)}
+						>
 							<div className='col-auto px-0 mr-2'>
 								<div
 									className='circle'
@@ -296,7 +333,15 @@ export default class MapContainer extends PureComponent {
 								<span className='text'> &lt; 1935</span>
 							</div>
 						</div>
-						<div className='row mx-0 map-container__legend__row'>
+						<div
+							className='row mx-0 map-container__legend__row'
+							style={
+								selectedTimeFrame !== 1 && selectedTimeFrame !== -1
+									? { opacity: 0.3 }
+									: { opacity: 1 }
+							}
+							onClick={() => this.handleClickTimeRing(1)}
+						>
 							<div className='col-auto px-0 mr-2'>
 								<div className='circle'></div>
 							</div>
@@ -304,7 +349,15 @@ export default class MapContainer extends PureComponent {
 								<span className='text'> 1935 - 1960</span>
 							</div>
 						</div>
-						<div className='row mx-0 map-container__legend__row'>
+						<div
+							className='row mx-0 map-container__legend__row'
+							style={
+								selectedTimeFrame !== 2 && selectedTimeFrame !== -1
+									? { opacity: 0.3 }
+									: { opacity: 1 }
+							}
+							onClick={() => this.handleClickTimeRing(2)}
+						>
 							<div className='col-auto px-0 mr-2'>
 								<div className='circle'></div>
 							</div>
@@ -312,12 +365,20 @@ export default class MapContainer extends PureComponent {
 								<span className='text'> 1960 - 1985</span>
 							</div>
 						</div>
-						<div className='row mx-0 map-container__legend__row'>
+						<div
+							className='row mx-0 map-container__legend__row'
+							style={
+								selectedTimeFrame !== 3 && selectedTimeFrame !== -1
+									? { opacity: 0.3 }
+									: { opacity: 1 }
+							}
+							onClick={() => this.handleClickTimeRing(3)}
+						>
 							<div className='col-auto px-0 mr-2'>
 								<div className='circle'></div>
 							</div>
 							<div className='col px-0 d-flex justify-content-start align-items-center'>
-								<span className='text'> &gt;= 1985</span>
+								<span className='text'> &gt; 1985</span>
 							</div>
 						</div>
 					</div>

@@ -23,6 +23,7 @@ export default class CalendarContainer extends PureComponent {
 			},
 			currentCircle: '',
 			selectedContinent: '',
+			selectedYear: -1,
 		};
 	}
 
@@ -83,6 +84,21 @@ export default class CalendarContainer extends PureComponent {
 		}
 	};
 
+	handleClickYear = (year) => {
+		const selectedYear = this.state.selectedYear;
+		if (selectedYear === year) {
+			this.setState(() => {
+				return { selectedYear: -1 };
+			});
+			this.props.onClickYear(undefined);
+		} else {
+			this.setState(() => {
+				return { selectedYear: year };
+			});
+			this.props.onClickYear(year);
+		}
+	};
+
 	render() {
 		const {
 			data,
@@ -90,8 +106,14 @@ export default class CalendarContainer extends PureComponent {
 			tooltipStyle,
 			onClickCalendarCircle,
 			onClickContinentCircle,
+			onClickYear,
 		} = this.props;
-		const { tooltip, currentCircle, selectedContinent } = this.state;
+		const {
+			tooltip,
+			currentCircle,
+			selectedContinent,
+			selectedYear,
+		} = this.state;
 		return (
 			<div className='calendar-container'>
 				<React.Fragment>
@@ -110,6 +132,8 @@ export default class CalendarContainer extends PureComponent {
 											this.handleMouseOverCalendarCircle
 										}
 										onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
+										selectedYear={selectedYear}
+										onClickYear={this.handleClickYear}
 									/>
 								);
 							})}

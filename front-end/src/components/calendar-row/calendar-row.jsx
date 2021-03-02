@@ -12,6 +12,8 @@ const CalendarRow = React.memo(
 		onClickCalendarCircle,
 		onMouseOverCalendarCircle,
 		onMouseOutCalendarCircle,
+		onClickYear,
+		selectedYear,
 	}) => {
 		const getContinentColor = (continent) => {
 			if (continent === 'North America') {
@@ -29,7 +31,15 @@ const CalendarRow = React.memo(
 			}
 		};
 		return (
-			<div className='calendar-row-container'>
+			<div
+				className='calendar-row-container'
+				style={
+					selectedYear != year && selectedYear != -1
+						? { opacity: 0.3 }
+						: { opacity: 1 }
+				}
+				onClick={() => onClickYear(year)}
+			>
 				<div className='row mx-0'>
 					<div className='col px-0 d-flex justify-content-between'>
 						<span className='calendar-row-container__year'>{year}</span>
