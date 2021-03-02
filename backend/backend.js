@@ -873,9 +873,22 @@ const checkQueryFilter = (req) => {
 	replicateData = _.filter(replicateData, (el) =>
 		req.query.continent ? el.continent === req.query.continent : el
 	);
-	replicateData = _.filter(replicateData, (el) =>
-		req.query.keyword ? el.keyword.includes(req.query.keyword) : el
-	);
+	replicateData = _.filter(replicateData, (el) => {
+		if (req.query.keyword) {
+			let found = false;
+			_.forEach(el.keywords, (word) => {
+				if (word.word === req.query.keyword) {
+					found = true;
+					return false;
+				}
+			});
+			if (found) {
+				return el;
+			}
+		} else {
+			return el;
+		}
+	});
 	replicateData = _.filter(replicateData, (el) =>
 		req.query.aircraft ? el.aircraft === req.query.aircraft : el
 	);

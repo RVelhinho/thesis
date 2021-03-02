@@ -242,6 +242,28 @@ export default class MainPage extends Component {
 		});
 	};
 
+	handleClickWord = (keyword) => {
+		const selected = _.cloneDeep(this.state.selected);
+		if (keyword === selected.keyword) {
+			selected.keyword = undefined;
+		} else {
+			selected.keyword = keyword;
+		}
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		this.handleDataInteraction(
+			selected.minDate,
+			selected.maxDate,
+			selected.country,
+			selected.continent,
+			selected.keyword,
+			selected.aircraft,
+			''
+		);
+		this.setState(() => {
+			return { selected };
+		});
+	};
+
 	handleClickBar = ({ plane: aircraft }) => {
 		const selected = _.cloneDeep(this.state.selected);
 		if (aircraft === selected.aircraft) {
@@ -555,6 +577,7 @@ export default class MainPage extends Component {
 									color={wordCloudData.color}
 									max={wordCloudData.max}
 									id={'word-cloud-container'}
+									onClickWord={this.handleClickWord}
 								/>
 							</div>
 							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
