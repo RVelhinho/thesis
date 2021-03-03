@@ -6,6 +6,7 @@ import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import { getTimeColor } from '../../utils/time';
 import './map-container.scss';
 import { random } from '@turf/turf';
+import { result } from 'lodash';
 
 export default class MapContainer extends PureComponent {
 	constructor(props) {
@@ -70,8 +71,8 @@ export default class MapContainer extends PureComponent {
 			this.setState(() => {
 				return { position, zoomLevel: 'low', selectedCountry: '' };
 			});
+			this.props.onZoomOut();
 		}
-		this.props.onZoomOut();
 	};
 
 	handleResetZoom = () => {
@@ -97,14 +98,11 @@ export default class MapContainer extends PureComponent {
 	handleClickTimeRing = (timeFrameIndex) => {
 		const selectedTimeFrame = this.state.selectedTimeFrame;
 		if (timeFrameIndex === selectedTimeFrame) {
+			this.props.onClickTimeRing(undefined, undefined);
 			this.setState(() => {
 				return { selectedTimeFrame: -1 };
 			});
-			this.props.onClickTimeRing(undefined, undefined);
 		} else {
-			this.setState(() => {
-				return { selectedTimeFrame: timeFrameIndex };
-			});
 			if (timeFrameIndex === 0) {
 				this.props.onClickTimeRing(undefined, 1935);
 			} else if (timeFrameIndex === 1) {
@@ -114,6 +112,9 @@ export default class MapContainer extends PureComponent {
 			} else if (timeFrameIndex === 3) {
 				this.props.onClickTimeRing(1985, undefined);
 			}
+			this.setState(() => {
+				return { selectedTimeFrame: timeFrameIndex };
+			});
 		}
 	};
 
@@ -125,26 +126,26 @@ export default class MapContainer extends PureComponent {
 			selectedCountry,
 			selectedTimeFrame,
 		} = this.state;
-		if (data.length !== 0) {
-			return (
-				<Map
-					center={[position.lat, position.lon]}
-					zoom={position.zoom}
-					scrollWheelZoom={false}
-					attributionControl={false}
-					maxZoom={10}
-					minZoom={3}
-					onzoomend={(e) => this.handleChangeZoom(e.target._zoom)}
-					doubleClickZoom={false}
-				>
-					<TileLayer
-						attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-						url='https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
-					/>
+		return (
+			<Map
+				center={[position.lat, position.lon]}
+				zoom={position.zoom}
+				scrollWheelZoom={false}
+				attributionControl={false}
+				maxZoom={10}
+				minZoom={3}
+				onzoomend={(e) => this.handleChangeZoom(e.target._zoom)}
+				doubleClickZoom={false}
+			>
+				<TileLayer
+					attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+					url='https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
+				/>
 
-					<svg height={0} width={0}>
-						<defs>
-							{data.map((loc, index) => {
+				<svg height={0} width={0}>
+					<defs>
+						{data.length !== 0 &&
+							data.map((loc, index) => {
 								return (
 									<linearGradient
 										key={index}
@@ -167,11 +168,59 @@ export default class MapContainer extends PureComponent {
 									</linearGradient>
 								);
 							})}
-						</defs>
-					</svg>
-					{zoomLevel === 'high' &&
-						selectedCountry === '' &&
-						data.map((loc, index) => {
+					</defs>
+				</svg>
+				{zoomLevel === 'high' &&
+					selectedCountry === '' &&
+					data.length !== 0 &&
+					data.map((loc, index) => {
+						return (
+							<React.Fragment key={index}>
+								{loc.total.map((el, index2) => {
+									if (el.lat) {
+										return (
+											<CircleMarker
+												key={index2}
+												center={[el.lat, el.lon]}
+												fillColor={getTimeColor(parseInt(el.year))}
+												radius={10}
+												weight={0}
+												onMouseOver={(e) => e.target.openPopup()}
+												onMouseOut={(e) => e.target.closePopup()}
+												onClick={() => {
+													onClickMapCircle(index);
+												}}
+											>
+												<CircleMarker
+													center={[el.lat, el.lon]}
+													fillColor={getTimeColor(parseInt(el.year))}
+													fillOpacity={1}
+													radius={3}
+													weight={0}
+												></CircleMarker>
+												<Popup>
+													<CustomToolTip
+														type={tooltipType + '--circle'}
+														country={el.country}
+														date={el.date}
+														aircraft={el.aircraft}
+														keywords={el.keywords}
+														color={getTimeColor(parseInt(el.year))}
+													/>
+												</Popup>
+											</CircleMarker>
+										);
+									}
+									return null;
+								})}
+							</React.Fragment>
+						);
+					})}
+				{zoomLevel === 'high' &&
+					selectedCountry !== '' &&
+					data.length !== 0 &&
+					data.map((loc, index) => {
+						if (loc.country === selectedCountry) {
 							return (
 								<React.Fragment key={index}>
 									{loc.total.map((el, index2) => {
@@ -213,178 +262,130 @@ export default class MapContainer extends PureComponent {
 									})}
 								</React.Fragment>
 							);
-						})}
-					{zoomLevel === 'high' &&
-						selectedCountry !== '' &&
-						data.map((loc, index) => {
-							if (loc.country === selectedCountry) {
-								return (
-									<React.Fragment key={index}>
-										{loc.total.map((el, index2) => {
-											if (el.lat) {
-												return (
-													<CircleMarker
-														key={index2}
-														center={[el.lat, el.lon]}
-														fillColor={getTimeColor(parseInt(el.year))}
-														radius={10}
-														weight={0}
-														onMouseOver={(e) => e.target.openPopup()}
-														onMouseOut={(e) => e.target.closePopup()}
-														onClick={() => {
-															onClickMapCircle(index);
-														}}
-													>
-														<CircleMarker
-															center={[el.lat, el.lon]}
-															fillColor={getTimeColor(parseInt(el.year))}
-															fillOpacity={1}
-															radius={3}
-															weight={0}
-														></CircleMarker>
-														<Popup>
-															<CustomToolTip
-																type={tooltipType + '--circle'}
-																country={el.country}
-																date={el.date}
-																aircraft={el.aircraft}
-																keywords={el.keywords}
-																color={getTimeColor(parseInt(el.year))}
-															/>
-														</Popup>
-													</CircleMarker>
-												);
-											}
-											return null;
-										})}
-									</React.Fragment>
-								);
-							}
-						})}
-					{zoomLevel === 'low' &&
-						data.map((loc, index) => {
-							return (
-								<React.Fragment key={index}>
-									<CircleMarker
-										center={[loc.lat, loc.lon]}
-										color={`url(#ring-gradient-${index})`}
-										opacity={0.6}
-										fillOpacity={0.7}
-										radius={this.getRadius(
-											loc.total.length,
-											30,
-											15 + loc.total.length * 0.3
-										)}
-										weight={0}
-										onMouseOver={(e) => e.target.openPopup()}
-										onMouseOut={(e) => e.target.closePopup()}
-										onClick={(e) => this.handleClickMapRing(e, loc.country)}
+						}
+					})}
+				{zoomLevel === 'low' &&
+					data.map((loc, index) => {
+						return (
+							<React.Fragment key={index}>
+								<CircleMarker
+									center={[loc.lat, loc.lon]}
+									color={`url(#ring-gradient-${index})`}
+									opacity={0.6}
+									fillOpacity={0.7}
+									radius={this.getRadius(
+										loc.total.length,
+										30,
+										15 + loc.total.length * 0.3
+									)}
+									weight={0}
+									onMouseOver={(e) => e.target.openPopup()}
+									onMouseOut={(e) => e.target.closePopup()}
+									onClick={(e) => this.handleClickMapRing(e, loc.country)}
+								>
+									<Tooltip
+										direction='bottom'
+										offset={[0, -22.5]}
+										opacity={1}
+										permanent
 									>
-										<Tooltip
-											direction='bottom'
-											offset={[0, -22.5]}
-											opacity={1}
-											permanent
-										>
-											{
-												<span style={{ color: '#e6e6e6' }}>
-													{loc.total.length}
-												</span>
-											}
-										</Tooltip>
-										<Popup>
-											<CustomToolTip
-												type={tooltipType + '--ring'}
-												country={loc.country}
-												total={loc.total.length}
-												color={getTimeColor(loc.maxDate)}
-											/>
-										</Popup>
-									</CircleMarker>
-								</React.Fragment>
-							);
-						})}
-					<div className='map-container__legend'>
-						<div className='row mx-0 map-container__legend__row'>
-							<div className='col px-0'>
-								<Button
-									text={'Reset Zoom'}
-									color={'grey'}
-									onResetZoom={this.handleResetZoom}
-								/>
-							</div>
-						</div>
-						<div
-							className='row mx-0 map-container__legend__row'
-							style={
-								selectedTimeFrame !== 0 && selectedTimeFrame !== -1
-									? { opacity: 0.3 }
-									: { opacity: 1 }
-							}
-							onClick={() => this.handleClickTimeRing(0)}
-						>
-							<div className='col-auto px-0 mr-2'>
-								<div
-									className='circle'
-									style={{ backgroundColor: 'urlf(#ring-gradient)' }}
-								></div>
-							</div>
-							<div className='col px-0 d-flex justify-content-start align-items-center'>
-								<span className='text'> &lt; 1935</span>
-							</div>
-						</div>
-						<div
-							className='row mx-0 map-container__legend__row'
-							style={
-								selectedTimeFrame !== 1 && selectedTimeFrame !== -1
-									? { opacity: 0.3 }
-									: { opacity: 1 }
-							}
-							onClick={() => this.handleClickTimeRing(1)}
-						>
-							<div className='col-auto px-0 mr-2'>
-								<div className='circle'></div>
-							</div>
-							<div className='col px-0 d-flex justify-content-start align-items-center'>
-								<span className='text'> 1935 - 1960</span>
-							</div>
-						</div>
-						<div
-							className='row mx-0 map-container__legend__row'
-							style={
-								selectedTimeFrame !== 2 && selectedTimeFrame !== -1
-									? { opacity: 0.3 }
-									: { opacity: 1 }
-							}
-							onClick={() => this.handleClickTimeRing(2)}
-						>
-							<div className='col-auto px-0 mr-2'>
-								<div className='circle'></div>
-							</div>
-							<div className='col px-0 d-flex justify-content-start align-items-center'>
-								<span className='text'> 1960 - 1985</span>
-							</div>
-						</div>
-						<div
-							className='row mx-0 map-container__legend__row'
-							style={
-								selectedTimeFrame !== 3 && selectedTimeFrame !== -1
-									? { opacity: 0.3 }
-									: { opacity: 1 }
-							}
-							onClick={() => this.handleClickTimeRing(3)}
-						>
-							<div className='col-auto px-0 mr-2'>
-								<div className='circle'></div>
-							</div>
-							<div className='col px-0 d-flex justify-content-start align-items-center'>
-								<span className='text'> &gt; 1985</span>
-							</div>
+										{
+											<span style={{ color: '#e6e6e6' }}>
+												{loc.total.length}
+											</span>
+										}
+									</Tooltip>
+									<Popup>
+										<CustomToolTip
+											type={tooltipType + '--ring'}
+											country={loc.country}
+											total={loc.total.length}
+											color={getTimeColor(loc.maxDate)}
+										/>
+									</Popup>
+								</CircleMarker>
+							</React.Fragment>
+						);
+					})}
+				<div className='map-container__legend'>
+					<div className='row mx-0 map-container__legend__row'>
+						<div className='col px-0'>
+							<Button
+								text={'Reset Zoom'}
+								color={'grey'}
+								onResetZoom={this.handleResetZoom}
+							/>
 						</div>
 					</div>
-				</Map>
-			);
-		}
-		return null;
+					<div
+						className='row mx-0 map-container__legend__row'
+						style={
+							selectedTimeFrame !== 0 && selectedTimeFrame !== -1
+								? { opacity: 0.3 }
+								: { opacity: 1 }
+						}
+						onClick={() => this.handleClickTimeRing(0)}
+					>
+						<div className='col-auto px-0 mr-2'>
+							<div
+								className='circle'
+								style={{ backgroundColor: 'urlf(#ring-gradient)' }}
+							></div>
+						</div>
+						<div className='col px-0 d-flex justify-content-start align-items-center'>
+							<span className='text'> &lt; 1935</span>
+						</div>
+					</div>
+					<div
+						className='row mx-0 map-container__legend__row'
+						style={
+							selectedTimeFrame !== 1 && selectedTimeFrame !== -1
+								? { opacity: 0.3 }
+								: { opacity: 1 }
+						}
+						onClick={() => this.handleClickTimeRing(1)}
+					>
+						<div className='col-auto px-0 mr-2'>
+							<div className='circle'></div>
+						</div>
+						<div className='col px-0 d-flex justify-content-start align-items-center'>
+							<span className='text'> 1935 - 1960</span>
+						</div>
+					</div>
+					<div
+						className='row mx-0 map-container__legend__row'
+						style={
+							selectedTimeFrame !== 2 && selectedTimeFrame !== -1
+								? { opacity: 0.3 }
+								: { opacity: 1 }
+						}
+						onClick={() => this.handleClickTimeRing(2)}
+					>
+						<div className='col-auto px-0 mr-2'>
+							<div className='circle'></div>
+						</div>
+						<div className='col px-0 d-flex justify-content-start align-items-center'>
+							<span className='text'> 1960 - 1985</span>
+						</div>
+					</div>
+					<div
+						className='row mx-0 map-container__legend__row'
+						style={
+							selectedTimeFrame !== 3 && selectedTimeFrame !== -1
+								? { opacity: 0.3 }
+								: { opacity: 1 }
+						}
+						onClick={() => this.handleClickTimeRing(3)}
+					>
+						<div className='col-auto px-0 mr-2'>
+							<div className='circle'></div>
+						</div>
+						<div className='col px-0 d-flex justify-content-start align-items-center'>
+							<span className='text'> &gt; 1985</span>
+						</div>
+					</div>
+				</div>
+			</Map>
+		);
 	}
 }

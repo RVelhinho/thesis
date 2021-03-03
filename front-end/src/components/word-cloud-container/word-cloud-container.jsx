@@ -17,11 +17,13 @@ export default class WordCloudContainer extends PureComponent {
 			hoveredWord: '',
 			selectedWord: '',
 			count: 0,
+			state: 'initial',
 		};
+		this.replicatedData = undefined;
 	}
 	static propTypes = {};
 
-	drawCloud() {
+	drawCloud(run) {
 		const { id, data, threshold = 20, max } = this.props;
 		const handleOverWord = this.handleOverWord;
 		const handleClickWord = this.handleClickWord;
@@ -35,15 +37,17 @@ export default class WordCloudContainer extends PureComponent {
 		const wordScale = scaleLinear().domain([0, 1]).range([10, 30]);
 
 		const randomRotate = scaleLinear().domain([0, 1]).range([0, 90]);
-
-		cloud()
-			.size([w, h])
-			.words(data)
-			.rotate(0)
-			.fontSize((d) => wordScale(d.value / max))
-			.padding(5)
-			.on('end', draw)
-			.start();
+		if (run === 'initial') {
+			this.replicatedData = _.cloneDeep(data);
+			cloud()
+				.size([w, h])
+				.words(this.replicatedData)
+				.rotate(0)
+				.fontSize((d) => wordScale(d.value / max))
+				.padding(5)
+				.on('end', draw)
+				.start();
+		}
 
 		function draw(words) {
 			let svg;
@@ -129,12 +133,21 @@ export default class WordCloudContainer extends PureComponent {
 			svg.selectAll('text').data(words).transition().duration(300);
 		}
 	}
+	componentDidMount() {
+		this.drawCloud('initial');
+	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 		if (!_.isEqual(prevProps.data, this.props.data)) {
 			select('.svg-container').remove();
+			this.drawCloud('initial');
+		} else if (
+			!_.isEqual(prevState.selectedWord, this.state.selectedWord) ||
+			!_.isEqual(prevState.hoveredWord, this.state.hoveredWord) ||
+			!_.isEqual(prevState.count, this.state.count)
+		) {
+			this.drawCloud('');
 		}
-		this.drawCloud();
 	}
 
 	handleOverWord = (d) => {

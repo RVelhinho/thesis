@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
 	BarChart,
@@ -16,9 +16,73 @@ import {
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import './bar-chart-container.scss';
 
-const BarChartContainer = React.memo(
-	({ data, tooltipType, gradientColors, onClickBar }) => {
-		data = data.splice(0, 8);
+class BarChartContainer extends PureComponent {
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedBar: '',
+		};
+	}
+
+	CustomLabel = (props) => {
+		const { x, y, width, height, value } = props;
+		return (
+			<text
+				x={x + width - 30}
+				y={y + height / 2 + 2}
+				fill='white'
+				textAnchor='middle'
+				dominantBaseline='middle'
+				className='label-font'
+				pointerEvents={'none'}
+			>
+				{value}
+			</text>
+		);
+	};
+
+	CustomCursor = (props) => {
+		const { x, y, width, height } = props;
+		return (
+			<Rectangle
+				className='custom-cursor-bar-chart'
+				x={x - x + 10}
+				y={y}
+				width={width + x + 10}
+				radius={10}
+				height={height}
+				fill={'#ededed'}
+			/>
+		);
+	};
+
+	CustomTick = (props) => {
+		const { payload } = props;
+		return (
+			<Text {...props} className='custom-tick'>
+				{payload.value.length > 10
+					? `${payload.value.slice(0, 10)}...`
+					: payload.value}
+			</Text>
+		);
+	};
+
+	handleClickBar = (entry) => {
+		const selectedBar = this.state.selectedBar;
+		if (selectedBar === entry.plane) {
+			this.setState(() => {
+				return { selectedBar: '' };
+			});
+		} else {
+			this.setState(() => {
+				return { selectedBar: entry.plane };
+			});
+		}
+		this.props.onClickBar(entry);
+	};
+
+	render() {
+		const { data, tooltipType, gradientColors, onClickBar } = this.props;
 		const barColors = [];
 
 		const hex = (x) => {
@@ -44,49 +108,6 @@ const BarChartContainer = React.memo(
 			barColors.push('#' + newColor);
 		}
 
-		const CustomLabel = (props) => {
-			const { x, y, width, height, value } = props;
-			return (
-				<text
-					x={x + width - 30}
-					y={y + height / 2 + 2}
-					fill='white'
-					textAnchor='middle'
-					dominantBaseline='middle'
-					className='label-font'
-					pointerEvents={'none'}
-				>
-					{value}
-				</text>
-			);
-		};
-
-		const CustomCursor = (props) => {
-			const { x, y, width, height } = props;
-			return (
-				<Rectangle
-					className='custom-cursor-bar-chart'
-					x={x - x + 10}
-					y={y}
-					width={width + x + 10}
-					radius={10}
-					height={height}
-					fill={'#ededed'}
-				/>
-			);
-		};
-
-		const CustomTick = (props) => {
-			const { payload } = props;
-			return (
-				<Text {...props} className='custom-tick'>
-					{payload.value.length > 10
-						? `${payload.value.slice(0, 10)}...`
-						: payload.value}
-				</Text>
-			);
-		};
-
 		let barSize;
 		if (data.length < 4) {
 			barSize = 50;
@@ -95,7 +116,6 @@ const BarChartContainer = React.memo(
 		} else {
 			barSize = 20;
 		}
-
 		return (
 			<ResponsiveContainer>
 				<BarChart
@@ -115,7 +135,7 @@ const BarChartContainer = React.memo(
 							<CustomToolTip type={tooltipType} id={0} color={barColors[0]} />
 						}
 						wrapperStyle={{ zIndex: 1000 }}
-						cursor={<CustomCursor />}
+						cursor={<this.CustomCursor />}
 					/>
 					<CartesianGrid strokeDasharray='5' vertical={false} />
 					<XAxis type='number' hide />
@@ -124,7 +144,7 @@ const BarChartContainer = React.memo(
 						dataKey={'plane'}
 						tickLine={{ strokeDasharray: 2, stroke: 'rgba(120, 115, 137, 0.5' }}
 						axisLine={false}
-						tick={<CustomTick />}
+						tick={<this.CustomTick />}
 					/>
 					<Bar
 						dataKey={'total'}
@@ -132,21 +152,26 @@ const BarChartContainer = React.memo(
 						minPointSize={50}
 						cursor={'pointer'}
 					>
-						{data.map((entry, index) => (
-							<Cell
-								key={index}
-								fill={barColors[index]}
-								opacity={0.7}
-								onClick={() => onClickBar(entry)}
-							/>
-						))}
-						<LabelList dataKey={'total'} content={<CustomLabel />} />
+						{data.map((entry, index) => {
+							return (
+								<Cell
+									key={index}
+									fill={
+										this.state.selectedBar === entry.plane
+											? '#520e2a'
+											: barColors[index]
+									}
+									opacity={0.7}
+									onClick={() => this.handleClickBar(entry)}
+								/>
+							);
+						})}
 					</Bar>
 				</BarChart>
 			</ResponsiveContainer>
 		);
 	}
-);
+}
 
 BarChartContainer.propTypes = {};
 

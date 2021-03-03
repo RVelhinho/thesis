@@ -24,6 +24,7 @@ export default class MainPage extends Component {
 			countryPositions: {},
 			loading: false,
 			selected: {
+				year: undefined,
 				minDate: undefined,
 				maxDate: undefined,
 				country: undefined,
@@ -72,6 +73,11 @@ export default class MainPage extends Component {
 				aircraft: '',
 				operator: '',
 				description: '',
+			},
+			filter: {
+				yearData: false,
+				keywordData: false,
+				aircraftData: false,
 			},
 		};
 		this.baseOverviewData = {
@@ -142,25 +148,30 @@ export default class MainPage extends Component {
 			undefined,
 			undefined,
 			undefined,
+			undefined,
+			this.state.filter,
 			'initial'
 		);
 	}
 
 	handleClickContinentCircle = (continent) => {
-		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		const selected = _.cloneDeep(this.state.selected);
+		const filter = _.cloneDeep(this.state.filter);
 		if (continent === selected.continent) {
 			selected.continent = undefined;
 		} else {
 			selected.continent = continent;
 		}
 		this.handleDataInteraction(
+			selected.year,
 			selected.minDate,
 			selected.maxDate,
 			selected.country,
 			selected.continent,
 			selected.keyword,
 			selected.aircraft,
+			filter,
 			''
 		);
 		this.setState(() => {
@@ -169,16 +180,19 @@ export default class MainPage extends Component {
 	};
 
 	handleClickMapRing = (country) => {
-		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		const selected = _.cloneDeep(this.state.selected);
+		const filter = _.cloneDeep(this.state.filter);
 		selected.country = country;
 		this.handleDataInteraction(
+			selected.year,
 			selected.minDate,
 			selected.maxDate,
 			selected.country,
 			selected.continent,
 			selected.keyword,
 			selected.aircraft,
+			filter,
 			''
 		);
 		this.setState(() => {
@@ -187,17 +201,25 @@ export default class MainPage extends Component {
 	};
 
 	handleClickTimeRing = (minDate, maxDate) => {
-		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		selected.minDate = minDate;
-		selected.maxDate = maxDate;
+		const filter = _.cloneDeep(this.state.filter);
+		const selected = _.cloneDeep(this.state.selected);
+		if (selected.minDate === minDate && selected.maxDate === maxDate) {
+			selected.minDate = undefined;
+			selected.maxDate = undefined;
+		} else {
+			selected.minDate = minDate;
+			selected.maxDate = maxDate;
+		}
 		this.handleDataInteraction(
+			selected.year,
 			selected.minDate,
 			selected.maxDate,
 			selected.country,
 			selected.continent,
 			selected.keyword,
 			selected.aircraft,
+			filter,
 			''
 		);
 		this.setState(() => {
@@ -206,34 +228,56 @@ export default class MainPage extends Component {
 	};
 
 	handleClickYear = (year) => {
+		const filter = _.cloneDeep(this.state.filter);
 		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		selected.minDate = year;
-		selected.maxDate = year;
-		this.handleDataInteraction(
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			''
-		);
+		if (selected.year === year) {
+			selected.year = undefined;
+			filter.yearData = false;
+			this.handleDataInteraction(
+				selected.year,
+				selected.minDate,
+				selected.maxDate,
+				selected.country,
+				selected.continent,
+				selected.keyword,
+				selected.aircraft,
+				filter,
+				''
+			);
+		} else {
+			selected.year = year;
+			filter.yearData = true;
+			this.handleDataInteraction(
+				selected.year,
+				selected.minDate,
+				selected.maxDate,
+				selected.country,
+				selected.continent,
+				selected.keyword,
+				selected.aircraft,
+				filter,
+				''
+			);
+		}
 		this.setState(() => {
-			return { selected };
+			return { selected, filter };
 		});
 	};
 
 	handleZoomOut = () => {
-		const selected = _.cloneDeep(this.state.selected);
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		const selected = _.cloneDeep(this.state.selected);
+		const filter = _.cloneDeep(this.state.filter);
 		this.handleDataInteraction(
+			selected.year,
 			selected.minDate,
 			selected.maxDate,
 			undefined,
 			selected.continent,
 			selected.keyword,
 			selected.aircraft,
+			filter,
 			''
 		);
 		selected.country = undefined;
@@ -243,56 +287,90 @@ export default class MainPage extends Component {
 	};
 
 	handleClickWord = (keyword) => {
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		const filter = _.cloneDeep(this.state.filter);
 		const selected = _.cloneDeep(this.state.selected);
 		if (keyword === selected.keyword) {
 			selected.keyword = undefined;
+			filter.keywordData = false;
+			this.handleDataInteraction(
+				selected.year,
+				selected.minDate,
+				selected.maxDate,
+				selected.country,
+				selected.continent,
+				selected.keyword,
+				selected.aircraft,
+				filter,
+				''
+			);
 		} else {
 			selected.keyword = keyword;
+			filter.keywordData = true;
+			this.handleDataInteraction(
+				selected.year,
+				selected.minDate,
+				selected.maxDate,
+				selected.country,
+				selected.continent,
+				selected.keyword,
+				selected.aircraft,
+				filter,
+				''
+			);
 		}
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		this.handleDataInteraction(
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			''
-		);
 		this.setState(() => {
-			return { selected };
+			return { selected, filter };
 		});
 	};
 
 	handleClickBar = ({ plane: aircraft }) => {
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		const filter = _.cloneDeep(this.state.filter);
 		const selected = _.cloneDeep(this.state.selected);
 		if (aircraft === selected.aircraft) {
 			selected.aircraft = undefined;
+			filter.aircraftData = false;
+			this.handleDataInteraction(
+				selected.year,
+				selected.minDate,
+				selected.maxDate,
+				selected.country,
+				selected.continent,
+				selected.keyword,
+				selected.aircraft,
+				filter,
+				''
+			);
 		} else {
 			selected.aircraft = aircraft;
+			filter.aircraftData = true;
+			this.handleDataInteraction(
+				selected.year,
+				selected.minDate,
+				selected.maxDate,
+				selected.country,
+				selected.continent,
+				selected.keyword,
+				selected.aircraft,
+				filter,
+				''
+			);
 		}
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		this.handleDataInteraction(
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			''
-		);
 		this.setState(() => {
-			return { selected };
+			return { selected, filter };
 		});
 	};
 
 	handleDataInteraction = async (
+		year,
 		minDate,
 		maxDate,
 		country,
 		continent,
 		keyword,
 		aircraft,
+		filterView,
 		run
 	) => {
 		const calendarData = _.cloneDeep(this.state.calendarData);
@@ -307,6 +385,18 @@ export default class MainPage extends Component {
 		const previousDonutChartData = _.cloneDeep(this.state.donutChartData);
 		const previousWordCloudData = _.cloneDeep(this.state.wordCloudData);
 		const previousBarChartData = _.cloneDeep(this.state.barChartData);
+		if (year && !minDate && !maxDate) {
+			minDate = year;
+			maxDate = year;
+		} else if (year && (minDate || maxDate)) {
+			if (year < minDate || year > maxDate) {
+				minDate = 100000;
+				maxDate = -1;
+			} else {
+				minDate = year;
+				maxDate = year;
+			}
+		}
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const [
@@ -374,7 +464,9 @@ export default class MainPage extends Component {
 			]);
 			this.cancelTokenSource = null;
 			this.createRandomPositions(countryData, run);
-			calendarData.data = yearData;
+			if (filterView && !filterView.yearData) {
+				calendarData.data = yearData;
+			}
 			densityPlotData.data = yearAuxData;
 			mapData.data = countryData;
 			donutChartData.data = survivalRateData;
@@ -383,8 +475,12 @@ export default class MainPage extends Component {
 				if (el.value > max) max = el.value;
 			});
 			wordCloudData.max = max;
-			wordCloudData.data = keywordData;
-			barChartData.data = aircraftData;
+			if (filterView && !filterView.keywordData) {
+				wordCloudData.data = keywordData;
+			}
+			if (filterView && !filterView.aircraftData) {
+				barChartData.data = aircraftData;
+			}
 			this.setState(() => {
 				return {
 					calendarData,
@@ -505,11 +601,12 @@ export default class MainPage extends Component {
 			barChartData,
 			overviewData,
 			randomPositions,
+			filter,
 		} = this.state;
+
 		const densityPlotValues = _.map(densityPlotData.data, (el) => el.count);
 		const minValue = Math.min(...densityPlotValues);
 		const maxValue = Math.max(...densityPlotValues);
-		console.log(wordCloudData.max);
 		return (
 			<div className='main-page-container'>
 				<div className='row mx-0 w-100 h-100'>
@@ -564,21 +661,23 @@ export default class MainPage extends Component {
 							</div>
 						</div>
 						<div className='row mx-0 main-page-container__right-section__bottom-row'>
-							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
+							<div className='col-4 h-100 p-4 main-page-container__right-section__bottom-row__chart'>
 								<DonutChartContainer
 									data={donutChartData.data}
 									tooltipType={donutChartData.tooltipType}
 								/>
 							</div>
 							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
-								<WordCloudContainer
-									data={wordCloudData.data}
-									tooltipType={wordCloudData.tooltipType}
-									color={wordCloudData.color}
-									max={wordCloudData.max}
-									id={'word-cloud-container'}
-									onClickWord={this.handleClickWord}
-								/>
+								{wordCloudData.data.length !== 0 && (
+									<WordCloudContainer
+										data={wordCloudData.data}
+										tooltipType={wordCloudData.tooltipType}
+										color={wordCloudData.color}
+										max={wordCloudData.max}
+										id={'word-cloud-container'}
+										onClickWord={this.handleClickWord}
+									/>
+								)}
 							</div>
 							<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
 								<BarChartContainer

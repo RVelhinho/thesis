@@ -90,7 +90,7 @@ export default class CalendarContainer extends PureComponent {
 			this.setState(() => {
 				return { selectedYear: -1 };
 			});
-			this.props.onClickYear(undefined);
+			this.props.onClickYear(year);
 		} else {
 			this.setState(() => {
 				return { selectedYear: year };
