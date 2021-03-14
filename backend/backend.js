@@ -546,6 +546,8 @@ let globalSurvivalRateDataView = [];
 let globalKeywordDataView = [];
 let globalAircraftDataView = [];
 
+let interactionData = [];
+
 const dataGenerator = () => {
 	const converter = csv()
 		.fromFile('../datasets/airplane_crashes.csv')
@@ -984,6 +986,10 @@ app.get('/api/data/aircraft', (req, res) => {
 	} else {
 		res.send(aircraftData.slice(0, 10));
 	}
+});
+
+app.get('/api/logs', (req, res) => {
+	res.send(interactionData);
 });
 
 const port = process.env.PORT || 5000;
