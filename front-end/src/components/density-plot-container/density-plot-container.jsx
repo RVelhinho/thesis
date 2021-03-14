@@ -83,8 +83,6 @@ class DensityPlotContainer extends PureComponent {
 			} else if (cx && cy) {
 				x = cx;
 				y = cy;
-				console.log(cx);
-				console.log(cy);
 			}
 			return (
 				<React.Fragment>
@@ -186,84 +184,90 @@ class DensityPlotContainer extends PureComponent {
 			color,
 			minValue,
 			maxValue,
+			onMouseOverDensityPlot,
 		} = this.props;
 		let tick1 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (1 / 4);
 		let tick2 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (2 / 4);
 		let tick3 = minValue * 0.85 + (maxValue * 1.15 - minValue * 0.85) * (3 / 4);
 		return (
-			<ResponsiveContainer>
-				<AreaChart
-					className='density-plot-container'
-					data={data}
-					margin={{
-						top: 20,
-						right: 70,
-						left: 5,
-						bottom: 0,
-					}}
-				>
-					<svg height={0} width={0}>
-						<linearGradient
-							id={'density-plot-gradient'}
-							x1='0'
-							y1='0'
-							x2='1'
-							y2='0'
-						>
-							<stop offset={'0%'} stopColor={'#9da4e3'} stopOpacity={1} />
-							<stop offset={'33%'} stopColor={'#7983e0'} stopOpacity={1} />
-							<stop offset={'66%'} stopColor={'#4e5cde'} stopOpacity={1} />
-							<stop offset={'99%'} stopColor={'#283ade'} stopOpacity={1} />
-						</linearGradient>
-					</svg>
+			<div
+				onMouseEnter={() => onMouseOverDensityPlot()}
+				style={{ width: '100%', height: '100%' }}
+			>
+				<ResponsiveContainer>
+					<AreaChart
+						className='density-plot-container'
+						data={data}
+						margin={{
+							top: 20,
+							right: 70,
+							left: 5,
+							bottom: 0,
+						}}
+					>
+						<svg height={0} width={0}>
+							<linearGradient
+								id={'density-plot-gradient'}
+								x1='0'
+								y1='0'
+								x2='1'
+								y2='0'
+							>
+								<stop offset={'0%'} stopColor={'#9da4e3'} stopOpacity={1} />
+								<stop offset={'33%'} stopColor={'#7983e0'} stopOpacity={1} />
+								<stop offset={'66%'} stopColor={'#4e5cde'} stopOpacity={1} />
+								<stop offset={'99%'} stopColor={'#283ade'} stopOpacity={1} />
+							</linearGradient>
+						</svg>
 
-					<CartesianGrid strokeDasharray='5' />
-					<XAxis
-						type='category'
-						domain={['auto', 'auto']}
-						tickLine={false}
-						dataKey={categoryAxis}
-						tickSize={10}
-						height={55}
-						axisLine={false}
-						tick={<this.CustomTickXAxis />}
-					/>
-					<YAxis
-						type='number'
-						domain={[minValue * 0.85, maxValue * 1.15]}
-						allowDataOverflow={true}
-						tickLine={false}
-						ticks={[
-							Math.floor(minValue),
-							Math.floor(tick1),
-							Math.floor(tick2),
-							Math.floor(tick3),
-							Math.floor(maxValue),
-						]}
-						tickLine={false}
-						axisLine={false}
-						tick={<this.CustomTickYAxis />}
-					/>
-					<Tooltip
-						content={<CustomToolTip type={tooltipType} color={color} />}
-						wrapperStyle={{ zIndex: 1000 }}
-						cursor={<this.CustomCursor color={color} />}
-					/>
-					<Area
-						type={lineType}
-						dataKey={dataKey}
-						stroke={color}
-						fill={'#de2874'}
-						fillOpacity={0.5}
-						dot={<this.CustomDot />}
-						activeDot={<this.CustomActiveDot />}
-						animationDuration={300}
-						onMouseOver={this.handleMouseOverDensityArea}
-						onAnimationStart={this.handleAnimationStart}
-						onAnimationEnd={this.handleAnimationEnd}
-					/>
-				</AreaChart>
-			</ResponsiveContainer>
+						<CartesianGrid strokeDasharray='5' />
+						<XAxis
+							type='category'
+							domain={['auto', 'auto']}
+							tickLine={false}
+							dataKey={categoryAxis}
+							tickSize={10}
+							height={55}
+							axisLine={false}
+							tick={<this.CustomTickXAxis />}
+						/>
+						<YAxis
+							type='number'
+							domain={[minValue * 0.85, maxValue * 1.15]}
+							allowDataOverflow={true}
+							tickLine={false}
+							ticks={[
+								Math.floor(minValue),
+								Math.floor(tick1),
+								Math.floor(tick2),
+								Math.floor(tick3),
+								Math.floor(maxValue),
+							]}
+							tickLine={false}
+							axisLine={false}
+							tick={<this.CustomTickYAxis />}
+						/>
+						<Tooltip
+							content={<CustomToolTip type={tooltipType} color={color} />}
+							wrapperStyle={{ zIndex: 1000 }}
+							cursor={<this.CustomCursor color={color} />}
+						/>
+						<Area
+							type={lineType}
+							dataKey={dataKey}
+							stroke={color}
+							fill={'#de2874'}
+							fillOpacity={0.5}
+							dot={<this.CustomDot />}
+							activeDot={<this.CustomActiveDot />}
+							animationDuration={300}
+							onMouseOver={this.handleMouseOverDensityArea}
+							onAnimationStart={this.handleAnimationStart}
+							onAnimationEnd={this.handleAnimationEnd}
+						/>
+					</AreaChart>
+				</ResponsiveContainer>
+			</div>
 		);
 	}
 }

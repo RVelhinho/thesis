@@ -10,10 +10,12 @@ const CalendarRow = React.memo(
 		data,
 		currentCircle,
 		onClickCalendarCircle,
+		onMouseOverYear,
 		onMouseOverCalendarCircle,
 		onMouseOutCalendarCircle,
 		onClickYear,
 		selectedYear,
+		selectedCircles,
 	}) => {
 		const getContinentColor = (continent) => {
 			if (continent === 'North America') {
@@ -30,6 +32,11 @@ const CalendarRow = React.memo(
 				return '#a645c4';
 			}
 		};
+
+		const handleClickCalendarCircle = (e, el) => {
+			e.stopPropagation();
+			onClickCalendarCircle(el);
+		};
 		return (
 			<div
 				className='calendar-row-container'
@@ -38,6 +45,7 @@ const CalendarRow = React.memo(
 						? { opacity: 0.3 }
 						: { opacity: 1 }
 				}
+				onMouseOver={() => onMouseOverYear()}
 				onClick={() => onClickYear(year)}
 			>
 				<div className='row mx-0'>
@@ -54,10 +62,17 @@ const CalendarRow = React.memo(
 					onMouseLeave={() => onMouseOutCalendarCircle()}
 				>
 					{data.map((el, index) => {
+						let selected = false;
+						_.forEach(selectedCircles, (circle, index) => {
+							if (circle.id === el.id) {
+								selected = true;
+								return false;
+							}
+						});
 						return (
 							<div
 								key={`calendar-row-circle-${index}`}
-								className='col-auto p-1'
+								className='col-auto px-0 m-1'
 							>
 								<div
 									className='calendar-row-container__circle-container__circle'
@@ -66,9 +81,15 @@ const CalendarRow = React.memo(
 											? { borderColor: getTimeColor(1935) }
 											: {}
 									}
-									style={{ backgroundColor: getContinentColor(el.continent) }}
-									onClick={() => onClickCalendarCircle(el)}
-									onMouseOver={(e) => onMouseOverCalendarCircle(e, el, index)}
+									style={
+										selected
+											? { backgroundColor: '#de2874' }
+											: { backgroundColor: getContinentColor(el.continent) }
+									}
+									onClick={(e) => handleClickCalendarCircle(e, el)}
+									onMouseOver={(e) =>
+										onMouseOverCalendarCircle(e, el, index, selected)
+									}
 								></div>
 							</div>
 						);

@@ -6,7 +6,7 @@ import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import { getTimeColor } from '../../utils/time';
 import './map-container.scss';
 import { random } from '@turf/turf';
-import { result } from 'lodash';
+import _, { result } from 'lodash';
 
 export default class MapContainer extends PureComponent {
 	constructor(props) {
@@ -119,7 +119,13 @@ export default class MapContainer extends PureComponent {
 	};
 
 	render() {
-		const { data, tooltipType, onClickMapCircle, randomPositions } = this.props;
+		const {
+			data,
+			tooltipType,
+			onClickMapCircle,
+			randomPositions,
+			selectedCircles,
+		} = this.props;
 		const {
 			position,
 			zoomLevel,
@@ -178,22 +184,33 @@ export default class MapContainer extends PureComponent {
 							<React.Fragment key={index}>
 								{loc.total.map((el, index2) => {
 									if (el.lat) {
+										let selected = false;
+										_.forEach(selectedCircles, (circle, index) => {
+											if (circle.id === el.id) {
+												selected = true;
+												return false;
+											}
+										});
 										return (
 											<CircleMarker
 												key={index2}
 												center={[el.lat, el.lon]}
-												fillColor={getTimeColor(parseInt(el.year))}
+												fillColor={
+													selected ? '#de2874' : getTimeColor(parseInt(el.year))
+												}
 												radius={10}
 												weight={0}
 												onMouseOver={(e) => e.target.openPopup()}
 												onMouseOut={(e) => e.target.closePopup()}
-												onClick={() => {
-													onClickMapCircle(index);
-												}}
+												onClick={() => onClickMapCircle(el)}
 											>
 												<CircleMarker
 													center={[el.lat, el.lon]}
-													fillColor={getTimeColor(parseInt(el.year))}
+													fillColor={
+														selected
+															? '#de2874'
+															: getTimeColor(parseInt(el.year))
+													}
 													fillOpacity={1}
 													radius={3}
 													weight={0}
@@ -205,7 +222,11 @@ export default class MapContainer extends PureComponent {
 														date={el.date}
 														aircraft={el.aircraft}
 														keywords={el.keywords}
-														color={getTimeColor(parseInt(el.year))}
+														color={
+															selected
+																? '#de2874'
+																: getTimeColor(parseInt(el.year))
+														}
 													/>
 												</Popup>
 											</CircleMarker>
@@ -225,22 +246,35 @@ export default class MapContainer extends PureComponent {
 								<React.Fragment key={index}>
 									{loc.total.map((el, index2) => {
 										if (el.lat) {
+											let selected = false;
+											_.forEach(selectedCircles, (circle, index) => {
+												if (circle.id === el.id) {
+													selected = true;
+													return false;
+												}
+											});
 											return (
 												<CircleMarker
 													key={index2}
 													center={[el.lat, el.lon]}
-													fillColor={getTimeColor(parseInt(el.year))}
+													fillColor={
+														selected
+															? '#de2874'
+															: getTimeColor(parseInt(el.year))
+													}
 													radius={10}
 													weight={0}
 													onMouseOver={(e) => e.target.openPopup()}
 													onMouseOut={(e) => e.target.closePopup()}
-													onClick={() => {
-														onClickMapCircle(index);
-													}}
+													onClick={() => onClickMapCircle(el)}
 												>
 													<CircleMarker
 														center={[el.lat, el.lon]}
-														fillColor={getTimeColor(parseInt(el.year))}
+														fillColor={
+															selected
+																? '#de2874'
+																: getTimeColor(parseInt(el.year))
+														}
 														fillOpacity={1}
 														radius={3}
 														weight={0}
@@ -252,7 +286,11 @@ export default class MapContainer extends PureComponent {
 															date={el.date}
 															aircraft={el.aircraft}
 															keywords={el.keywords}
-															color={getTimeColor(parseInt(el.year))}
+															color={
+																selected
+																	? '#de2874'
+																	: getTimeColor(parseInt(el.year))
+															}
 														/>
 													</Popup>
 												</CircleMarker>
@@ -313,7 +351,7 @@ export default class MapContainer extends PureComponent {
 							<Button
 								text={'Reset Zoom'}
 								color={'grey'}
-								onResetZoom={this.handleResetZoom}
+								onClick={this.handleResetZoom}
 							/>
 						</div>
 					</div>

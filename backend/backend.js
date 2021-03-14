@@ -4,6 +4,7 @@ const config = require('config');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const express = require('express');
+const { request } = require('express');
 const app = express();
 
 // Middleware
@@ -990,6 +991,16 @@ app.get('/api/data/aircraft', (req, res) => {
 
 app.get('/api/logs', (req, res) => {
 	res.send(interactionData);
+});
+
+app.post('/api/logs', (req, res) => {
+	interactionData.push({
+		timeStamp: req.query.time_stamp,
+		view: req.query.view,
+		type: req.query.type,
+		description: req.query.description,
+	});
+	res.sendStatus(200);
 });
 
 const port = process.env.PORT || 5000;

@@ -1,8 +1,13 @@
 .overview-container {
 	position: relative;
 	width: 20%;
-	background-color: #4c4c4c;
-	padding: 4em 2.5em;
+	height: 100%;
+	background-color: #fff;
+	padding: 2em;
+	box-shadow: 0 8px 5px rgba(0, 0, 0, 0.3);
+	z-index: 1000;
+	overflow-y: auto;
+	overflow-x: hidden;
 	&__close {
 		position: absolute;
 		top: 1.5%;
@@ -10,20 +15,20 @@
 		width: 1em;
 		height: 1em;
 		cursor: pointer;
-		filter: saturate(100%) brightness(0) invert(93%) sepia(93%) saturate(27%)
-			hue-rotate(24deg) brightness(104%) contrast(110%);
+		filter: brightness(0) saturate(100%) invert(34%) sepia(61%) saturate(6363%)
+			hue-rotate(319deg) brightness(90%) contrast(93%);
 	}
 	&__title {
 		font-size: 0.96rem;
 		font-family: OpenSans-Regular;
 		font-weight: 600;
-		color: white;
+		color: #4c4c4c;
 	}
 	&__sub-title {
 		font-size: 0.96rem;
 		font-family: OpenSans-Regular;
 		font-weight: 600;
-		color: #d6d6d6;
+		color: #606060;
 	}
 	&__text {
 		font-size: 0.9rem;
@@ -32,20 +37,20 @@
 		color: #969696;
 	}
 	&__description-container {
-		border: 1px solid #969696;
+		border: 1px solid #d6d6d6;
 		border-radius: 8px;
 		min-height: 5em;
 		height: auto;
-		padding: 1em;
+		padding: 0.5em;
 		&__text {
-			font-size: 0.96rem;
+			font-size: 0.9rem;
 			font-family: OpenSans-Regular;
 			font-weight: 600;
-			color: #d6d6d6;
+			color: #969696;
 		}
 	}
 	&__separator {
-		border-color: #969696;
+		border-color: #d6d6d6;
 		margin: 2em 0;
 	}
 }

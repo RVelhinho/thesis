@@ -29,7 +29,7 @@ export default class CalendarContainer extends PureComponent {
 
 	static propTypes = {};
 
-	handleMouseOverCalendarCircle = (e, circle, index) => {
+	handleMouseOverCalendarCircle = (e, circle, index, selected) => {
 		const tooltip = { ...this.state.tooltip };
 		tooltip.cx = e.clientX - e.target.offsetLeft;
 		tooltip.cy = e.clientY - e.target.offsetTop;
@@ -38,7 +38,9 @@ export default class CalendarContainer extends PureComponent {
 		tooltip.aircraft = circle.aircraft;
 		tooltip.keywords = circle.keywords;
 		tooltip.open = true;
-		if (parseInt(circle.year) >= 1985) {
+		if (selected) {
+			tooltip.color = '#de2874';
+		} else if (parseInt(circle.year) >= 1985) {
 			tooltip.color = '#283ade';
 		} else if (parseInt(circle.year) < 1985 && parseInt(circle.year) >= 1960) {
 			tooltip.color = '#4e5cde';
@@ -47,6 +49,7 @@ export default class CalendarContainer extends PureComponent {
 		} else if (parseInt(circle.year) < 1935) {
 			tooltip.color = '#9da4e3';
 		}
+		this.props.onMouseOverCalendarCircle();
 		this.setState(() => {
 			return {
 				tooltip,
@@ -107,6 +110,9 @@ export default class CalendarContainer extends PureComponent {
 			onClickCalendarCircle,
 			onClickContinentCircle,
 			onClickYear,
+			onMouseOverYear,
+			onMouseOverContinentCircle,
+			selectedCircles,
 		} = this.props;
 		const {
 			tooltip,
@@ -131,9 +137,11 @@ export default class CalendarContainer extends PureComponent {
 										onMouseOverCalendarCircle={
 											this.handleMouseOverCalendarCircle
 										}
+										onMouseOverYear={onMouseOverYear}
 										onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
 										selectedYear={selectedYear}
 										onClickYear={this.handleClickYear}
+										selectedCircles={selectedCircles}
 									/>
 								);
 							})}
@@ -163,6 +171,7 @@ export default class CalendarContainer extends PureComponent {
 												? { backgroundColor: '#456dc4', opacity: 0.3 }
 												: { backgroundColor: '#456dc4' }
 										}
+										onMouseOver={() => onMouseOverContinentCircle()}
 										onClick={() =>
 											this.handleClickContinentCircle('North America')
 										}
@@ -184,6 +193,7 @@ export default class CalendarContainer extends PureComponent {
 												? { backgroundColor: '#45c449', opacity: 0.3 }
 												: { backgroundColor: '#45c449' }
 										}
+										onMouseOver={() => onMouseOverContinentCircle()}
 										onClick={() =>
 											this.handleClickContinentCircle('South America')
 										}
@@ -206,6 +216,7 @@ export default class CalendarContainer extends PureComponent {
 												? { backgroundColor: '#c2c445', opacity: 0.3 }
 												: { backgroundColor: '#c2c445' }
 										}
+										onMouseOver={() => onMouseOverContinentCircle()}
 										onClick={() => this.handleClickContinentCircle('Europe')}
 									></div>
 								</div>
@@ -224,6 +235,7 @@ export default class CalendarContainer extends PureComponent {
 												? { backgroundColor: '#c48b45', opacity: 0.3 }
 												: { backgroundColor: '#c48b45' }
 										}
+										onMouseOver={() => onMouseOverContinentCircle()}
 										onClick={() => this.handleClickContinentCircle('Africa')}
 									></div>
 								</div>
@@ -244,6 +256,7 @@ export default class CalendarContainer extends PureComponent {
 												? { backgroundColor: '#c445ad', opacity: 0.3 }
 												: { backgroundColor: '#c445ad' }
 										}
+										onMouseOver={() => onMouseOverContinentCircle()}
 										onClick={() => this.handleClickContinentCircle('Asia')}
 									></div>
 								</div>
@@ -263,6 +276,7 @@ export default class CalendarContainer extends PureComponent {
 												? { backgroundColor: '#a645c4', opacity: 0.3 }
 												: { backgroundColor: '#a645c4' }
 										}
+										onMouseOver={() => onMouseOverContinentCircle()}
 										onClick={() => this.handleClickContinentCircle('Oceania')}
 									></div>
 								</div>

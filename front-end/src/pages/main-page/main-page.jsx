@@ -21,6 +21,11 @@ const MainPage = ({
 	overviewData,
 	randomPositions,
 	onClickYear,
+	onMouseOverYear,
+	onMouseOverCalendarCircle,
+	onMouseOverContinentCircle,
+	onClickCalendarCircle,
+	onMouseOverDensityPlot,
 	onClickMapCircle,
 	onClickMapRing,
 	onClickTimeRing,
@@ -29,6 +34,8 @@ const MainPage = ({
 	onClickBar,
 	onCloseOverviewContainer,
 	onClickContinentCircle,
+	onClickRemoveCrash,
+	selectedCircles,
 }) => {
 	const densityPlotValues = _.map(densityPlotData.data, (el) => el.count);
 	const minValue = Math.min(...densityPlotValues);
@@ -62,9 +69,13 @@ const MainPage = ({
 									data={calendarData.data}
 									hopLegendColors={calendarData.hopLegendColors}
 									tooltipType={calendarData.tooltipType}
-									onClickCalendarCircle={onClickMapCircle}
+									onMouseOverYear={onMouseOverYear}
+									onMouseOverCalendarCircle={onMouseOverCalendarCircle}
+									onMouseOverContinentCircle={onMouseOverContinentCircle}
+									onClickCalendarCircle={onClickCalendarCircle}
 									onClickContinentCircle={onClickContinentCircle}
 									onClickYear={onClickYear}
+									selectedCircles={selectedCircles}
 								/>
 							)}
 						</div>
@@ -83,6 +94,7 @@ const MainPage = ({
 									tooltipType={densityPlotData.tooltipType}
 									minValue={minValue}
 									maxValue={maxValue}
+									onMouseOverDensityPlot={onMouseOverDensityPlot}
 								/>
 							)}
 						</div>
@@ -112,6 +124,7 @@ const MainPage = ({
 									onClickMapRing={onClickMapRing}
 									onClickTimeRing={onClickTimeRing}
 									onZoomOut={onZoomOut}
+									selectedCircles={selectedCircles}
 								/>
 							)}
 						</div>
@@ -193,13 +206,10 @@ const MainPage = ({
 				</div>
 				{overviewData.open && (
 					<OverviewContainer
-						location={overviewData.location}
-						date={overviewData.date}
-						aircraft={overviewData.aircraft}
-						operator={overviewData.operator}
-						description={overviewData.description}
+						selectedCrashes={overviewData.data}
 						open={overviewData.open}
 						onCloseOverviewContainer={onCloseOverviewContainer}
+						onClickRemoveCrash={onClickRemoveCrash}
 					/>
 				)}
 			</div>

@@ -8,6 +8,7 @@ import MainPage from './pages/main-page/main-page';
 import InitialPage from './pages/initial-page/initial-page';
 import ResultsPage from './pages/results-page/results-page.jsx';
 import crashService from './services/crashService';
+import interactionService from './services/interactionService';
 import worldPoly from './utils/world-poly.json';
 import './App.scss';
 import './assets/scss/index.scss';
@@ -66,17 +67,14 @@ export default class App extends Component {
 			},
 			overviewData: {
 				open: false,
-				location: '',
-				date: '',
-				aircraft: '',
-				operator: '',
-				description: '',
+				data: [],
 			},
 			filter: {
 				yearData: false,
 				keywordData: false,
 				aircraftData: false,
 			},
+			selectedCircles: [],
 		};
 		this.baseOverviewData = {
 			open: false,
@@ -88,8 +86,47 @@ export default class App extends Component {
 		};
 		this._isMounted = true;
 	}
-	handleClickContinentCircle = (continent) => {
+
+	handleMouseOverContinentCircle = async () => {
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Continent Hover',
+				'Hovered a continent on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
+	handleClickContinentCircle = async (continent) => {
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Continent Click',
+				'Clicked a continent on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
 		const selected = _.cloneDeep(this.state.selected);
 		const filter = _.cloneDeep(this.state.filter);
 		if (continent === selected.continent) {
@@ -161,10 +198,27 @@ export default class App extends Component {
 		});
 	};
 
-	handleClickYear = (year) => {
+	handleClickYear = async (year) => {
+		this.cancelTokenSource && this.cancelTokenSource.cancel();
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Year Click',
+				'Clicked a year on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
 		const filter = _.cloneDeep(this.state.filter);
 		const selected = _.cloneDeep(this.state.selected);
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
 		if (selected.year === year) {
 			selected.year = undefined;
 			filter.yearData = false;
@@ -203,18 +257,18 @@ export default class App extends Component {
 		this.cancelTokenSource && this.cancelTokenSource.cancel();
 		const selected = _.cloneDeep(this.state.selected);
 		const filter = _.cloneDeep(this.state.filter);
+		selected.country = undefined;
 		this.handleDataInteraction(
 			selected.year,
 			selected.minDate,
 			selected.maxDate,
-			undefined,
+			selected.country,
 			selected.continent,
 			selected.keyword,
 			selected.aircraft,
 			filter,
 			''
 		);
-		selected.country = undefined;
 		this.setState(() => {
 			return { selected };
 		});
@@ -565,19 +619,134 @@ export default class App extends Component {
 		}
 	};
 
+	handleMouseOverYear = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Year Hover',
+				'Hoevered a year on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
+	handleMouseOverCalendarCircle = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Circle Hover',
+				'Hovered a circle on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
+	handleClickCalendarCircle = async (circle) => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Circle Click',
+				'Clicked a circle on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+		this.handleClickCircle(circle);
+	};
+
+	handleClickMapCircle = async (circle) => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Map',
+				'Map Circle Click',
+				'Clicked a circle on the Map view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+		this.handleClickCircle(circle);
+	};
+
 	handleClickCircle = (circle) => {
-		const overviewData = { ...this.state.overviewData };
+		const overviewData = _.cloneDeep(this.state.overviewData);
+		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
 		if (overviewData.location === circle.country) {
 			return null;
 		}
-		overviewData.location = circle.country;
-		overviewData.date = circle.date;
-		overviewData.aircraft = circle.aircraft;
-		overviewData.operator = circle.operator;
-		overviewData.description = circle.description;
-		overviewData.open = !overviewData.open;
+		let found = false;
+		_.forEach(overviewData.data, (el, index) => {
+			if (el.id == circle.id) {
+				found = index;
+			}
+		});
+		if (typeof found === 'number') {
+			overviewData.data.splice(found, 1);
+			selectedCircles.splice(found, 1);
+		} else {
+			overviewData.data.push(circle);
+			selectedCircles.push(circle);
+		}
+		if (overviewData.data.length > 0) {
+			overviewData.open = true;
+		} else {
+			overviewData.open = false;
+		}
 		this.setState(() => {
-			return { overviewData };
+			return { overviewData, selectedCircles };
+		});
+	};
+
+	handleClickRemoveCrash = (circle) => {
+		const overviewData = { ...this.state.overviewData };
+		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
+		_.forEach(overviewData.data, (el, index) => {
+			if (el.id == circle.id) {
+				overviewData.data.splice(index, 1);
+				selectedCircles.splice(index, 1);
+				return false;
+			}
+		});
+		if (overviewData.data.length > 0) {
+			overviewData.open = true;
+		} else {
+			overviewData.open = false;
+		}
+		this.setState(() => {
+			return { overviewData, selectedCircles };
 		});
 	};
 
@@ -586,6 +755,26 @@ export default class App extends Component {
 		this.setState(() => {
 			return { overviewData };
 		});
+	};
+
+	handleMouseOverDensityPlot = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Density Plot',
+				'Density Plot Hover',
+				'Hovered the Density Plot view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
 	};
 
 	render() {
@@ -598,6 +787,7 @@ export default class App extends Component {
 			barChartData,
 			overviewData,
 			randomPositions,
+			selectedCircles,
 		} = this.state;
 		return (
 			<div className='container-fluid app-container px-0'>
@@ -615,13 +805,20 @@ export default class App extends Component {
 								overviewData={overviewData}
 								randomPositions={randomPositions}
 								onClickYear={this.handleClickYear}
-								onClickMapCircle={this.handleClickCircle}
+								onMouseOverContinentCircle={this.handleMouseOverContinentCircle}
+								onMouseOverYear={this.handleMouseOverYear}
+								onMouseOverCalendarCircle={this.handleMouseOverCalendarCircle}
+								onClickCalendarCircle={this.handleClickCalendarCircle}
+								onMouseOverDensityPlot={this.handleMouseOverDensityPlot}
+								onClickMapCircle={this.handleClickMapCircle}
 								onClickMapRing={this.handleClickMapRing}
 								onClickTimeRing={this.handleClickTimeRing}
 								onZoomOut={this.handleZoomOut}
 								onClickWord={this.handleClickWord}
 								onClickBar={this.handleClickBar}
 								onClickContinentCircle={this.handleClickContinentCircle}
+								onClickRemoveCrash={this.handleClickRemoveCrash}
+								selectedCircles={selectedCircles}
 								{...props}
 							/>
 						)}
