@@ -1,4 +1,5 @@
 import L, { svg } from 'leaflet';
+import $ from 'jquery';
 import React, { PureComponent } from 'react';
 import { Map, TileLayer, Popup, CircleMarker, Tooltip } from 'react-leaflet';
 import Button from '../button/button';
@@ -82,6 +83,7 @@ export default class MapContainer extends PureComponent {
 			return { position, zoomLevel: 'low', selectedCountry: '' };
 		});
 		this.props.onZoomOut();
+		this.props.onClickResetButton();
 	};
 
 	handleClickMapRing = (e, country) => {
@@ -122,7 +124,13 @@ export default class MapContainer extends PureComponent {
 		const {
 			data,
 			tooltipType,
+			onMouseOverMapCircle,
 			onClickMapCircle,
+			onMouseOverMapRing,
+			onMouseOverTimeRing,
+			onMouseOverResetButton,
+			onMouseOverZoom,
+			onClickZoom,
 			randomPositions,
 			selectedCircles,
 		} = this.props;
@@ -141,6 +149,18 @@ export default class MapContainer extends PureComponent {
 				maxZoom={10}
 				minZoom={3}
 				onzoomend={(e) => this.handleChangeZoom(e.target._zoom)}
+				whenReady={() => {
+					$('.leaflet-control-zoom').on('mouseenter', function () {
+						onMouseOverZoom();
+					});
+
+					$('.leaflet-control-zoom-in').on('click', function (e) {
+						onClickZoom();
+					});
+					$('.leaflet-control-zoom-out').on('click', function (e) {
+						onClickZoom();
+					});
+				}}
 				doubleClickZoom={false}
 			>
 				<TileLayer
@@ -200,7 +220,10 @@ export default class MapContainer extends PureComponent {
 												}
 												radius={10}
 												weight={0}
-												onMouseOver={(e) => e.target.openPopup()}
+												onMouseOver={(e) => {
+													onMouseOverMapCircle();
+													e.target.openPopup();
+												}}
 												onMouseOut={(e) => e.target.closePopup()}
 												onClick={() => onClickMapCircle(el)}
 											>
@@ -264,7 +287,10 @@ export default class MapContainer extends PureComponent {
 													}
 													radius={10}
 													weight={0}
-													onMouseOver={(e) => e.target.openPopup()}
+													onMouseOver={(e) => {
+														onMouseOverMapCircle();
+														e.target.openPopup();
+													}}
 													onMouseOut={(e) => e.target.closePopup()}
 													onClick={() => onClickMapCircle(el)}
 												>
@@ -317,7 +343,10 @@ export default class MapContainer extends PureComponent {
 										15 + loc.total.length * 0.3
 									)}
 									weight={0}
-									onMouseOver={(e) => e.target.openPopup()}
+									onMouseOver={(e) => {
+										onMouseOverMapRing();
+										e.target.openPopup();
+									}}
 									onMouseOut={(e) => e.target.closePopup()}
 									onClick={(e) => this.handleClickMapRing(e, loc.country)}
 								>
@@ -351,6 +380,7 @@ export default class MapContainer extends PureComponent {
 							<Button
 								text={'Reset Zoom'}
 								color={'grey'}
+								onMouseEnter={onMouseOverResetButton}
 								onClick={this.handleResetZoom}
 							/>
 						</div>
@@ -362,6 +392,7 @@ export default class MapContainer extends PureComponent {
 								? { opacity: 0.3 }
 								: { opacity: 1 }
 						}
+						onMouseEnter={() => onMouseOverTimeRing()}
 						onClick={() => this.handleClickTimeRing(0)}
 					>
 						<div className='col-auto px-0 mr-2'>
@@ -381,6 +412,7 @@ export default class MapContainer extends PureComponent {
 								? { opacity: 0.3 }
 								: { opacity: 1 }
 						}
+						onMouseEnter={() => onMouseOverTimeRing()}
 						onClick={() => this.handleClickTimeRing(1)}
 					>
 						<div className='col-auto px-0 mr-2'>
@@ -397,6 +429,7 @@ export default class MapContainer extends PureComponent {
 								? { opacity: 0.3 }
 								: { opacity: 1 }
 						}
+						onMouseEnter={() => onMouseOverTimeRing()}
 						onClick={() => this.handleClickTimeRing(2)}
 					>
 						<div className='col-auto px-0 mr-2'>
@@ -413,6 +446,7 @@ export default class MapContainer extends PureComponent {
 								? { opacity: 0.3 }
 								: { opacity: 1 }
 						}
+						onMouseEnter={() => onMouseOverTimeRing()}
 						onClick={() => this.handleClickTimeRing(3)}
 					>
 						<div className='col-auto px-0 mr-2'>

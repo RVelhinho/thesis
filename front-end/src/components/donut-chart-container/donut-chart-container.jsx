@@ -87,33 +87,38 @@ export default class DonutChartContainer extends PureComponent {
 	};
 
 	render() {
-		const { data } = this.props;
+		const { data, onMouseOverDonutChart } = this.props;
 		const { activeIndex, donutColors } = this.state;
 		return (
-			<ResponsiveContainer>
-				<PieChart>
-					<Pie
-						activeIndex={activeIndex}
-						activeShape={this.renderActiveShape}
-						data={data}
-						innerRadius={'40%'}
-						outerRadius={'60%'}
-						dataKey='total'
-						fill={'#8884d8'}
-						onMouseOver={this.onDonutOver}
-					>
-						{data.map((entry, index) => {
-							return (
-								<Cell
-									key={`cell-${index}`}
-									fill={donutColors[index % donutColors.length]}
-									opacity={0.7}
-								/>
-							);
-						})}
-					</Pie>
-				</PieChart>
-			</ResponsiveContainer>
+			<div
+				onMouseEnter={() => onMouseOverDonutChart()}
+				style={{ width: '100%', height: '100%' }}
+			>
+				<ResponsiveContainer>
+					<PieChart>
+						<Pie
+							activeIndex={activeIndex}
+							activeShape={this.renderActiveShape}
+							data={data}
+							innerRadius={'40%'}
+							outerRadius={'60%'}
+							dataKey='total'
+							fill={'#8884d8'}
+							onMouseOver={this.onDonutOver}
+						>
+							{data.map((entry, index) => {
+								return (
+									<Cell
+										key={`cell-${index}`}
+										fill={donutColors[index % donutColors.length]}
+										opacity={0.7}
+									/>
+								);
+							})}
+						</Pie>
+					</PieChart>
+				</ResponsiveContainer>
+			</div>
 		);
 	}
 }

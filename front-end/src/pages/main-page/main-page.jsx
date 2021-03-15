@@ -20,20 +20,35 @@ const MainPage = ({
 	barChartData,
 	overviewData,
 	randomPositions,
-	onClickYear,
-	onMouseOverYear,
+	onMouseEnterCalendar,
+	onMouseEnterMap,
+	onMouseEnterDonutChart,
+	onMouseEnterWordCloud,
+	onMouseEnterBarChart,
 	onMouseOverCalendarCircle,
-	onMouseOverContinentCircle,
 	onClickCalendarCircle,
-	onMouseOverDensityPlot,
-	onClickMapCircle,
-	onClickMapRing,
-	onClickTimeRing,
-	onZoomOut,
-	onClickWord,
-	onClickBar,
-	onCloseOverviewContainer,
+	onMouseOverYear,
+	onClickYear,
+	onMouseOverContinentCircle,
 	onClickContinentCircle,
+	onMouseOverDensityPlot,
+	onMouseOverMapRing,
+	onClickMapRing,
+	onMouseOverTimeRing,
+	onClickTimeRing,
+	onMouseOverResetButton,
+	onClickResetButton,
+	onMouseOverMapCircle,
+	onClickMapCircle,
+	onMouseOverZoom,
+	onClickZoom,
+	onZoomOut,
+	onMouseOverDonutChart,
+	onMouseOverWordCloud,
+	onClickWordCloud,
+	onMouseOverBarChart,
+	onClickBarChart,
+	onCloseOverviewContainer,
 	onClickRemoveCrash,
 	selectedCircles,
 }) => {
@@ -62,7 +77,10 @@ const MainPage = ({
 							</span>
 						</div>
 					)}
-					<div className='row mx-0 main-page-container__left-section__top-row'>
+					<div
+						className='row mx-0 main-page-container__left-section__top-row'
+						onMouseEnter={() => onMouseEnterCalendar()}
+					>
 						<div className='col px-0 h-100'>
 							{calendarData.data.length !== 0 && (
 								<CalendarContainer
@@ -102,7 +120,7 @@ const MainPage = ({
 				</div>
 				<div className='col px-0'>
 					<div className='row mx-0 main-page-container__right-section__top-row'>
-						<div className='col px-0'>
+						<div className='col px-0' onMouseEnter={() => onMouseEnterMap()}>
 							{mapData.data.length === 0 && (
 								<div className='main-page-container__no-data-container'>
 									<img
@@ -120,9 +138,16 @@ const MainPage = ({
 									data={mapData.data}
 									tooltipType={mapData.tooltipType}
 									randomPositions={randomPositions}
-									onClickMapCircle={onClickMapCircle}
+									onMouseOverMapRing={onMouseOverMapRing}
 									onClickMapRing={onClickMapRing}
+									onMouseOverTimeRing={onMouseOverTimeRing}
 									onClickTimeRing={onClickTimeRing}
+									onMouseOverMapCircle={onMouseOverMapCircle}
+									onClickMapCircle={onClickMapCircle}
+									onMouseOverResetButton={onMouseOverResetButton}
+									onClickResetButton={onClickResetButton}
+									onMouseOverZoom={onMouseOverZoom}
+									onClickZoom={onClickZoom}
 									onZoomOut={onZoomOut}
 									selectedCircles={selectedCircles}
 								/>
@@ -136,6 +161,7 @@ const MainPage = ({
 									? 'col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'
 									: 'col-4 h-100 p-4 main-page-container__right-section__bottom-row__chart'
 							}
+							onMouseEnter={() => onMouseEnterDonutChart()}
 						>
 							{donutChartData.data.length === 0 && (
 								<div className='main-page-container__no-data-container'>
@@ -153,10 +179,14 @@ const MainPage = ({
 								<DonutChartContainer
 									data={donutChartData.data}
 									tooltipType={donutChartData.tooltipType}
+									onMouseOverDonutChart={onMouseOverDonutChart}
 								/>
 							)}
 						</div>
-						<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
+						<div
+							className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'
+							onMouseEnter={() => onMouseEnterWordCloud()}
+						>
 							{wordCloudData.data.length === 0 && (
 								<div className='main-page-container__no-data-container'>
 									<img
@@ -176,11 +206,15 @@ const MainPage = ({
 									color={wordCloudData.color}
 									max={wordCloudData.max}
 									id={'word-cloud-container'}
-									onClickWord={onClickWord}
+									onMouseOverWordCloud={onMouseOverWordCloud}
+									onClickWordCloud={onClickWordCloud}
 								/>
 							)}
 						</div>
-						<div className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'>
+						<div
+							className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'
+							onMouseEnter={() => onMouseEnterBarChart()}
+						>
 							{barChartData.data.length === 0 && (
 								<div className='main-page-container__no-data-container'>
 									<img
@@ -198,7 +232,8 @@ const MainPage = ({
 									data={barChartData.data}
 									gradientColors={barChartData.gradientColors}
 									tooltipType={barChartData.tooltipType}
-									onClickBar={onClickBar}
+									onMouseOverBarChart={onMouseOverBarChart}
+									onClickBarChart={onClickBarChart}
 								/>
 							)}
 						</div>

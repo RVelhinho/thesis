@@ -78,11 +78,16 @@ class BarChartContainer extends PureComponent {
 				return { selectedBar: entry.plane };
 			});
 		}
-		this.props.onClickBar(entry);
+		this.props.onClickBarChart(entry);
 	};
 
 	render() {
-		const { data, tooltipType, gradientColors, onClickBar } = this.props;
+		const {
+			data,
+			tooltipType,
+			gradientColors,
+			onMouseOverBarChart,
+		} = this.props;
 		const barColors = [];
 
 		const hex = (x) => {
@@ -162,6 +167,7 @@ class BarChartContainer extends PureComponent {
 											: barColors[index]
 									}
 									opacity={0.7}
+									onMouseEnter={() => onMouseOverBarChart()}
 									onClick={() => this.handleClickBar(entry)}
 								/>
 							);

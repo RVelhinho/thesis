@@ -157,6 +157,7 @@ export default class WordCloudContainer extends PureComponent {
 		this.setState(() => {
 			return { hoveredWord: d.text, count: d.value };
 		});
+		this.props.onMouseOverWordCloud();
 		if (selectedWord === d.text) {
 			return '#520e2a';
 		} else if (hoveredWord === d.text) {
@@ -200,7 +201,7 @@ export default class WordCloudContainer extends PureComponent {
 			this.setState(() => {
 				return { selectedWord: '' };
 			});
-			this.props.onClickWord(d.text);
+			this.props.onClickWordCloud(d.text);
 			if (selectedWord === d.text) {
 				return '#520e2a';
 			} else if (hoveredWord === d.text) {
@@ -219,7 +220,7 @@ export default class WordCloudContainer extends PureComponent {
 			this.setState(() => {
 				return { selectedWord: d.text };
 			});
-			this.props.onClickWord(d.text);
+			this.props.onClickWordCloud(d.text);
 			if (selectedWord === d.text) {
 				return '#520e2a';
 			} else if (hoveredWord === d.text) {
