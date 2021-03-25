@@ -46,9 +46,9 @@ class BarChartContainer extends PureComponent {
 		return (
 			<Rectangle
 				className='custom-cursor-bar-chart'
-				x={x - x + 10}
+				x={x - x + 5}
 				y={y}
-				width={width + x + 10}
+				width={width + x + 5}
 				radius={10}
 				height={height}
 				fill={'#ededed'}
@@ -129,7 +129,7 @@ class BarChartContainer extends PureComponent {
 					margin={{
 						top: 5,
 						right: 20,
-						left: 10,
+						left: 20,
 						bottom: 5,
 					}}
 					layout={'vertical'}
@@ -163,7 +163,7 @@ class BarChartContainer extends PureComponent {
 									key={index}
 									fill={
 										this.state.selectedBar === entry.plane
-											? '#520e2a'
+											? '#1d856a'
 											: barColors[index]
 									}
 									opacity={0.7}

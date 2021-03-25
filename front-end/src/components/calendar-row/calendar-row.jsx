@@ -18,18 +18,16 @@ const CalendarRow = React.memo(
 		selectedCircles,
 	}) => {
 		const getContinentColor = (continent) => {
-			if (continent === 'North America') {
-				return '#456dc4';
-			} else if (continent === 'South America') {
-				return '#45c449';
+			if (continent === 'America') {
+				return '#db3535';
 			} else if (continent === 'Europe') {
-				return '#c2c445';
+				return '#347aeb';
 			} else if (continent === 'Africa') {
 				return '#c48b45';
 			} else if (continent === 'Asia') {
-				return '#c445ad';
+				return '#d9eb34';
 			} else if (continent === 'Oceania') {
-				return '#a645c4';
+				return '#35db45';
 			}
 		};
 
@@ -84,7 +82,7 @@ const CalendarRow = React.memo(
 									style={
 										selected
 											? { backgroundColor: '#de2874' }
-											: { backgroundColor: getContinentColor(el.continent) }
+											: { backgroundColor: getTimeColor(el.year) }
 									}
 									onClick={(e) => handleClickCalendarCircle(e, el)}
 									onMouseOver={(e) =>

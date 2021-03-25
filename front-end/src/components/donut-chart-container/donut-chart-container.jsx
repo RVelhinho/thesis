@@ -40,7 +40,14 @@ export default class DonutChartContainer extends PureComponent {
 
 		return (
 			<g>
-				<text x={cx} y={cy} dy={8} textAnchor='middle' fill={fill}>
+				<text
+					x={cx}
+					y={cy}
+					dy={8}
+					textAnchor='middle'
+					fill={fill}
+					fontSize={15}
+				>
 					{payload.label}
 				</text>
 				<Sector
@@ -100,8 +107,8 @@ export default class DonutChartContainer extends PureComponent {
 							activeIndex={activeIndex}
 							activeShape={this.renderActiveShape}
 							data={data}
-							innerRadius={'40%'}
-							outerRadius={'60%'}
+							innerRadius={'60%'}
+							outerRadius={'70%'}
 							dataKey='total'
 							fill={'#8884d8'}
 							onMouseOver={this.onDonutOver}

@@ -4,7 +4,7 @@
 	&__left-section {
 		height: 100%;
 		box-sizing: border-box;
-		border-right: 1px solid #969696;
+		border-right: 1px solid #c6c6c6;
 		&__top-row {
 			height: 59%;
 			margin-bottom: 1%;
@@ -20,11 +20,11 @@
 	&__right-section {
 		height: 100%;
 		box-sizing: border-box;
-		border-left: 1px solid #969696;
+		border-left: 1px solid #c6c6c6;
 		&__top-row {
 			height: 60%;
 			box-sizing: border-box;
-			border-bottom: 1px solid #969696;
+			border-bottom: 1px solid #c6c6c6;
 		}
 		&__bottom-row {
 			height: 40%;
@@ -32,10 +32,10 @@
 				box-sizing: border-box;
 			}
 			&__chart:first-child {
-				border-right: 1px solid #969696;
+				border-right: 1px solid #c6c6c6;
 			}
 			&__chart:nth-child(2) {
-				border-right: 1px solid #969696;
+				border-right: 1px solid #c6c6c6;
 			}
 		}
 	}
@@ -51,12 +51,12 @@
 			font-size: 1.14rem;
 			font-family: OpenSans-Regular;
 			font-weight: 600;
-			color: #606060;
+			color: #b6b6b6;
 		}
 		&__image {
 			width: 5em;
-			filter: brightness(0) saturate(100%) invert(41%) sepia(0%) saturate(0%)
-				hue-rotate(211deg) brightness(92%) contrast(98%);
+			filter: invert(76%) sepia(0%) saturate(0%) hue-rotate(157deg)
+				brightness(93%) contrast(103%);
 		}
 	}
 }

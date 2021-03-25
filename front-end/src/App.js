@@ -40,7 +40,7 @@ export default class App extends Component {
 				data: [],
 				lineType: 'monotone',
 				dataKey: 'count',
-				color: '#de2874',
+				color: '#2ad4a6',
 				categoryAxis: 'year',
 				dateGrouper: 'year',
 				timeAttr: 'year',
@@ -56,13 +56,13 @@ export default class App extends Component {
 			},
 			wordCloudData: {
 				data: [],
-				color: '#de2874',
+				color: '#2ad4a6',
 				tooltipType: 'word',
 				max: -1,
 			},
 			barChartData: {
 				data: [],
-				gradientColors: ['de2874', 'de97b5'],
+				gradientColors: ['2ad4a6', 'b8cfc9'],
 				tooltipType: 'aircraft',
 			},
 			overviewData: {
@@ -754,9 +754,23 @@ export default class App extends Component {
 		}
 		const filter = _.cloneDeep(this.state.filter);
 		const selected = _.cloneDeep(this.state.selected);
-		if (selected.minDate === minDate && selected.maxDate === maxDate) {
-			selected.minDate = undefined;
-			selected.maxDate = undefined;
+		if (
+			(selected.year &&
+				minDate &&
+				selected.year >= minDate &&
+				maxDate &&
+				selected.year <= maxDate) ||
+			(selected.year && !minDate && maxDate && selected.year <= maxDate) ||
+			(selected.year && minDate && selected.year >= minDate && !maxDate)
+		) {
+			selected.minDate = minDate;
+			selected.maxDate = maxDate;
+		} else if (
+			selected.year &&
+			(selected.year < minDate || selected.year > maxDate)
+		) {
+			selected.minDate = 10000;
+			selected.maxDate = -1;
 		} else {
 			selected.minDate = minDate;
 			selected.maxDate = maxDate;

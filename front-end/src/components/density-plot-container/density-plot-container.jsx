@@ -213,10 +213,10 @@ class DensityPlotContainer extends PureComponent {
 								x2='1'
 								y2='0'
 							>
-								<stop offset={'0%'} stopColor={'#9da4e3'} stopOpacity={1} />
-								<stop offset={'33%'} stopColor={'#7983e0'} stopOpacity={1} />
-								<stop offset={'66%'} stopColor={'#4e5cde'} stopOpacity={1} />
-								<stop offset={'99%'} stopColor={'#283ade'} stopOpacity={1} />
+								<stop offset={'0%'} stopColor={'#34ebc0'} stopOpacity={1} />
+								<stop offset={'33%'} stopColor={'#34ebc0'} stopOpacity={1} />
+								<stop offset={'66%'} stopColor={'#34ebc0'} stopOpacity={1} />
+								<stop offset={'99%'} stopColor={'#34ebc0'} stopOpacity={1} />
 							</linearGradient>
 						</svg>
 
@@ -256,7 +256,7 @@ class DensityPlotContainer extends PureComponent {
 							type={lineType}
 							dataKey={dataKey}
 							stroke={color}
-							fill={'#de2874'}
+							fill={'#34ebc0'}
 							fillOpacity={0.5}
 							dot={<this.CustomDot />}
 							activeDot={<this.CustomActiveDot />}

@@ -29,6 +29,20 @@ export default class MapContainer extends PureComponent {
 		};
 	}
 
+	getContinentColor = (continent) => {
+		if (continent === 'America') {
+			return '#db3535';
+		} else if (continent === 'Europe') {
+			return '#347aeb';
+		} else if (continent === 'Africa') {
+			return '#c48b45';
+		} else if (continent === 'Asia') {
+			return '#aabf0a';
+		} else if (continent === 'Oceania') {
+			return '#35db45';
+		}
+	};
+
 	getNewValue = (value, oldMax, oldMin, newMax, newMin) => {
 		const oldRange = oldMax - oldMin;
 		const newRange = newMax - newMin;
@@ -146,6 +160,7 @@ export default class MapContainer extends PureComponent {
 				zoom={position.zoom}
 				scrollWheelZoom={false}
 				attributionControl={false}
+				preferCanvas
 				maxZoom={10}
 				minZoom={3}
 				onzoomend={(e) => this.handleChangeZoom(e.target._zoom)}
@@ -168,7 +183,7 @@ export default class MapContainer extends PureComponent {
 					url='https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
 				/>
 
-				<svg height={0} width={0}>
+				{/* <svg height={0} width={0}>
 					<defs>
 						{data.length !== 0 &&
 							data.map((loc, index) => {
@@ -195,7 +210,7 @@ export default class MapContainer extends PureComponent {
 								);
 							})}
 					</defs>
-				</svg>
+				</svg> */}
 				{zoomLevel === 'high' &&
 					selectedCountry === '' &&
 					data.length !== 0 &&
@@ -216,7 +231,9 @@ export default class MapContainer extends PureComponent {
 												key={index2}
 												center={[el.lat, el.lon]}
 												fillColor={
-													selected ? '#de2874' : getTimeColor(parseInt(el.year))
+													selected
+														? '#de2874'
+														: this.getContinentColor(el.continent)
 												}
 												radius={10}
 												weight={0}
@@ -232,7 +249,7 @@ export default class MapContainer extends PureComponent {
 													fillColor={
 														selected
 															? '#de2874'
-															: getTimeColor(parseInt(el.year))
+															: this.getContinentColor(el.continent)
 													}
 													fillOpacity={1}
 													radius={3}
@@ -248,7 +265,7 @@ export default class MapContainer extends PureComponent {
 														color={
 															selected
 																? '#de2874'
-																: getTimeColor(parseInt(el.year))
+																: this.getContinentColor(el.continent)
 														}
 													/>
 												</Popup>
@@ -283,7 +300,7 @@ export default class MapContainer extends PureComponent {
 													fillColor={
 														selected
 															? '#de2874'
-															: getTimeColor(parseInt(el.year))
+															: this.getContinentColor(el.continent)
 													}
 													radius={10}
 													weight={0}
@@ -299,7 +316,7 @@ export default class MapContainer extends PureComponent {
 														fillColor={
 															selected
 																? '#de2874'
-																: getTimeColor(parseInt(el.year))
+																: this.getContinentColor(el.continent)
 														}
 														fillOpacity={1}
 														radius={3}
@@ -315,7 +332,7 @@ export default class MapContainer extends PureComponent {
 															color={
 																selected
 																	? '#de2874'
-																	: getTimeColor(parseInt(el.year))
+																	: this.getContinentColor(el.continent)
 															}
 														/>
 													</Popup>
@@ -334,7 +351,7 @@ export default class MapContainer extends PureComponent {
 							<React.Fragment key={index}>
 								<CircleMarker
 									center={[loc.lat, loc.lon]}
-									color={`url(#ring-gradient-${index})`}
+									color={this.getContinentColor(loc.continent)}
 									opacity={0.6}
 									fillOpacity={0.7}
 									radius={this.getRadius(
@@ -367,7 +384,7 @@ export default class MapContainer extends PureComponent {
 											type={tooltipType + '--ring'}
 											country={loc.country}
 											total={loc.total.length}
-											color={getTimeColor(loc.maxDate)}
+											color={this.getContinentColor(loc.continent)}
 										/>
 									</Popup>
 								</CircleMarker>

@@ -1,15 +1,16 @@
 .custom-tooltip {
 	position: relative;
-	width: 13em;
+	width: auto;
 	margin: 8px 0 0 15px;
 	padding: 0.8em;
 	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
 	border: solid 1px;
 	border-radius: 10px;
 	background-color: #ffffff;
-	pointer-events: none;
-	.separator {
-		margin: 0.5em 0;
+	&__row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 	&--calendar {
 		position: absolute;
@@ -25,7 +26,7 @@
 		z-index: 1000;
 	}
 	&__font {
-		font-family: OpenSans-Regular;
+		font-family: OpenSans;
 		font-weight: normal;
 		font-stretch: normal;
 		font-style: normal;
@@ -34,25 +35,32 @@
 		color: #4c4c4c;
 		&--title {
 			text-transform: uppercase;
-			font-size: 0.66rem;
-			margin-bottom: 0em;
+			font-size: 0.78rem;
+			margin-bottom: 0.5em;
 			font-weight: 600;
 		}
 		&--title-bold {
 			text-transform: uppercase;
 			font-size: 0.78rem;
-			margin-bottom: 0em;
+			margin-bottom: 0.5em;
 			font-weight: bold;
 		}
 		&--content {
 			color: #7b7b7b;
 			font-size: 0.72rem;
 			margin-bottom: 0.3em;
+			&.low-opacity {
+				opacity: 0.7;
+			}
 		}
 		&--content-bold {
 			font-size: 0.72rem;
 			margin-bottom: 4px;
 			font-weight: bold;
 		}
+	}
+	.separator {
+		margin: 0;
+		margin-bottom: 8px;
 	}
 }

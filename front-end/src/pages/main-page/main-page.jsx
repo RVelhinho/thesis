@@ -121,45 +121,31 @@ const MainPage = ({
 				<div className='col px-0'>
 					<div className='row mx-0 main-page-container__right-section__top-row'>
 						<div className='col px-0' onMouseEnter={() => onMouseEnterMap()}>
-							{mapData.data.length === 0 && (
-								<div className='main-page-container__no-data-container'>
-									<img
-										src={dataIcon}
-										alt='no data found'
-										className='main-page-container__no-data-container__image'
-									/>
-									<span className='main-page-container__no-data-container__text'>
-										No Data Found
-									</span>
-								</div>
-							)}
-							{mapData.data.length !== 0 && (
-								<MapContainer
-									data={mapData.data}
-									tooltipType={mapData.tooltipType}
-									randomPositions={randomPositions}
-									onMouseOverMapRing={onMouseOverMapRing}
-									onClickMapRing={onClickMapRing}
-									onMouseOverTimeRing={onMouseOverTimeRing}
-									onClickTimeRing={onClickTimeRing}
-									onMouseOverMapCircle={onMouseOverMapCircle}
-									onClickMapCircle={onClickMapCircle}
-									onMouseOverResetButton={onMouseOverResetButton}
-									onClickResetButton={onClickResetButton}
-									onMouseOverZoom={onMouseOverZoom}
-									onClickZoom={onClickZoom}
-									onZoomOut={onZoomOut}
-									selectedCircles={selectedCircles}
-								/>
-							)}
+							<MapContainer
+								data={mapData.data}
+								tooltipType={mapData.tooltipType}
+								randomPositions={randomPositions}
+								onMouseOverMapRing={onMouseOverMapRing}
+								onClickMapRing={onClickMapRing}
+								onMouseOverTimeRing={onMouseOverTimeRing}
+								onClickTimeRing={onClickTimeRing}
+								onMouseOverMapCircle={onMouseOverMapCircle}
+								onClickMapCircle={onClickMapCircle}
+								onMouseOverResetButton={onMouseOverResetButton}
+								onClickResetButton={onClickResetButton}
+								onMouseOverZoom={onMouseOverZoom}
+								onClickZoom={onClickZoom}
+								onZoomOut={onZoomOut}
+								selectedCircles={selectedCircles}
+							/>
 						</div>
 					</div>
 					<div className='row mx-0 main-page-container__right-section__bottom-row'>
 						<div
 							className={
 								donutChartData.data.length === 0
-									? 'col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'
-									: 'col-4 h-100 p-4 main-page-container__right-section__bottom-row__chart'
+									? 'col-3 h-100 px-0 main-page-container__right-section__bottom-row__chart'
+									: 'col-3 h-100 p-4 main-page-container__right-section__bottom-row__chart'
 							}
 							onMouseEnter={() => onMouseEnterDonutChart()}
 						>
@@ -184,7 +170,7 @@ const MainPage = ({
 							)}
 						</div>
 						<div
-							className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'
+							className='col-3 h-100 px-0 main-page-container__right-section__bottom-row__chart'
 							onMouseEnter={() => onMouseEnterWordCloud()}
 						>
 							{wordCloudData.data.length === 0 && (
@@ -212,7 +198,7 @@ const MainPage = ({
 							)}
 						</div>
 						<div
-							className='col-4 h-100 px-0 main-page-container__right-section__bottom-row__chart'
+							className='col-6 h-100 px-0 main-page-container__right-section__bottom-row__chart'
 							onMouseEnter={() => onMouseEnterBarChart()}
 						>
 							{barChartData.data.length === 0 && (

@@ -1,12 +1,25 @@
 .calendar-container {
 	height: 100%;
 	&__content {
+		position: relative;
 		height: 80%;
-		overflow-y: auto;
-		overflow-x: hidden;
-		border-radius: 8px;
-		box-shadow: inset 0 0 0.2em rgba(0, 0, 0, 0.3);
 		margin: 0.5em;
+		&__circles {
+			height: 100%;
+			position: relative;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+		&__shadow {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			pointer-events: none;
+			border-radius: 8px;
+			box-shadow: inset 0 0 0.2em rgba(0, 0, 0, 0.3);
+		}
 	}
 	&__bottom-row {
 		height: 20%;

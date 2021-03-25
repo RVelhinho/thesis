@@ -7,33 +7,25 @@ function CustomToolTip(props) {
 		const { color, country, total } = props;
 		return (
 			<div className='custom-tooltip' style={{ borderColor: color }}>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title'>
-							COUNTRY
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title-bold'>
-							{country}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
+						COUNTRY
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+						{country}
+					</span>
 				</div>
 				<hr className='separator' />
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							TOTAL
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p
-							className='custom-tooltip__font custom-tooltip__font--content'
-							style={{ color: color }}
-						>
-							{total}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Total
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: color }}
+					>
+						{total}
+					</span>
 				</div>
 			</div>
 		);
@@ -41,90 +33,68 @@ function CustomToolTip(props) {
 		const { color, country, date, aircraft, keywords } = props;
 		return (
 			<div className='custom-tooltip' style={{ borderColor: color }}>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							COUNTRY
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{country}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
+						COUNTRY
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+						{country}
+					</span>
 				</div>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							DATE
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{date}
-						</p>
-					</div>
+				<hr className='separator' />
+				<div className='custom-tooltip__row mb-1'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Date
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: color }}
+					>
+						{date}
+					</span>
 				</div>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							AIRCRAFT
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{aircraft.length > 10 ? `${aircraft.slice(0, 10)}...` : aircraft}
-						</p>
-					</div>
+				<div className='custom-tooltip__row mb-1'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Aircraft
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+						{aircraft}
+					</span>
 				</div>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							KEYWORDS
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{keywords.length !== 0 &&
-								keywords.map((el, index) => (
-									<span key={index}>{el.word} </span>
-								))}
-							{keywords.length === 0 && <span>none</span>}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Keywords
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+						{keywords.length !== 0 &&
+							keywords.map((el, index) => <span key={index}>{el.word} </span>)}
+						{keywords.length === 0 && <span>none</span>}
+					</span>
 				</div>
 			</div>
 		);
 	} else if (type === 'density' && payload && payload.length !== 0) {
 		return (
 			<div className='custom-tooltip' style={{ borderColor: props.color }}>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title'>
-							YEAR
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
-							{payload[0].payload.year}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
+						YEAR
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+						{payload[0].payload.year}
+					</span>
 				</div>
 				<hr className='separator' />
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							TOTAL
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p
-							className='custom-tooltip__font custom-tooltip__font--content'
-							style={{ color: props.color }}
-						>
-							{payload[0].payload.count}
-						</p>
-					</div>
+				<div className='custom-tooltip__row '>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Total
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: props.color }}
+					>
+						{payload[0].payload.count}
+					</span>
 				</div>
 			</div>
 		);
@@ -132,35 +102,25 @@ function CustomToolTip(props) {
 		const { color } = props;
 		return (
 			<div className='custom-tooltip' style={{ borderColor: color }}>
-				<div className='row w-100 m-0 '>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title'>
-							AIRCRAFT
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
-							{payload[0].payload.plane.length > 10
-								? `${payload[0].payload.plane.slice(0, 10)}...`
-								: payload[0].payload.plane}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
+						AIRCRAFT
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+						{payload[0].payload.plane}
+					</span>
 				</div>
 				<hr className='separator' />
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							TOTAL
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p
-							className='custom-tooltip__font custom-tooltip__font--content'
-							style={{ color: color }}
-						>
-							{payload[0].payload.total}
-						</p>
-					</div>
+				<div className='custom-tooltip__row '>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Total
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: color }}
+					>
+						{payload[0].payload.total}
+					</span>
 				</div>
 			</div>
 		);
@@ -171,55 +131,40 @@ function CustomToolTip(props) {
 				className='custom-tooltip custom-tooltip--calendar'
 				style={{ borderColor: props.color, top: props.top, left: props.left }}
 			>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							DATE
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{date}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
+						DATE
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+						{date}
+					</span>
 				</div>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							COUNTRY
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{country}
-						</p>
-					</div>
+				<hr className='separator' />
+				<div className='custom-tooltip__row mb-1'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Country
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+						{country}
+					</span>
 				</div>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							AIRCRAFT
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{aircraft.length > 10 ? `${aircraft.slice(0, 10)}...` : aircraft}
-						</p>
-					</div>
+				<div className='custom-tooltip__row mb-1'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Aircraft
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+						{aircraft}
+					</span>
 				</div>
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content-bold'>
-							KEYWORDS
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							{keywords.length !== 0 &&
-								keywords.map((el, index) => <span key={index}>{el.word}</span>)}
-							{keywords.length === 0 && <span>none</span>}
-						</p>
-					</div>
+				<div className='custom-tooltip__row '>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Keywords
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+						{keywords.length !== 0 &&
+							keywords.map((el, index) => <span key={index}>{el.word}</span>)}
+						{keywords.length === 0 && <span>none</span>}
+					</span>
 				</div>
 			</div>
 		);
@@ -230,34 +175,26 @@ function CustomToolTip(props) {
 				className='custom-tooltip custom-tooltip--word'
 				style={{ borderColor: color }}
 			>
-				<div className='row w-100 m-0 '>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title'>
-							KEYWORD
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
-							{word}
-						</p>
-					</div>
+				<div className='custom-tooltip__row'>
+					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
+						KEYWORD
+					</span>
+					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+						{word}
+					</span>
 				</div>
 				<hr className='separator' />
-				<div className='row w-100 m-0'>
-					<div className='col p-0 d-flex justify-content-start align-items-center'>
-						<p className='custom-tooltip__font custom-tooltip__font--content'>
-							TOTAL
-						</p>
-					</div>
-					<div className='col p-0 d-flex justify-content-end align-items-center'>
-						<p
-							className='custom-tooltip__font custom-tooltip__font--content'
-							id='word-count'
-							style={{ color: color }}
-						>
-							{count}
-						</p>
-					</div>
+				<div className='custom-tooltip__row '>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Total
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						id='word-count'
+						style={{ color: color }}
+					>
+						{count}
+					</span>
 				</div>
 			</div>
 		);
