@@ -18,15 +18,15 @@ const CalendarRow = React.memo(
 		selectedCircles,
 	}) => {
 		const getContinentColor = (continent) => {
-			if (continent === 'America') {
+			if (continent === 'América') {
 				return '#db3535';
-			} else if (continent === 'Europe') {
+			} else if (continent === 'Europa') {
 				return '#347aeb';
-			} else if (continent === 'Africa') {
+			} else if (continent === 'África') {
 				return '#c48b45';
-			} else if (continent === 'Asia') {
+			} else if (continent === 'Ásia') {
 				return '#d9eb34';
-			} else if (continent === 'Oceania') {
+			} else if (continent === 'Oceânia') {
 				return '#35db45';
 			}
 		};

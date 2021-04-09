@@ -143,31 +143,39 @@ const MainPage = ({
 					<div className='row mx-0 main-page-container__right-section__bottom-row'>
 						<div
 							className={
-								donutChartData.data.length === 0
+								donutChartData.data.length === 0 ||
+								(donutChartData.data.length !== 0 &&
+									donutChartData.data[0].total == null &&
+									donutChartData.data[1].total == null)
 									? 'col-3 h-100 px-0 main-page-container__right-section__bottom-row__chart'
 									: 'col-3 h-100 p-4 main-page-container__right-section__bottom-row__chart'
 							}
 							onMouseEnter={() => onMouseEnterDonutChart()}
 						>
-							{donutChartData.data.length === 0 && (
-								<div className='main-page-container__no-data-container'>
-									<img
-										src={dataIcon}
-										alt='no data found'
-										className='main-page-container__no-data-container__image'
+							{donutChartData.data.length === 0 ||
+								(donutChartData.data.length !== 0 &&
+									donutChartData.data[0].total == null &&
+									donutChartData.data[1].total == null && (
+										<div className='main-page-container__no-data-container'>
+											<img
+												src={dataIcon}
+												alt='no data found'
+												className='main-page-container__no-data-container__image'
+											/>
+											<span className='main-page-container__no-data-container__text'>
+												No Data Found
+											</span>
+										</div>
+									))}
+							{donutChartData.data.length !== 0 &&
+								donutChartData.data[0].total != null &&
+								donutChartData.data[1].total != null && (
+									<DonutChartContainer
+										data={donutChartData.data}
+										tooltipType={donutChartData.tooltipType}
+										onMouseOverDonutChart={onMouseOverDonutChart}
 									/>
-									<span className='main-page-container__no-data-container__text'>
-										No Data Found
-									</span>
-								</div>
-							)}
-							{donutChartData.data.length !== 0 && (
-								<DonutChartContainer
-									data={donutChartData.data}
-									tooltipType={donutChartData.tooltipType}
-									onMouseOverDonutChart={onMouseOverDonutChart}
-								/>
-							)}
+								)}
 						</div>
 						<div
 							className='col-3 h-100 px-0 main-page-container__right-section__bottom-row__chart'

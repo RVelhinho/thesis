@@ -37,21 +37,10 @@ export default class WordCloudContainer extends PureComponent {
 		const wordScale = scaleLinear().domain([0, 1]).range([10, 30]);
 
 		const randomRotate = scaleLinear().domain([0, 1]).range([0, 90]);
-		if (run === 'initial') {
-			this.replicatedData = _.cloneDeep(data);
-			cloud()
-				.size([w, h])
-				.words(this.replicatedData)
-				.rotate(0)
-				.fontSize((d) => wordScale(d.value / max))
-				.padding(5)
-				.on('end', draw)
-				.start();
-		}
-
-		function draw(words) {
+		const draw = (words) => {
 			let svg;
 			if (select('.svg-container').size() == 0) {
+				this.replicatedData = _.cloneDeep(words);
 				svg = select(myRef.current)
 					.append('div')
 					.classed('svg-container', true)
@@ -75,26 +64,6 @@ export default class WordCloudContainer extends PureComponent {
 				.append('text')
 				.style('font-size', (d) => d.size + 'px')
 				.style('fill', (d) => {
-					if (d.value / max >= 0.75) {
-						return '#de2874';
-					} else if (d.value / max >= 0.5) {
-						return '#d64b85';
-					} else if (d.value / max >= 0.25) {
-						return '#d9759f';
-					} else {
-						return '#de97b5';
-					}
-				})
-				.style('opacity', 0.7)
-				.style('cursor', 'pointer')
-				.attr('text-anchor', 'middle')
-				.attr('transform', (d) => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
-				.text((d) => d.text);
-
-			svg
-				.selectAll('text')
-				.data(words)
-				.style('fill', (d) => {
 					if (selectedWord === d.text) {
 						return '#1d856a';
 					} else if (hoveredWord === d.text) {
@@ -109,6 +78,15 @@ export default class WordCloudContainer extends PureComponent {
 						return '#9fc9be';
 					}
 				})
+				.style('opacity', 0.7)
+				.style('cursor', 'pointer')
+				.attr('text-anchor', 'middle')
+				.attr('transform', (d) => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
+				.text((d) => d.text);
+
+			svg
+				.selectAll('text')
+				.data(words)
 				.on('mouseover', function (d) {
 					select(this).style('fill', (d) => handleOverWord(d));
 					select(`#${id} .custom-tooltip`)
@@ -131,6 +109,38 @@ export default class WordCloudContainer extends PureComponent {
 			svg.selectAll('text').data(words).exit().remove();
 
 			svg.selectAll('text').data(words).transition().duration(300);
+		};
+
+		if (run === 'initial') {
+			this.replicatedData = _.cloneDeep(data);
+			cloud()
+				.size([w, h])
+				.words(this.replicatedData)
+				.rotate(0)
+				.fontSize((d) => wordScale(d.value / max))
+				.padding(5)
+				.on('end', draw)
+				.start();
+		} else {
+			let svg = select('.svg-container');
+			svg
+				.selectAll('text')
+				.data(this.replicatedData)
+				.style('fill', (d) => {
+					if (selectedWord === d.text) {
+						return '#1d856a';
+					} else if (hoveredWord === d.text) {
+						return '#27b08c';
+					} else if (d.value / max >= 0.75) {
+						return '#2ad4a6';
+					} else if (d.value / max >= 0.5) {
+						return '#5ad6b5';
+					} else if (d.value / max >= 0.25) {
+						return '#80cfba';
+					} else {
+						return '#9fc9be';
+					}
+				});
 		}
 	}
 	componentDidMount() {

@@ -8,8 +8,8 @@ const InitialPage = ({}) => {
 		<div className='initial-page-container'>
 			<div className='row w-100 h-50 mx-0 d-flex flex-column justify-content-center align-items-center'>
 				<div className='col px-0 d-flex flex-column justify-content-center align-items-center'>
-					<h1 className='initial-page-container__sub-title'>Welcome to</h1>
-					<h1 className='initial-page-container__title'>CrashVis</h1>
+					<h1 className='initial-page-container__sub-title'></h1>
+					<h1 className='initial-page-container__title'>Bem-vindo</h1>
 				</div>
 			</div>
 			<div className='row mx-0 w-100 h-50'>
@@ -18,15 +18,13 @@ const InitialPage = ({}) => {
 						to='/visualization'
 						className='initial-page-container__button'
 					>
-						<h1 className='initial-page-container__button__content'>
-							Visualization
-						</h1>
+						<h1 className='initial-page-container__button__content'>Começar</h1>
 					</NavLink>
 				</div>
 				<div className='col px-0 pl-4 d-flex justify-content-start align-items-top'>
 					<NavLink to='/results' className='initial-page-container__button'>
 						<div className='initial-page-container__button__content'>
-							Results
+							Resultados
 						</div>
 					</NavLink>
 				</div>

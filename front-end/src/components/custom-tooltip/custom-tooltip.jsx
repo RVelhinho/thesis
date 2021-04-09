@@ -9,7 +9,7 @@ function CustomToolTip(props) {
 			<div className='custom-tooltip' style={{ borderColor: color }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
-						COUNTRY
+						PAÍS
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
 						{country}
@@ -18,7 +18,7 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Total
+						Acidentes
 					</span>
 					<span
 						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
@@ -35,7 +35,7 @@ function CustomToolTip(props) {
 			<div className='custom-tooltip' style={{ borderColor: color }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
-						COUNTRY
+						PAÍS
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
 						{country}
@@ -44,7 +44,7 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row mb-1'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Date
+						Data
 					</span>
 					<span
 						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
@@ -55,7 +55,7 @@ function CustomToolTip(props) {
 				</div>
 				<div className='custom-tooltip__row mb-1'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Aircraft
+						Aeronave
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
 						{aircraft}
@@ -63,11 +63,15 @@ function CustomToolTip(props) {
 				</div>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Keywords
+						Palavras-Chave
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
 						{keywords.length !== 0 &&
-							keywords.map((el, index) => <span key={index}>{el.word} </span>)}
+							keywords.map((el, index) => (
+								<span className='custom-tooltip__keyword' key={index}>
+									{el.word}{' '}
+								</span>
+							))}
 						{keywords.length === 0 && <span>none</span>}
 					</span>
 				</div>
@@ -78,7 +82,7 @@ function CustomToolTip(props) {
 			<div className='custom-tooltip' style={{ borderColor: props.color }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
-						YEAR
+						ANO
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
 						{payload[0].payload.year}
@@ -87,7 +91,7 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row '>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Total
+						Acidentes
 					</span>
 					<span
 						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
@@ -104,7 +108,7 @@ function CustomToolTip(props) {
 			<div className='custom-tooltip' style={{ borderColor: color }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
-						AIRCRAFT
+						AERONAVE
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
 						{payload[0].payload.plane}
@@ -113,7 +117,7 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row '>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Total
+						Acidentes
 					</span>
 					<span
 						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
@@ -133,7 +137,7 @@ function CustomToolTip(props) {
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
-						DATE
+						DATA
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
 						{date}
@@ -142,7 +146,7 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row mb-1'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Country
+						País
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
 						{country}
@@ -150,7 +154,7 @@ function CustomToolTip(props) {
 				</div>
 				<div className='custom-tooltip__row mb-1'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Aircraft
+						Aeronave
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
 						{aircraft}
@@ -158,11 +162,15 @@ function CustomToolTip(props) {
 				</div>
 				<div className='custom-tooltip__row '>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Keywords
+						Palavras-chave
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
 						{keywords.length !== 0 &&
-							keywords.map((el, index) => <span key={index}>{el.word}</span>)}
+							keywords.map((el, index) => (
+								<span className='custom-tooltip__keyword' key={index}>
+									{el.word}
+								</span>
+							))}
 						{keywords.length === 0 && <span>none</span>}
 					</span>
 				</div>
@@ -177,7 +185,7 @@ function CustomToolTip(props) {
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
-						KEYWORD
+						PALAVRA-CHAVE
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
 						{word}
@@ -186,7 +194,7 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row '>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
-						Total
+						Acidentes
 					</span>
 					<span
 						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'

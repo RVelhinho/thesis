@@ -30,15 +30,15 @@ export default class MapContainer extends PureComponent {
 	}
 
 	getContinentColor = (continent) => {
-		if (continent === 'America') {
+		if (continent === 'América') {
 			return '#db3535';
-		} else if (continent === 'Europe') {
+		} else if (continent === 'Europa') {
 			return '#347aeb';
-		} else if (continent === 'Africa') {
+		} else if (continent === 'África') {
 			return '#c48b45';
-		} else if (continent === 'Asia') {
+		} else if (continent === 'Ásia') {
 			return '#aabf0a';
-		} else if (continent === 'Oceania') {
+		} else if (continent === 'Oceânia') {
 			return '#35db45';
 		}
 	};
@@ -258,7 +258,7 @@ export default class MapContainer extends PureComponent {
 												<Popup>
 													<CustomToolTip
 														type={tooltipType + '--circle'}
-														country={el.country}
+														country={el.country_pt}
 														date={el.date}
 														aircraft={el.aircraft}
 														keywords={el.keywords}
@@ -325,7 +325,7 @@ export default class MapContainer extends PureComponent {
 													<Popup>
 														<CustomToolTip
 															type={tooltipType + '--circle'}
-															country={el.country}
+															country={el.country_pt}
 															date={el.date}
 															aircraft={el.aircraft}
 															keywords={el.keywords}
@@ -382,7 +382,7 @@ export default class MapContainer extends PureComponent {
 									<Popup>
 										<CustomToolTip
 											type={tooltipType + '--ring'}
-											country={loc.country}
+											country={loc.country_pt}
 											total={loc.total.length}
 											color={this.getContinentColor(loc.continent)}
 										/>
@@ -395,7 +395,7 @@ export default class MapContainer extends PureComponent {
 					<div className='row mx-0 map-container__legend__row'>
 						<div className='col px-0'>
 							<Button
-								text={'Reset Zoom'}
+								text={'Redefinir Zoom'}
 								color={'grey'}
 								onMouseEnter={onMouseOverResetButton}
 								onClick={this.handleResetZoom}

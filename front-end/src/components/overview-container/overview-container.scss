@@ -3,54 +3,90 @@
 	width: 20%;
 	height: 100%;
 	background-color: #fff;
-	padding: 2em;
+	padding: 1em;
 	box-shadow: 0 8px 5px rgba(0, 0, 0, 0.3);
 	z-index: 1000;
-	overflow-y: auto;
-	overflow-x: hidden;
-	&__close {
-		position: absolute;
-		top: 1.5%;
-		left: 5%;
-		width: 1em;
-		height: 1em;
-		cursor: pointer;
-		filter: brightness(0) saturate(100%) invert(34%) sepia(61%) saturate(6363%)
-			hue-rotate(319deg) brightness(90%) contrast(93%);
-	}
-	&__title {
-		font-size: 0.96rem;
-		font-family: OpenSans-Regular;
-		font-weight: 600;
-		color: #4c4c4c;
-	}
-	&__sub-title {
-		font-size: 0.96rem;
-		font-family: OpenSans-Regular;
-		font-weight: 600;
-		color: #606060;
-	}
-	&__text {
-		font-size: 0.9rem;
-		font-family: OpenSans-Regular;
-		font-weight: 600;
-		color: #969696;
-	}
-	&__description-container {
-		border: 1px solid #d6d6d6;
-		border-radius: 8px;
-		min-height: 5em;
-		height: auto;
-		padding: 0.5em;
-		&__text {
-			font-size: 0.9rem;
+	&__count-container {
+		width: auto;
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		&__count {
+			padding: 1em;
+			border-radius: 18px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: rgb(222, 40, 116);
+			color: white;
+			width: auto;
+			height: 2em;
+			white-space: nowrap;
+			margin-right: 0.5em;
+		}
+		&__count-aux {
+			font-size: 0.96rem;
 			font-family: OpenSans-Regular;
 			font-weight: 600;
-			color: #969696;
+			color: #606060;
 		}
 	}
-	&__separator {
-		border-color: #d6d6d6;
-		margin: 2em 0;
+	&__crash-container {
+		border-radius: 8px;
+		position: relative;
+		height: 90%;
+		border: 1px solid #d6d6d6;
+		&__shadow {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			pointer-events: none;
+			border-radius: 8px;
+			box-shadow: inset 0 0 0.2em rgba(0, 0, 0, 0.3);
+		}
+		&__crashes {
+			height: auto;
+			max-height: 100%;
+			overflow-y: auto;
+			padding: 1em;
+			overflow-x: hidden;
+			&__title {
+				font-size: 0.96rem;
+				font-family: OpenSans-Regular;
+				font-weight: 600;
+				color: #4c4c4c;
+			}
+			&__sub-title {
+				font-size: 0.96rem;
+				font-family: OpenSans-Regular;
+				font-weight: 600;
+				color: #606060;
+			}
+			&__text {
+				font-size: 0.9rem;
+				font-family: OpenSans-Regular;
+				font-weight: 600;
+				color: #969696;
+			}
+			&__description-container {
+				border: 1px solid #d6d6d6;
+				border-radius: 8px;
+				min-height: 5em;
+				height: auto;
+				padding: 0.5em;
+				&__text {
+					font-size: 0.9rem;
+					font-family: OpenSans-Regular;
+					font-weight: 600;
+					color: #969696;
+				}
+			}
+			&__separator {
+				border-color: #d6d6d6;
+				margin: 2em 0;
+			}
+		}
 	}
 }

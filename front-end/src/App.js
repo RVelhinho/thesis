@@ -504,7 +504,7 @@ export default class App extends Component {
 				new Date(),
 				'Calendar',
 				'Calendar Year Hover',
-				'Hoevered a year on the Calendar view',
+				'Hovered a year on the Calendar view',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;

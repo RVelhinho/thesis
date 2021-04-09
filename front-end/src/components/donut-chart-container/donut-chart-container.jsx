@@ -46,7 +46,7 @@ export default class DonutChartContainer extends PureComponent {
 					dy={8}
 					textAnchor='middle'
 					fill={fill}
-					fontSize={15}
+					fontSize={10}
 				>
 					{payload.label}
 				</text>
@@ -108,7 +108,7 @@ export default class DonutChartContainer extends PureComponent {
 							activeShape={this.renderActiveShape}
 							data={data}
 							innerRadius={'60%'}
-							outerRadius={'70%'}
+							outerRadius={'75%'}
 							dataKey='total'
 							fill={'#8884d8'}
 							onMouseOver={this.onDonutOver}

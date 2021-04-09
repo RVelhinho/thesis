@@ -64,11 +64,11 @@ class ResultsPage extends Component {
 			return (
 				<div className='results-page-container'>
 					<div className='row w-100 mx-0'>
-						<div className='col-auto px-0'>
+						<div className='col-auto px-0 results-page-container__image-container'>
 							<img
 								src={icoLeftArrow}
 								alt='return to home page'
-								className='results-page-container__image'
+								className='results-page-container__image-container__image'
 								onClick={this.handleClickLeftArrow}
 							/>
 						</div>
@@ -109,7 +109,7 @@ class ResultsPage extends Component {
 								<div className='results-page-container__results-container__logs-container'>
 									{interactionData.data.map((el, index) => {
 										return (
-											<React.Fragment>
+											<div key={index}>
 												<div className='row w-100 mx-0'>
 													<div className='col d-flex justify-content-center align-items-center results-page-container__results-container__logs-container__col'>
 														<span className='results-page-container__results-container__logs-container__col__attribute'>
@@ -138,7 +138,7 @@ class ResultsPage extends Component {
 														style={{ borderColor: '#606060' }}
 													/>
 												)}
-											</React.Fragment>
+											</div>
 										);
 									})}
 								</div>

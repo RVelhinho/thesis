@@ -1,18 +1,22 @@
 .results-page-container {
 	width: 100%;
 	height: 100%;
-	&__image {
+	&__image-container {
+		border-radius: 50%;
+		box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
 		margin-top: 1em;
 		margin-left: 1em;
-		width: 5em;
-		filter: brightness(0) saturate(100%) invert(34%) sepia(61%) saturate(6363%)
-			hue-rotate(319deg) brightness(90%) contrast(93%);
-		cursor: pointer;
+		&__image {
+			width: 3em;
+			filter: brightness(0) saturate(100%) invert(34%) sepia(61%)
+				saturate(6363%) hue-rotate(319deg) brightness(90%) contrast(93%);
+			cursor: pointer;
+		}
 	}
 	&__title {
 		font-size: 5rem;
 		font-family: OpenSans-Regular;
-		font-weight: 600;
+		font-weight: 400;
 		color: #de2874;
 	}
 	&__results-container {

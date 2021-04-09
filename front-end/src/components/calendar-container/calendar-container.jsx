@@ -34,7 +34,7 @@ export default class CalendarContainer extends PureComponent {
 		tooltip.cx = e.clientX - e.target.offsetLeft;
 		tooltip.cy = e.clientY - e.target.offsetTop;
 		tooltip.date = circle.date;
-		tooltip.country = circle.country;
+		tooltip.country = circle.country_pt;
 		tooltip.aircraft = circle.aircraft;
 		tooltip.keywords = circle.keywords;
 		tooltip.open = true;
@@ -167,17 +167,17 @@ export default class CalendarContainer extends PureComponent {
 									<div
 										className='calendar-container__bottom-row__circle-container__circle'
 										style={
-											selectedContinent !== 'Europe' && selectedContinent !== ''
+											selectedContinent !== 'Europa' && selectedContinent !== ''
 												? { backgroundColor: '#347aeb', opacity: 0.3 }
 												: { backgroundColor: '#347aeb' }
 										}
 										onMouseOver={() => onMouseOverContinentCircle()}
-										onClick={() => this.handleClickContinentCircle('Europe')}
+										onClick={() => this.handleClickContinentCircle('Europa')}
 									></div>
 								</div>
 								<div className='calendar-container__bottom-row__text-container'>
 									<span className='calendar-container__bottom-row__text-container__text'>
-										Europe
+										Europa
 									</span>
 								</div>
 							</div>
@@ -186,17 +186,17 @@ export default class CalendarContainer extends PureComponent {
 									<div
 										className='calendar-container__bottom-row__circle-container__circle'
 										style={
-											selectedContinent !== 'Africa' && selectedContinent !== ''
+											selectedContinent !== 'África' && selectedContinent !== ''
 												? { backgroundColor: '#c48b45', opacity: 0.3 }
 												: { backgroundColor: '#c48b45' }
 										}
 										onMouseOver={() => onMouseOverContinentCircle()}
-										onClick={() => this.handleClickContinentCircle('Africa')}
+										onClick={() => this.handleClickContinentCircle('África')}
 									></div>
 								</div>
 								<div className='calendar-container__bottom-row__text-container'>
 									<span className='calendar-container__bottom-row__text-container__text'>
-										Africa
+										África
 									</span>
 								</div>
 							</div>
@@ -207,17 +207,17 @@ export default class CalendarContainer extends PureComponent {
 									<div
 										className='calendar-container__bottom-row__circle-container__circle'
 										style={
-											selectedContinent !== 'Asia' && selectedContinent !== ''
+											selectedContinent !== 'Ásia' && selectedContinent !== ''
 												? { backgroundColor: '#aabf0a', opacity: 0.3 }
 												: { backgroundColor: '#aabf0a' }
 										}
 										onMouseOver={() => onMouseOverContinentCircle()}
-										onClick={() => this.handleClickContinentCircle('Asia')}
+										onClick={() => this.handleClickContinentCircle('Ásia')}
 									></div>
 								</div>
 								<div className='calendar-container__bottom-row__text-container'>
 									<span className='calendar-container__bottom-row__text-container__text'>
-										Asia
+										Ásia
 									</span>
 								</div>
 							</div>
@@ -226,18 +226,18 @@ export default class CalendarContainer extends PureComponent {
 									<div
 										className='calendar-container__bottom-row__circle-container__circle'
 										style={
-											selectedContinent !== 'Oceania' &&
+											selectedContinent !== 'Oceânia' &&
 											selectedContinent !== ''
 												? { backgroundColor: '#35db45', opacity: 0.3 }
 												: { backgroundColor: '#35db45' }
 										}
 										onMouseOver={() => onMouseOverContinentCircle()}
-										onClick={() => this.handleClickContinentCircle('Oceania')}
+										onClick={() => this.handleClickContinentCircle('Oceânia')}
 									></div>
 								</div>
 								<div className='calendar-container__bottom-row__text-container'>
 									<span className='calendar-container__bottom-row__text-container__text'>
-										Oceania
+										Oceânia
 									</span>
 								</div>
 							</div>
@@ -248,18 +248,18 @@ export default class CalendarContainer extends PureComponent {
 									<div
 										className='calendar-container__bottom-row__circle-container__circle'
 										style={
-											selectedContinent !== 'America' &&
+											selectedContinent !== 'América' &&
 											selectedContinent !== ''
 												? { backgroundColor: '#db3535', opacity: 0.3 }
 												: { backgroundColor: '#db3535' }
 										}
 										onMouseOver={() => onMouseOverContinentCircle()}
-										onClick={() => this.handleClickContinentCircle('America')}
+										onClick={() => this.handleClickContinentCircle('América')}
 									></div>
 								</div>
 								<div className='calendar-container__bottom-row__text-container'>
 									<span className='calendar-container__bottom-row__text-container__text'>
-										America
+										América
 									</span>
 								</div>
 							</div>

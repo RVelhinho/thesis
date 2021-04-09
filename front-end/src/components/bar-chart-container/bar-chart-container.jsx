@@ -129,7 +129,7 @@ class BarChartContainer extends PureComponent {
 					margin={{
 						top: 5,
 						right: 20,
-						left: 20,
+						left: 40,
 						bottom: 5,
 					}}
 					layout={'vertical'}
