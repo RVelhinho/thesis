@@ -25,6 +25,7 @@
 
 .map-container__legend {
 	position: absolute;
+	display: block;
 	top: 5%;
 	right: 3%;
 	width: 15%;
@@ -33,6 +34,9 @@
 	z-index: 1000;
 	border-radius: 8px;
 	box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.3);
+	&--hidden {
+		display: none;
+	}
 	&__row {
 		height: 3em;
 		padding: 0.5em;

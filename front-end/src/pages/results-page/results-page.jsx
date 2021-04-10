@@ -75,7 +75,7 @@ class ResultsPage extends Component {
 					</div>
 					<div className='row w-100 mx-0 mb-3'>
 						<div className='col px-0 d-flex justify-content-center align-items-center'>
-							<span className='results-page-container__title'>Results</span>
+							<span className='results-page-container__title'>Resultados</span>
 						</div>
 					</div>
 					<div className='row w-100 mx-0'>
@@ -85,22 +85,22 @@ class ResultsPage extends Component {
 									<div className='row w-100 h-100 mx-0'>
 										<div className='col px-0 d-flex justify-content-center align-items-center results-page-container__results-container__header-container__attribute-container'>
 											<span className='results-page-container__results-container__header-container__attribute-container__attribute'>
-												Time Stamp
+												Data/Hora
 											</span>
 										</div>
 										<div className='col px-0 d-flex justify-content-center align-items-center results-page-container__results-container__header-container__attribute-container'>
 											<span className='results-page-container__results-container__header-container__attribute-container__attribute'>
-												View
+												Idioma
 											</span>
 										</div>
 										<div className='col px-0 d-flex justify-content-center align-items-center results-page-container__results-container__header-container__attribute-container'>
 											<span className='results-page-container__results-container__header-container__attribute-container__attribute'>
-												Type of Interaction
+												Tipo de Interação
 											</span>
 										</div>
 										<div className='col px-0 d-flex justify-content-center align-items-center results-page-container__results-container__header-container__attribute-container'>
 											<span className='results-page-container__results-container__header-container__attribute-container__attribute'>
-												Description
+												Descrição
 											</span>
 										</div>
 									</div>

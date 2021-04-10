@@ -29,6 +29,7 @@
 		&__bottom-row {
 			height: 40%;
 			&__chart {
+				z-index: 100000;
 				box-sizing: border-box;
 			}
 			&__chart:first-child {

@@ -391,7 +391,13 @@ export default class MapContainer extends PureComponent {
 							</React.Fragment>
 						);
 					})}
-				<div className='map-container__legend'>
+				<div
+					className={
+						data.length !== 0
+							? 'map-container__legend'
+							: 'map-container__legend map-container__legend--hidden'
+					}
+				>
 					<div className='row mx-0 map-container__legend__row'>
 						<div className='col px-0'>
 							<Button

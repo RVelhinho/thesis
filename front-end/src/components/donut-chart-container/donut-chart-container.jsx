@@ -30,10 +30,10 @@ export default class DonutChartContainer extends PureComponent {
 		} = props;
 		const sin = Math.sin(-RADIAN * midAngle);
 		const cos = Math.cos(-RADIAN * midAngle);
-		const sx = cx + (outerRadius + 10) * cos;
-		const sy = cy + (outerRadius + 10) * sin;
-		const mx = cx + (outerRadius + 30) * cos;
-		const my = cy + (outerRadius + 30) * sin;
+		const sx = cx + (outerRadius + 1) * cos;
+		const sy = cy + (outerRadius + 1) * sin;
+		const mx = cx + (outerRadius + 5) * cos;
+		const my = cy + (outerRadius + 5) * sin;
 		const ex = mx + (cos >= 0 ? 1 : -1) * 22;
 		const ey = my;
 		const textAnchor = cos >= 0 ? 'start' : 'end';
@@ -46,7 +46,7 @@ export default class DonutChartContainer extends PureComponent {
 					dy={8}
 					textAnchor='middle'
 					fill={fill}
-					fontSize={10}
+					fontSize={'0.7em'}
 				>
 					{payload.label}
 				</text>
@@ -59,7 +59,7 @@ export default class DonutChartContainer extends PureComponent {
 					endAngle={endAngle}
 					fill={fill}
 				/>
-				<Sector
+				{/* <Sector
 					cx={cx}
 					cy={cy}
 					startAngle={startAngle}
@@ -67,7 +67,7 @@ export default class DonutChartContainer extends PureComponent {
 					innerRadius={outerRadius + 6}
 					outerRadius={outerRadius + 10}
 					fill={fill}
-				/>
+				/> */}
 				<path
 					d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
 					stroke={fill}
@@ -107,8 +107,8 @@ export default class DonutChartContainer extends PureComponent {
 							activeIndex={activeIndex}
 							activeShape={this.renderActiveShape}
 							data={data}
-							innerRadius={'60%'}
-							outerRadius={'75%'}
+							innerRadius={'40%'}
+							outerRadius={'45%'}
 							dataKey='total'
 							fill={'#8884d8'}
 							onMouseOver={this.onDonutOver}
