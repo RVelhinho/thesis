@@ -55,7 +55,6 @@ const MainPage = ({
 	const densityPlotValues = _.map(densityPlotData.data, (el) => el.count);
 	const minValue = Math.min(...densityPlotValues);
 	const maxValue = Math.max(...densityPlotValues);
-	console.log(donutChartData.data);
 	return (
 		<div className='main-page-container'>
 			<div className='row mx-0 w-100 h-100'>
