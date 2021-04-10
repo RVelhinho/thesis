@@ -458,6 +458,26 @@ export default class App extends Component {
 		}
 	};
 
+	handleMouseEnterOverview = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Overview',
+				'Overview Enter',
+				'Entered the Overview tab',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
 	handleMouseOverCalendarCircle = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
@@ -964,7 +984,44 @@ export default class App extends Component {
 		});
 	};
 
-	handleClickRemoveCrash = (circle) => {
+	handleMouseOverRemoveButton = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Overview',
+				'Overview Hover Remove Button',
+				'Hovered the Overview Remove Button',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
+	handleClickRemoveCrash = async (circle) => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Overview',
+				'Overview Click Remove Button',
+				'Click the Overview Remove Button',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
 		const overviewData = { ...this.state.overviewData };
 		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
 		_.forEach(overviewData.data, (el, index) => {
@@ -1201,6 +1258,7 @@ export default class App extends Component {
 								onMouseEnterDonutChart={this.handleMouseEnterDonutChart}
 								onMouseEnterWordCloud={this.handleMouseEnterWordCloud}
 								onMouseEnterBarChart={this.handleMouseEnterBarChart}
+								onMouseEnterOverview={this.handleMouseEnterOverview}
 								onMouseOverCalendarCircle={this.handleMouseOverCalendarCircle}
 								onClickCalendarCircle={this.handleClickCalendarCircle}
 								onMouseOverYear={this.handleMouseOverYear}
@@ -1224,6 +1282,7 @@ export default class App extends Component {
 								onClickWordCloud={this.handleClickWordCloud}
 								onMouseOverBarChart={this.handleMouseOverBarChart}
 								onClickBarChart={this.handleClickBarChart}
+								onMouseOverRemoveButton={this.handleMouseOverRemoveButton}
 								onClickRemoveCrash={this.handleClickRemoveCrash}
 								selectedCircles={selectedCircles}
 								{...props}

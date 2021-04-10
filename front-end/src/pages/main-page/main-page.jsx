@@ -25,6 +25,7 @@ const MainPage = ({
 	onMouseEnterDonutChart,
 	onMouseEnterWordCloud,
 	onMouseEnterBarChart,
+	onMouseEnterOverview,
 	onMouseOverCalendarCircle,
 	onClickCalendarCircle,
 	onMouseOverYear,
@@ -48,6 +49,7 @@ const MainPage = ({
 	onClickWordCloud,
 	onMouseOverBarChart,
 	onClickBarChart,
+	onMouseOverRemoveButton,
 	onCloseOverviewContainer,
 	onClickRemoveCrash,
 	selectedCircles,
@@ -247,6 +249,8 @@ const MainPage = ({
 				</div>
 				{overviewData.open && (
 					<OverviewContainer
+						onMouseEnterOverview={onMouseEnterOverview}
+						onMouseOverRemoveButton={onMouseOverRemoveButton}
 						selectedCrashes={overviewData.data}
 						open={overviewData.open}
 						onCloseOverviewContainer={onCloseOverviewContainer}

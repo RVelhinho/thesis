@@ -15,6 +15,8 @@ export default class OverviewContainer extends Component {
 			selectedCrashes,
 			open,
 			onCloseOverviewContainer,
+			onMouseEnterOverview,
+			onMouseOverRemoveButton,
 			onClickRemoveCrash,
 		} = this.props;
 		let sortedCrashes = _.cloneDeep(selectedCrashes);
@@ -23,7 +25,10 @@ export default class OverviewContainer extends Component {
 		}
 		if (open) {
 			return (
-				<div className='overview-container'>
+				<div
+					className='overview-container'
+					onMouseEnter={() => onMouseEnterOverview()}
+				>
 					<div className='row mx-0 mb-4'>
 						<div className='col px-0 overview-container__count-container'>
 							<span className='overview-container__count-container__count'>
@@ -128,7 +133,10 @@ export default class OverviewContainer extends Component {
 											</div>
 										</div>
 										<div className='row mx-0'>
-											<div className='col px-0'>
+											<div
+												className='col px-0'
+												onMouseEnter={() => onMouseOverRemoveButton()}
+											>
 												<Button
 													text='Remover'
 													color='red'
