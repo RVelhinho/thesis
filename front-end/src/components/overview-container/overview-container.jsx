@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import './overview-container.scss';
 import Button from '../button/button';
-import icoClose from '../../assets/images/cancel.svg';
+import icoTab from '../../assets/images/tab.svg';
 import _ from 'lodash';
 
 export default class OverviewContainer extends Component {
@@ -18,6 +18,8 @@ export default class OverviewContainer extends Component {
 			onMouseEnterOverview,
 			onMouseOverRemoveButton,
 			onClickRemoveCrash,
+			onClickMinimize,
+			onClickMaximize,
 		} = this.props;
 		let sortedCrashes = _.cloneDeep(selectedCrashes);
 		if (selectedCrashes && selectedCrashes.length > 0) {
@@ -31,6 +33,12 @@ export default class OverviewContainer extends Component {
 				>
 					<div className='row mx-0 mb-4'>
 						<div className='col px-0 overview-container__count-container'>
+							<img
+								className='overview-container__icon overview-container__icon--minimize'
+								src={icoTab}
+								alt='minimize'
+								onClick={() => onClickMinimize()}
+							/>
 							<span className='overview-container__count-container__count'>
 								{sortedCrashes.length}
 							</span>
@@ -152,6 +160,41 @@ export default class OverviewContainer extends Component {
 							})}
 						</div>
 						<div className='overview-container__crash-container__shadow'></div>;
+					</div>
+				</div>
+			);
+		} else if (!open) {
+			return (
+				<div
+					className='overview-container overview-container--minimized'
+					onMouseEnter={() => onMouseEnterOverview()}
+				>
+					<div className='row mx-0 mb-2'>
+						<div className='col px-0 overview-container__count-container d-flex justify-content-between align-items-center'>
+							<img
+								className='overview-container__icon overview-container__icon--maximize'
+								src={icoTab}
+								alt='maximize'
+								onClick={() => onClickMaximize()}
+							/>
+							<span className='overview-container__count-container__count mr-0'>
+								{sortedCrashes.length}
+							</span>
+						</div>
+					</div>
+					<div className='row mx-0'>
+						<div className='col px-0'>
+							<span className='overview-container__count-container__count-aux'>
+								{sortedCrashes.length === 1 ? 'Acidente' : 'Acidentes'}
+							</span>
+						</div>
+					</div>
+					<div className='row mx-0'>
+						<div className='col px-0'>
+							<span className='overview-container__count-container__count-aux'>
+								{sortedCrashes.length === 1 ? 'seleccionado' : 'seleccionados'}
+							</span>
+						</div>
 					</div>
 				</div>
 			);

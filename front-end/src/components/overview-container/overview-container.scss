@@ -6,6 +6,23 @@
 	padding: 1em;
 	box-shadow: 0 8px 5px rgba(0, 0, 0, 0.3);
 	z-index: 1000;
+	&--minimized {
+		width: auto;
+	}
+	&__icon {
+		cursor: pointer;
+		width: 3em;
+		transform: rotate(180deg);
+		padding-right: 0;
+		padding-left: 1em;
+		filter: invert(28%) sepia(73%) saturate(4250%) hue-rotate(320deg)
+			brightness(90%) contrast(92%);
+		&--minimize {
+			transform: rotate(0);
+			padding-right: 1em;
+			padding-left: 0;
+		}
+	}
 	&__count-container {
 		width: auto;
 		display: flex;

@@ -53,6 +53,8 @@ const MainPage = ({
 	onCloseOverviewContainer,
 	onClickRemoveCrash,
 	selectedCircles,
+	onClickMinimize,
+	onClickMaximize,
 }) => {
 	const densityPlotValues = _.map(densityPlotData.data, (el) => el.count);
 	const minValue = Math.min(...densityPlotValues);
@@ -247,7 +249,7 @@ const MainPage = ({
 						</div>
 					</div>
 				</div>
-				{overviewData.open && (
+				{overviewData.data.length !== 0 && (
 					<OverviewContainer
 						onMouseEnterOverview={onMouseEnterOverview}
 						onMouseOverRemoveButton={onMouseOverRemoveButton}
@@ -255,6 +257,8 @@ const MainPage = ({
 						open={overviewData.open}
 						onCloseOverviewContainer={onCloseOverviewContainer}
 						onClickRemoveCrash={onClickRemoveCrash}
+						onClickMinimize={onClickMinimize}
+						onClickMaximize={onClickMaximize}
 					/>
 				)}
 			</div>

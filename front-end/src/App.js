@@ -67,7 +67,7 @@ export default class App extends Component {
 				tooltipType: 'aircraft',
 			},
 			overviewData: {
-				open: false,
+				open: true,
 				data: [],
 			},
 			filter: {
@@ -913,13 +913,59 @@ export default class App extends Component {
 			overviewData.data.push(circle);
 			selectedCircles.push(circle);
 		}
-		if (overviewData.data.length > 0) {
-			overviewData.open = true;
-		} else {
-			overviewData.open = false;
-		}
+		overviewData.open = true;
 		this.setState(() => {
 			return { overviewData, selectedCircles };
+		});
+	};
+
+	handleClickMinimize = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Overview',
+				'Overview Minimize',
+				'Minimized the Overview Tab',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+		const overviewData = _.cloneDeep(this.state.overviewData);
+		overviewData.open = false;
+		this.setState(() => {
+			return { overviewData };
+		});
+	};
+
+	handleClickMaximize = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Overview',
+				'Overview Maximize',
+				'Maximized the Overview Tab',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+		const overviewData = _.cloneDeep(this.state.overviewData);
+		overviewData.open = true;
+		this.setState(() => {
+			return { overviewData };
 		});
 	};
 
@@ -1285,6 +1331,8 @@ export default class App extends Component {
 								onMouseOverRemoveButton={this.handleMouseOverRemoveButton}
 								onClickRemoveCrash={this.handleClickRemoveCrash}
 								selectedCircles={selectedCircles}
+								onClickMinimize={this.handleClickMinimize}
+								onClickMaximize={this.handleClickMaximize}
 								{...props}
 							/>
 						)}
