@@ -147,6 +147,7 @@ export default class MapContainer extends PureComponent {
 			onClickZoom,
 			randomPositions,
 			selectedCircles,
+			disabled,
 		} = this.props;
 		const {
 			position,
@@ -393,7 +394,7 @@ export default class MapContainer extends PureComponent {
 					})}
 				<div
 					className={
-						data.length !== 0
+						!disabled
 							? 'map-container__legend'
 							: 'map-container__legend map-container__legend--hidden'
 					}

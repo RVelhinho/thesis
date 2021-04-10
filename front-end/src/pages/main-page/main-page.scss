@@ -8,6 +8,9 @@
 		&__top-row {
 			height: 59%;
 			margin-bottom: 1%;
+			&__chart {
+				z-index: 1000;
+			}
 			&__legend {
 				height: 20%;
 			}

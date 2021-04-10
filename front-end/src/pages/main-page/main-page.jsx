@@ -82,7 +82,7 @@ const MainPage = ({
 						className='row mx-0 main-page-container__left-section__top-row'
 						onMouseEnter={() => onMouseEnterCalendar()}
 					>
-						<div className='col px-0 h-100'>
+						<div className='col px-0 h-100 main-page-container__left-section__top-row__chart'>
 							{calendarData.data.length !== 0 && (
 								<CalendarContainer
 									data={calendarData.data}
@@ -123,6 +123,7 @@ const MainPage = ({
 					<div className='row mx-0 main-page-container__right-section__top-row'>
 						<div className='col px-0' onMouseEnter={() => onMouseEnterMap()}>
 							<MapContainer
+								disabled={mapData.disabled}
 								data={mapData.data}
 								tooltipType={mapData.tooltipType}
 								randomPositions={randomPositions}

@@ -47,6 +47,7 @@ export default class App extends Component {
 				tooltipType: 'density',
 			},
 			mapData: {
+				disabled: true,
 				data: [],
 				tooltipType: 'map',
 			},
@@ -329,6 +330,7 @@ export default class App extends Component {
 			if (filterView && !filterView.aircraftData) {
 				barChartData.data = aircraftData;
 			}
+			mapData.disabled = false;
 			this.setState(() => {
 				return {
 					calendarData,
