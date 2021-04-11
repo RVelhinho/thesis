@@ -970,6 +970,8 @@ let globalAircraftDataView = [];
 let interactionData = [];
 let countryArray = [];
 
+let participantId = 0;
+
 const dataGenerator = () => {
 	const converter = csv()
 		.fromFile('../datasets/final_pt_no_keywords.csv')
@@ -1605,6 +1607,15 @@ app.post('/api/logs', (req, res) => {
 		type: req.query.type,
 		description: req.query.description,
 	});
+	res.sendStatus(200);
+});
+
+app.get('/api/participant', (req, res) => {
+	res.send(participantId.toString());
+});
+
+app.post('/api/participant', (req, res) => {
+	participantId = req.query.id;
 	res.sendStatus(200);
 });
 

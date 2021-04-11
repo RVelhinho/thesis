@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { CSVLink } from 'react-csv';
 import axios from 'axios';
 import _ from 'lodash';
 import { Spinner } from '../../components/spinner/spinner';
 import { getInteractionLog } from '../../services/interactionService';
+import participantService from '../../services/participantService';
 import icoLeftArrow from '../../assets/images/left-arrow.svg';
+import icoDownload from '../../assets/images/download.svg';
 import './results-page.scss';
 import { data } from 'jquery';
 
@@ -11,11 +14,17 @@ class ResultsPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loadgin: true,
+			loading: true,
 			interactionData: {
 				data: [],
 			},
 		};
+		this.headers = [
+			{ label: 'Time Stamp', key: 'timeStamp' },
+			{ label: 'Idiom', key: 'view' },
+			{ label: 'Type of Interaction', key: 'type' },
+			{ label: 'Description', key: 'description' },
+		];
 	}
 
 	async componentDidMount() {
@@ -54,6 +63,7 @@ class ResultsPage extends Component {
 
 	render() {
 		const { interactionData, loading } = this.state;
+		const { participantId } = this.props;
 		if (loading) {
 			return (
 				<div className='results-page-container'>
@@ -73,9 +83,20 @@ class ResultsPage extends Component {
 							/>
 						</div>
 					</div>
-					<div className='row w-100 mx-0 mb-3'>
-						<div className='col px-0 d-flex justify-content-center align-items-center'>
+					<div className='row w-100 mx-0 mb-3 d-flex justify-content-center align-items-center'>
+						<div className='col-6 px-0 d-flex justify-content-center align-items-center'>
 							<span className='results-page-container__title'>Resultados</span>
+							<CSVLink
+								data={interactionData.data}
+								headers={this.headers}
+								filename={`${participantId}_interaction_log.csv`}
+							>
+								<img
+									src={icoDownload}
+									alt='download interaction log'
+									className='results-page-container__download-icon'
+								/>
+							</CSVLink>
 						</div>
 					</div>
 					<div className='row w-100 mx-0'>

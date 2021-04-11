@@ -27,6 +27,15 @@
 		font-weight: 400;
 		color: #de2874;
 	}
+	&__download-icon {
+		position: absolute;
+		right: 5%;
+		top: 50%;
+		width: 2em;
+		filter: brightness(0) saturate(100%) invert(34%) sepia(61%) saturate(6363%)
+			hue-rotate(319deg) brightness(90%) contrast(93%);
+		cursor: pointer;
+	}
 	&__results-container {
 		width: 50%;
 		height: auto;

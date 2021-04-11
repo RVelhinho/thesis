@@ -9,6 +9,7 @@ import InitialPage from './pages/initial-page/initial-page';
 import ResultsPage from './pages/results-page/results-page.jsx';
 import crashService from './services/crashService';
 import interactionService from './services/interactionService';
+import participantService from './services/participantService';
 import worldPoly from './utils/world-poly.json';
 import './App.scss';
 import './assets/scss/index.scss';
@@ -18,6 +19,7 @@ export default class App extends Component {
 		super(props);
 		this.state = {
 			pageState: 'initial',
+			participantId: 0,
 			polyPositions: [],
 			randomPositions: [],
 			countryPositions: {},
@@ -193,7 +195,7 @@ export default class App extends Component {
 		}
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.handleDataInteraction(
 			undefined,
 			undefined,
@@ -205,6 +207,22 @@ export default class App extends Component {
 			this.state.filter,
 			'initial'
 		);
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await participantService.getParticipantId(
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+			this.setState(() => {
+				return { participantId: parseInt(result) };
+			});
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
 	}
 
 	componentWillUnmount() {
@@ -1272,6 +1290,26 @@ export default class App extends Component {
 		});
 	};
 
+	handleSubmitIdentifier = async (id) => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await participantService.submitParticipantId(
+				this.cancelTokenSource.token,
+				id
+			);
+			this.cancelTokenSource = null;
+			this.setState(() => {
+				return { participantId: id };
+			});
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
 	render() {
 		const {
 			calendarData,
@@ -1283,6 +1321,7 @@ export default class App extends Component {
 			overviewData,
 			randomPositions,
 			selectedCircles,
+			participantId,
 		} = this.state;
 		return (
 			<div className='container-fluid app-container px-0'>
@@ -1339,9 +1378,20 @@ export default class App extends Component {
 					/>
 					<Route
 						path='/results'
-						render={(props) => <ResultsPage {...props} />}
+						render={(props) => (
+							<ResultsPage participantId={participantId} {...props} />
+						)}
 					/>
-					<Route path='/' render={(props) => <InitialPage {...props} />} />
+					<Route
+						path='/'
+						render={(props) => (
+							<InitialPage
+								participantId={participantId}
+								onSubmitIdentifier={this.handleSubmitIdentifier}
+								{...props}
+							/>
+						)}
+					/>
 					<Redirect to='/not-found' />
 				</Switch>
 			</div>
