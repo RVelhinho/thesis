@@ -1602,6 +1602,7 @@ app.get('/api/logs', (req, res) => {
 
 app.post('/api/logs', (req, res) => {
 	interactionData.push({
+		id: participantId.toString(),
 		timeStamp: req.query.time_stamp,
 		view: req.query.view,
 		type: req.query.type,

@@ -20,6 +20,7 @@ class ResultsPage extends Component {
 			},
 		};
 		this.headers = [
+			{ label: 'Identifier', key: 'id' },
 			{ label: 'Time Stamp', key: 'timeStamp' },
 			{ label: 'Idiom', key: 'view' },
 			{ label: 'Type of Interaction', key: 'type' },
