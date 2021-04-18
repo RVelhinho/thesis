@@ -266,23 +266,24 @@ export default class App extends Component {
 		}
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: yearData } = await crashService.getCalendarData(
+				this.cancelTokenSource.token,
+				minDate,
+				maxDate,
+				country,
+				continent,
+				keyword,
+				aircraft
+			);
+			this.cancelTokenSource = null;
+			this.cancelTokenSource = axios.CancelToken.source();
 			const [
-				{ data: yearData },
 				{ data: yearAuxData },
 				{ data: countryData },
 				{ data: survivalRateData },
 				{ data: keywordData },
 				{ data: aircraftData },
 			] = await axios.all([
-				crashService.getCalendarData(
-					this.cancelTokenSource.token,
-					minDate,
-					maxDate,
-					country,
-					continent,
-					keyword,
-					aircraft
-				),
 				crashService.getCalendarAuxData(
 					this.cancelTokenSource.token,
 					minDate,

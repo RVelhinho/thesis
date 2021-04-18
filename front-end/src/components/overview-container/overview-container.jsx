@@ -66,7 +66,7 @@ export default class OverviewContainer extends Component {
 												<div className='row mx-0'>
 													<div className='col px-0'>
 														<span className='overview-container__crash-container__crashes__text'>
-															{el.country}, {el.continent}
+															{el.country_pt}, {el.continent}
 														</span>
 													</div>
 												</div>
@@ -159,7 +159,7 @@ export default class OverviewContainer extends Component {
 								);
 							})}
 						</div>
-						<div className='overview-container__crash-container__shadow'></div>;
+						<div className='overview-container__crash-container__shadow'></div>
 					</div>
 				</div>
 			);
