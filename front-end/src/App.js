@@ -67,6 +67,7 @@ export default class App extends Component {
 				data: [],
 				gradientColors: ['107996', '578591'],
 				tooltipType: 'aircraft',
+				categoryAxis: 'plane',
 			},
 			overviewData: {
 				open: true,

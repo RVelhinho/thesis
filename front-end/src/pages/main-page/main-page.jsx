@@ -102,7 +102,7 @@ const MainPage = ({
 							)}
 						</div>
 					</div>
-					<div className='row mx-0 main-page-container__left-section__bottom-row'>
+					{/* <div className='row mx-0 main-page-container__left-section__bottom-row'>
 						<div className='col px-0'>
 							{densityPlotData.data.length !== 0 && (
 								<DensityPlotContainer
@@ -120,7 +120,7 @@ const MainPage = ({
 								/>
 							)}
 						</div>
-					</div>
+					</div> */}
 				</div>
 				<div className='col px-0'>
 					<div className='row mx-0 main-page-container__right-section__top-row'>
@@ -222,7 +222,7 @@ const MainPage = ({
 							)}
 						</div>
 						<div
-							className='col-5 h-100 px-0 main-page-container__right-section__bottom-row__chart'
+							className='col-5 h-100 px-3 main-page-container__right-section__bottom-row__chart'
 							onMouseEnter={() => onMouseEnterBarChart()}
 						>
 							{barChartData.data.length === 0 && (
@@ -241,6 +241,7 @@ const MainPage = ({
 								<BarChartContainer
 									data={barChartData.data}
 									gradientColors={barChartData.gradientColors}
+									categoryAxis={barChartData.categoryAxis}
 									tooltipType={barChartData.tooltipType}
 									onMouseOverBarChart={onMouseOverBarChart}
 									onClickBarChart={onClickBarChart}

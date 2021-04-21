@@ -1,9 +1,19 @@
 .calendar-container {
 	height: 100%;
+	&__buttons {
+		position: relative;
+		width: 100%;
+		padding: 2%;
+		height: 15%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
 	&__content {
 		position: relative;
-		height: 80%;
-		margin: 0.5em;
+		height: 70%;
+		margin: 0 2%;
 		&__circles {
 			height: 100%;
 			position: relative;
@@ -22,7 +32,7 @@
 		}
 	}
 	&__bottom-row {
-		height: 20%;
+		height: 15%;
 		&__circle-container {
 			width: 30%;
 			display: flex;

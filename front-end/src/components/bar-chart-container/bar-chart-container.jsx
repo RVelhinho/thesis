@@ -87,6 +87,7 @@ class BarChartContainer extends PureComponent {
 			tooltipType,
 			gradientColors,
 			onMouseOverBarChart,
+			categoryAxis,
 		} = this.props;
 		const barColors = [];
 
@@ -113,6 +114,8 @@ class BarChartContainer extends PureComponent {
 			barColors.push('#' + newColor);
 		}
 
+		let height = data.length > 10 ? data.length * 50 : '100%';
+
 		let barSize;
 		if (data.length < 4) {
 			barSize = 50;
@@ -122,14 +125,14 @@ class BarChartContainer extends PureComponent {
 			barSize = 20;
 		}
 		return (
-			<ResponsiveContainer>
+			<ResponsiveContainer height={height}>
 				<BarChart
 					className='bar-chart-container'
 					data={data}
 					margin={{
 						top: 5,
 						right: 20,
-						left: 40,
+						left: 0,
 						bottom: 5,
 					}}
 					layout={'vertical'}
@@ -146,7 +149,7 @@ class BarChartContainer extends PureComponent {
 					<XAxis type='number' hide />
 					<YAxis
 						type='category'
-						dataKey={'plane'}
+						dataKey={categoryAxis}
 						tickLine={{ strokeDasharray: 2, stroke: 'rgba(120, 115, 137, 0.5' }}
 						axisLine={false}
 						tick={<this.CustomTick />}

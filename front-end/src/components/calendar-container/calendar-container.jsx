@@ -2,15 +2,17 @@ import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import CalendarRow from '../../components/calendar-row/calendar-row';
 import './calendar-container.scss';
-
+import Button from '../button/button';
 import PropTypes from 'prop-types';
 import { circle } from '@turf/turf';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
+import BarChartContainer from '../../components/bar-chart-container/bar-chart-container';
 
 export default class CalendarContainer extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
+			activeButtonIndex: 0,
 			tooltip: {
 				open: false,
 				color: '',
@@ -102,6 +104,20 @@ export default class CalendarContainer extends PureComponent {
 		}
 	};
 
+	handleMouseClickDetailedView = () => {
+		//this.props.onMouseClickDetailedView();
+		this.setState(() => {
+			return { activeButtonIndex: 1 };
+		});
+	};
+
+	handleMouseClickGeneralView = () => {
+		//this.props.onMouseClickDetailedView();
+		this.setState(() => {
+			return { activeButtonIndex: 0 };
+		});
+	};
+
 	render() {
 		const {
 			data,
@@ -113,38 +129,75 @@ export default class CalendarContainer extends PureComponent {
 			onMouseOverYear,
 			onMouseOverContinentCircle,
 			selectedCircles,
+			onMouseEnterGeneralView,
+			onMouseEnterDetailedView,
 		} = this.props;
 		const {
 			tooltip,
 			currentCircle,
 			selectedContinent,
 			selectedYear,
+			activeButtonIndex,
 		} = this.state;
+		const entriesMapped = _.entries(data).map((el) => {
+			return { year: el[0], total: el[1].length };
+		});
 		return (
 			<div className='calendar-container'>
 				<React.Fragment>
+					<div className='row calendar-container__buttons mx-0'>
+						<div className='col px-0 d-flex justify-content-center align-items-center'>
+							<Button
+								color={activeButtonIndex === 0 ? 'default-selected' : 'default'}
+								text={'Visão Geral'}
+								onMouseEnter={onMouseEnterGeneralView}
+								onClick={this.handleMouseClickGeneralView}
+							/>
+						</div>
+						<div className='col px-0 d-flex justify-content-center align-items-center'>
+							<Button
+								color={activeButtonIndex === 1 ? 'default-selected' : 'default'}
+								text={'Visão Detalhada'}
+								onMouseEnter={onMouseEnterDetailedView}
+								onClick={this.handleMouseClickDetailedView}
+							/>
+						</div>
+					</div>
 					<div className='row calendar-container__content'>
-						<div className='col px-0 calendar-container__content__circles'>
-							{_.entries(data).map((el, index) => {
-								return (
-									<CalendarRow
-										key={`calendar-row-${index}`}
-										year={el[0]}
-										data={el[1]}
-										currentCircle={currentCircle}
-										tooltipStyle={tooltipStyle}
-										onClickCalendarCircle={onClickCalendarCircle}
-										onMouseOverCalendarCircle={
-											this.handleMouseOverCalendarCircle
-										}
-										onMouseOverYear={onMouseOverYear}
-										onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
-										selectedYear={selectedYear}
-										onClickYear={this.handleClickYear}
-										selectedCircles={selectedCircles}
-									/>
-								);
-							})}
+						<div className='col px-2 calendar-container__content__circles'>
+							{activeButtonIndex === 1 &&
+								_.entries(data).map((el, index) => {
+									return (
+										<CalendarRow
+											key={`calendar-row-${index}`}
+											year={el[0]}
+											data={el[1]}
+											currentCircle={currentCircle}
+											tooltipStyle={tooltipStyle}
+											onClickCalendarCircle={onClickCalendarCircle}
+											onMouseOverCalendarCircle={
+												this.handleMouseOverCalendarCircle
+											}
+											onMouseOverYear={onMouseOverYear}
+											onMouseOutCalendarCircle={
+												this.handleMouseOutCalendarCircle
+											}
+											selectedYear={selectedYear}
+											onClickYear={this.handleClickYear}
+											selectedCircles={selectedCircles}
+										/>
+									);
+								})}
+							{activeButtonIndex === 0 && (
+								<BarChartContainer
+									data={entriesMapped}
+									gradientColors={['107996', '578591']}
+									tooltipType={'year'}
+									categoryAxis={'year'}
+									onMouseOverBarChart={() => {}}
+									onClickBarChart={() => {}}
+								/>
+							)}
 						</div>
 						{tooltip.open && tooltip.cx !== '' && tooltip.cy !== '' && (
 							<CustomToolTip
