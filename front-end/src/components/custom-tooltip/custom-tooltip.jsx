@@ -32,7 +32,10 @@ function CustomToolTip(props) {
 	} else if (type === 'map--circle') {
 		const { color, country, date, aircraft, keywords } = props;
 		return (
-			<div className='custom-tooltip' style={{ borderColor: color }}>
+			<div
+				className='custom-tooltip w-auto d-inline-block'
+				style={{ borderColor: color }}
+			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						PAÍS
@@ -61,14 +64,14 @@ function CustomToolTip(props) {
 						{aircraft}
 					</span>
 				</div>
-				<div className='custom-tooltip__row'>
+				<div className='custom-tooltip__row w-auto'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
 						Palavras-Chave
 					</span>
-					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold w-auto d-inline'>
 						{keywords.length !== 0 &&
 							keywords.map((el, index) => (
-								<span className='custom-tooltip__keyword' key={index}>
+								<span className='custom-tooltip__keyword ' key={index}>
 									{el.word}{' '}
 								</span>
 							))}
@@ -132,7 +135,7 @@ function CustomToolTip(props) {
 		const { date, country, keywords, aircraft } = props;
 		return (
 			<div
-				className='custom-tooltip custom-tooltip--calendar'
+				className='custom-tooltip custom-tooltip--calendar w-auto d-inline-block'
 				style={{ borderColor: props.color, top: props.top, left: props.left }}
 			>
 				<div className='custom-tooltip__row'>
@@ -160,11 +163,11 @@ function CustomToolTip(props) {
 						{aircraft}
 					</span>
 				</div>
-				<div className='custom-tooltip__row '>
+				<div className='custom-tooltip__row w-auto'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
 						Palavras-chave
 					</span>
-					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold w-auto d-inline'>
 						{keywords.length !== 0 &&
 							keywords.map((el, index) => (
 								<span className='custom-tooltip__keyword' key={index}>

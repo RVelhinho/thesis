@@ -256,7 +256,7 @@ class DensityPlotContainer extends PureComponent {
 							type={lineType}
 							dataKey={dataKey}
 							stroke={color}
-							fill={'#34ebc0'}
+							fill={color}
 							fillOpacity={0.5}
 							dot={<this.CustomDot />}
 							activeDot={<this.CustomActiveDot />}

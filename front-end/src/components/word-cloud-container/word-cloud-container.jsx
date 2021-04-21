@@ -24,7 +24,7 @@ export default class WordCloudContainer extends PureComponent {
 	static propTypes = {};
 
 	drawCloud(run) {
-		const { id, data, threshold = 20, max } = this.props;
+		const { id, data, threshold = 20, max, color } = this.props;
 		const handleOverWord = this.handleOverWord;
 		const handleClickWord = this.handleClickWord;
 		const handleOverOutWord = this.handleOverOutWord;
@@ -34,7 +34,7 @@ export default class WordCloudContainer extends PureComponent {
 		const w = $(`#${id}`).width();
 		const h = $(`#${id}`).height();
 
-		const wordScale = scaleLinear().domain([0, 1]).range([10, 30]);
+		const wordScale = scaleLinear().domain([0, 1]).range([15, 50]);
 
 		const randomRotate = scaleLinear().domain([0, 1]).range([0, 90]);
 		const draw = (words) => {
@@ -65,17 +65,17 @@ export default class WordCloudContainer extends PureComponent {
 				.style('font-size', (d) => d.size + 'px')
 				.style('fill', (d) => {
 					if (selectedWord === d.text) {
-						return '#1d856a';
+						return '#041f26';
 					} else if (hoveredWord === d.text) {
-						return '#27b08c';
+						return '#084554';
 					} else if (d.value / max >= 0.75) {
-						return '#2ad4a6';
+						return '#107996';
 					} else if (d.value / max >= 0.5) {
-						return '#5ad6b5';
+						return '#267c94';
 					} else if (d.value / max >= 0.25) {
-						return '#80cfba';
+						return '#418091';
 					} else {
-						return '#9fc9be';
+						return '#578591';
 					}
 				})
 				.style('opacity', 0.7)
@@ -128,17 +128,17 @@ export default class WordCloudContainer extends PureComponent {
 				.data(this.replicatedData)
 				.style('fill', (d) => {
 					if (selectedWord === d.text) {
-						return '#1d856a';
+						return '#041f26';
 					} else if (hoveredWord === d.text) {
-						return '#27b08c';
+						return '#084554';
 					} else if (d.value / max >= 0.75) {
-						return '#2ad4a6';
+						return '#107996';
 					} else if (d.value / max >= 0.5) {
-						return '#5ad6b5';
+						return '#267c94';
 					} else if (d.value / max >= 0.25) {
-						return '#80cfba';
+						return '#418091';
 					} else {
-						return '#9fc9be';
+						return '#578591';
 					}
 				});
 		}
@@ -169,17 +169,17 @@ export default class WordCloudContainer extends PureComponent {
 		});
 		this.props.onMouseOverWordCloud();
 		if (selectedWord === d.text) {
-			return '#1d856a';
+			return '#041f26';
 		} else if (hoveredWord === d.text) {
-			return '#27b08c';
+			return '#084554';
 		} else if (d.value / this.props.max >= 0.75) {
-			return '#2ad4a6';
+			return '#107996';
 		} else if (d.value / this.props.max >= 0.5) {
-			return '#5ad6b5';
+			return '#267c94';
 		} else if (d.value / this.props.max >= 0.25) {
-			return '#80cfba';
+			return '#418091';
 		} else {
-			return '#9fc9be';
+			return '#578591';
 		}
 	};
 
@@ -191,15 +191,15 @@ export default class WordCloudContainer extends PureComponent {
 			return { hoveredWord: '', count: 0 };
 		});
 		if (selectedWord === d.text) {
-			return '#1d856a';
+			return '#041f26';
 		} else if (d.value / this.props.max >= 0.75) {
-			return '#2ad4a6';
+			return '#107996';
 		} else if (d.value / this.props.max >= 0.5) {
-			return '#5ad6b5';
+			return '#267c94';
 		} else if (d.value / this.props.max >= 0.25) {
-			return '#80cfba';
+			return '#418091';
 		} else {
-			return '#9fc9be';
+			return '#578591';
 		}
 	};
 
@@ -213,17 +213,17 @@ export default class WordCloudContainer extends PureComponent {
 			});
 			this.props.onClickWordCloud(d.text);
 			if (selectedWord === d.text) {
-				return '#1d856a';
+				return '#041f26';
 			} else if (hoveredWord === d.text) {
-				return '#27b08c';
+				return '#084554';
 			} else if (d.value / this.props.max >= 0.75) {
-				return '#2ad4a6';
+				return '#107996';
 			} else if (d.value / this.props.max >= 0.5) {
-				return '#5ad6b5';
+				return '#267c94';
 			} else if (d.value / this.props.max >= 0.25) {
-				return '#80cfba';
+				return '#418091';
 			} else {
-				return '#9fc9be';
+				return '#578591';
 			}
 		} else {
 			selectedWord = d.text;
@@ -232,17 +232,17 @@ export default class WordCloudContainer extends PureComponent {
 			});
 			this.props.onClickWordCloud(d.text);
 			if (selectedWord === d.text) {
-				return '#1d856a';
+				return '#041f26';
 			} else if (hoveredWord === d.text) {
-				return '#27b08c';
+				return '#084554';
 			} else if (d.value / this.props.max >= 0.75) {
-				return '#2ad4a6';
+				return '#107996';
 			} else if (d.value / this.props.max >= 0.5) {
-				return '#5ad6b5';
+				return '#267c94';
 			} else if (d.value / this.props.max >= 0.25) {
-				return '#80cfba';
+				return '#418091';
 			} else {
-				return '#9fc9be';
+				return '#578591';
 			}
 		}
 	};

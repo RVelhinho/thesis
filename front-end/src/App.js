@@ -42,7 +42,7 @@ export default class App extends Component {
 				data: [],
 				lineType: 'monotone',
 				dataKey: 'count',
-				color: '#2ad4a6',
+				color: '#107996',
 				categoryAxis: 'year',
 				dateGrouper: 'year',
 				timeAttr: 'year',
@@ -59,13 +59,13 @@ export default class App extends Component {
 			},
 			wordCloudData: {
 				data: [],
-				color: '#2ad4a6',
+				color: '#107996',
 				tooltipType: 'word',
 				max: -1,
 			},
 			barChartData: {
 				data: [],
-				gradientColors: ['2ad4a6', 'b8cfc9'],
+				gradientColors: ['107996', '578591'],
 				tooltipType: 'aircraft',
 			},
 			overviewData: {

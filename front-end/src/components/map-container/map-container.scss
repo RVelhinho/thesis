@@ -28,7 +28,7 @@
 	display: block;
 	top: 5%;
 	right: 3%;
-	width: 15%;
+	width: auto;
 	height: auto;
 	background-color: transparent;
 	z-index: 1000;
@@ -50,7 +50,7 @@
 		}
 		.text {
 			font-family: OpenSans-Regular;
-			font-size: 0.96rem;
+			font-size: 1.06rem;
 			color: #606060;
 			background-color: transparent;
 			text-align: center;

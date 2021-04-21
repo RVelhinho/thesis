@@ -40,16 +40,6 @@ export default class DonutChartContainer extends PureComponent {
 
 		return (
 			<g>
-				<text
-					x={cx}
-					y={cy}
-					dy={8}
-					textAnchor='middle'
-					fill={fill}
-					fontSize={'0.7em'}
-				>
-					{payload.label}
-				</text>
 				<Sector
 					cx={cx}
 					cy={cy}
@@ -75,6 +65,7 @@ export default class DonutChartContainer extends PureComponent {
 				/>
 				<circle cx={ex} cy={ey} r={2} fill={fill} stroke='none' />
 				<text
+					fontSize={'1.14rem'}
 					x={ex + (cos >= 0 ? 1 : -1) * 12}
 					y={ey}
 					dy={3}
@@ -101,14 +92,22 @@ export default class DonutChartContainer extends PureComponent {
 				onMouseEnter={() => onMouseOverDonutChart()}
 				style={{ width: '100%', height: '100%' }}
 			>
+				<div className='donut-chart-container__info-container'>
+					<span
+						className='donut-chart-container__info-container__text'
+						style={{ color: donutColors[activeIndex] }}
+					>
+						{data[activeIndex].label}
+					</span>
+				</div>
 				<ResponsiveContainer>
 					<PieChart>
 						<Pie
 							activeIndex={activeIndex}
 							activeShape={this.renderActiveShape}
 							data={data}
-							innerRadius={'40%'}
-							outerRadius={'45%'}
+							innerRadius={'30%'}
+							outerRadius={'50%'}
 							dataKey='total'
 							fill={'#8884d8'}
 							onMouseOver={this.onDonutOver}
