@@ -6,7 +6,7 @@ function CustomToolTip(props) {
 	if (type === 'map--ring') {
 		const { color, country, total } = props;
 		return (
-			<div className='custom-tooltip' style={{ borderColor: color }}>
+			<div className='custom-tooltip' style={{ borderColor: '#107996' }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						PAÍS
@@ -34,7 +34,7 @@ function CustomToolTip(props) {
 		return (
 			<div
 				className='custom-tooltip w-auto d-inline-block'
-				style={{ borderColor: color }}
+				style={{ borderColor: '#107996' }}
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
@@ -82,7 +82,7 @@ function CustomToolTip(props) {
 		);
 	} else if (type === 'density' && payload && payload.length !== 0) {
 		return (
-			<div className='custom-tooltip' style={{ borderColor: props.color }}>
+			<div className='custom-tooltip' style={{ borderColor: '#107996' }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						ANO
@@ -108,7 +108,7 @@ function CustomToolTip(props) {
 	} else if (type === 'aircraft' && payload && payload.length !== 0) {
 		const { color } = props;
 		return (
-			<div className='custom-tooltip' style={{ borderColor: color }}>
+			<div className='custom-tooltip' style={{ borderColor: '#107996' }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						AERONAVE
@@ -136,7 +136,7 @@ function CustomToolTip(props) {
 		return (
 			<div
 				className='custom-tooltip custom-tooltip--calendar w-auto d-inline-block'
-				style={{ borderColor: props.color, top: props.top, left: props.left }}
+				style={{ borderColor: '#107996', top: props.top, left: props.left }}
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
@@ -184,7 +184,7 @@ function CustomToolTip(props) {
 		return (
 			<div
 				className='custom-tooltip custom-tooltip--word'
-				style={{ borderColor: color }}
+				style={{ borderColor: '#107996' }}
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>

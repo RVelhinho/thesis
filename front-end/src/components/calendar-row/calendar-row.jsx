@@ -82,7 +82,7 @@ const CalendarRow = React.memo(
 									style={
 										selected
 											? { backgroundColor: '#de2874' }
-											: { backgroundColor: getTimeColor(el.year) }
+											: { backgroundColor: '#107996' }
 									}
 									onClick={(e) => handleClickCalendarCircle(e, el)}
 									onMouseOver={(e) =>

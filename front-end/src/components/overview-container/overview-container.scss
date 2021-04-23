@@ -1,6 +1,6 @@
 .overview-container {
 	position: relative;
-	width: 20%;
+	width: 100%;
 	height: 100%;
 	background-color: #fff;
 	padding: 1em;
@@ -15,8 +15,8 @@
 		transform: rotate(180deg);
 		padding-right: 0;
 		padding-left: 1em;
-		filter: invert(28%) sepia(73%) saturate(4250%) hue-rotate(320deg)
-			brightness(90%) contrast(92%);
+		filter: brightness(0) saturate(100%) invert(29%) sepia(31%) saturate(4639%)
+			hue-rotate(170deg) brightness(91%) contrast(87%);
 		&--minimize {
 			transform: rotate(0);
 			padding-right: 1em;
@@ -34,7 +34,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			background-color: rgb(222, 40, 116);
+			background-color: #107996;
 			color: white;
 			width: auto;
 			height: 2em;

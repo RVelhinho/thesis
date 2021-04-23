@@ -1,5 +1,8 @@
 .calendar-container {
 	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
 	&__buttons {
 		position: relative;
 		width: 100%;
@@ -10,10 +13,22 @@
 		justify-content: center;
 		align-items: center;
 	}
+	&__title {
+		position: relative;
+		top: 0%;
+		left: 5%;
+		height: 5%;
+		&__text {
+			width: auto;
+			font-size: 1.32rem;
+			font-family: OpenSans-Regular;
+			font-weight: 600;
+		}
+	}
 	&__content {
 		position: relative;
-		height: 70%;
-		margin: 0 2%;
+		height: 80%;
+		margin: 2% 4%;
 		&__circles {
 			height: 100%;
 			position: relative;

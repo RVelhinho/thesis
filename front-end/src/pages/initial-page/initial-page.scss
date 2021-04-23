@@ -6,14 +6,14 @@
 		font-size: 5rem;
 		font-family: OpenSans-Regular;
 		font-weight: 400;
-		color: #de2874;
+		color: #107996;
 	}
 	&__sub-title {
 		text-align: center;
 		font-size: 2rem;
 		font-family: OpenSans-Regular;
 		font-weight: 600;
-		color: #da7ba2;
+		color: #107996;
 	}
 	&__input {
 		border-radius: 18px;
@@ -26,7 +26,7 @@
 		width: 15rem;
 		height: 7rem;
 		border-radius: 18px;
-		border: 1px solid #de2874;
+		border: 1px solid #107996;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -42,7 +42,7 @@
 			font-size: 2rem;
 			font-family: OpenSans-Regular;
 			font-weight: 400;
-			color: #db5e92;
+			color: #107996;
 			margin-bottom: 0;
 			&--small {
 				font-size: 1rem;
@@ -50,7 +50,7 @@
 		}
 		&:hover {
 			border-color: #fff;
-			background-color: #de2874;
+			background-color: #107996;
 			.initial-page-container__button__content {
 				color: #fff;
 			}

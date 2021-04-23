@@ -231,11 +231,7 @@ export default class MapContainer extends PureComponent {
 											<CircleMarker
 												key={index2}
 												center={[el.lat, el.lon]}
-												fillColor={
-													selected
-														? '#de2874'
-														: this.getContinentColor(el.continent)
-												}
+												fillColor={selected ? '#de2874' : '#107996'}
 												radius={10}
 												weight={0}
 												onMouseOver={(e) => {
@@ -247,11 +243,7 @@ export default class MapContainer extends PureComponent {
 											>
 												<CircleMarker
 													center={[el.lat, el.lon]}
-													fillColor={
-														selected
-															? '#de2874'
-															: this.getContinentColor(el.continent)
-													}
+													fillColor={selected ? '#de2874' : '#107996'}
 													fillOpacity={1}
 													radius={3}
 													weight={0}
@@ -263,11 +255,7 @@ export default class MapContainer extends PureComponent {
 														date={el.date}
 														aircraft={el.aircraft}
 														keywords={el.keywords}
-														color={
-															selected
-																? '#de2874'
-																: this.getContinentColor(el.continent)
-														}
+														color={selected ? '#de2874' : '#107996'}
 													/>
 												</Popup>
 											</CircleMarker>
@@ -298,11 +286,7 @@ export default class MapContainer extends PureComponent {
 												<CircleMarker
 													key={index2}
 													center={[el.lat, el.lon]}
-													fillColor={
-														selected
-															? '#de2874'
-															: this.getContinentColor(el.continent)
-													}
+													fillColor={selected ? '#de2874' : '#107996'}
 													radius={10}
 													weight={0}
 													onMouseOver={(e) => {
@@ -314,11 +298,7 @@ export default class MapContainer extends PureComponent {
 												>
 													<CircleMarker
 														center={[el.lat, el.lon]}
-														fillColor={
-															selected
-																? '#de2874'
-																: this.getContinentColor(el.continent)
-														}
+														fillColor={selected ? '#de2874' : '#107996'}
 														fillOpacity={1}
 														radius={3}
 														weight={0}
@@ -330,11 +310,7 @@ export default class MapContainer extends PureComponent {
 															date={el.date}
 															aircraft={el.aircraft}
 															keywords={el.keywords}
-															color={
-																selected
-																	? '#de2874'
-																	: this.getContinentColor(el.continent)
-															}
+															color={selected ? '#de2874' : '#107996'}
 														/>
 													</Popup>
 												</CircleMarker>
@@ -352,7 +328,7 @@ export default class MapContainer extends PureComponent {
 							<React.Fragment key={index}>
 								<CircleMarker
 									center={[loc.lat, loc.lon]}
-									color={this.getContinentColor(loc.continent)}
+									color={'#107996'}
 									opacity={0.6}
 									fillOpacity={0.7}
 									radius={this.getRadius(
@@ -392,7 +368,7 @@ export default class MapContainer extends PureComponent {
 							</React.Fragment>
 						);
 					})}
-				<div
+				{/* <div
 					className={
 						!disabled
 							? 'map-container__legend'
@@ -480,7 +456,7 @@ export default class MapContainer extends PureComponent {
 							<span className='text'> &gt; 1985</span>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</Map>
 		);
 	}

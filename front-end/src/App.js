@@ -18,6 +18,23 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			calendarTooltip: {
+				date: '',
+				country: '',
+				aircraft: '',
+				description: '',
+				open: false,
+				cx: '',
+				cy: '',
+			},
+			inputMaxDate: {
+				value: 2009,
+				error: '',
+			},
+			inputMinDate: {
+				value: 1913,
+				error: '',
+			},
 			pageState: 'initial',
 			participantId: 0,
 			polyPositions: [],
@@ -70,7 +87,7 @@ export default class App extends Component {
 				categoryAxis: 'plane',
 			},
 			overviewData: {
-				open: true,
+				open: false,
 				data: [],
 			},
 			filter: {
@@ -498,7 +515,20 @@ export default class App extends Component {
 		}
 	};
 
-	handleMouseOverCalendarCircle = async () => {
+	handleMouseOverCalendarCircle = async (e, circle) => {
+		const calendarTooltip = { ...this.state.calendarTooltip };
+		calendarTooltip.cx = e.clientX - e.target.offsetLeft;
+		calendarTooltip.cy = e.clientY - 150;
+		calendarTooltip.date = circle.date;
+		calendarTooltip.country = circle.country_pt;
+		calendarTooltip.aircraft = circle.aircraft;
+		calendarTooltip.keywords = circle.keywords;
+		calendarTooltip.open = true;
+		this.setState(() => {
+			return {
+				calendarTooltip,
+			};
+		});
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
@@ -1312,6 +1342,32 @@ export default class App extends Component {
 		}
 	};
 
+	handleMinDateInputChange = ({ currentTarget: input }) => {
+		this.setState(() => {
+			return { inputMinDate: input.value };
+		});
+	};
+
+	handleMaxDateInputChange = ({ currentTarget: input }) => {
+		this.setState(() => {
+			return { inputMaxDate: input.value };
+		});
+	};
+
+	handleMouseOutCalendarCircle = () => {
+		const calendarTooltip = { ...this.state.calendarTooltip };
+		calendarTooltip.date = '';
+		calendarTooltip.cx = '';
+		calendarTooltip.cy = '';
+		calendarTooltip.open = true;
+		calendarTooltip.country = '';
+		calendarTooltip.aircraft = '';
+		calendarTooltip.description = '';
+		this.setState(() => {
+			return { calendarTooltip };
+		});
+	};
+
 	render() {
 		const {
 			calendarData,
@@ -1324,6 +1380,10 @@ export default class App extends Component {
 			randomPositions,
 			selectedCircles,
 			participantId,
+			selected,
+			inputMaxDate,
+			inputMinDate,
+			calendarTooltip,
 		} = this.state;
 		return (
 			<div className='container-fluid app-container px-0'>
@@ -1332,6 +1392,7 @@ export default class App extends Component {
 						path='/visualization'
 						render={(props) => (
 							<MainPage
+								selected={selected}
 								calendarData={calendarData}
 								densityPlotData={densityPlotData}
 								mapData={mapData}
@@ -1374,6 +1435,12 @@ export default class App extends Component {
 								selectedCircles={selectedCircles}
 								onClickMinimize={this.handleClickMinimize}
 								onClickMaximize={this.handleClickMaximize}
+								inputMinDate={inputMinDate}
+								inputMaxDate={inputMaxDate}
+								onMinDateInputChange={this.handleMinDateInputChange}
+								onMaxDateInputChange={this.handleMaxDateInputChange}
+								calendarTooltip={calendarTooltip}
+								onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
 								{...props}
 							/>
 						)}

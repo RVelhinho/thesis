@@ -97,7 +97,7 @@ class DensityPlotContainer extends PureComponent {
 						x={x}
 						width={1}
 						y={10}
-						height={height + 10}
+						height={height + 30}
 						stroke={color}
 					/>
 					<line
@@ -192,17 +192,17 @@ class DensityPlotContainer extends PureComponent {
 		return (
 			<div
 				onMouseEnter={() => onMouseOverDensityPlot()}
-				style={{ width: '100%', height: '100%' }}
+				style={{ width: '100%', height: '90%' }}
 			>
 				<ResponsiveContainer>
 					<AreaChart
 						className='density-plot-container'
 						data={data}
 						margin={{
-							top: 20,
-							right: 70,
-							left: 5,
-							bottom: 0,
+							top: 40,
+							right: 30,
+							left: -20,
+							bottom: -20,
 						}}
 					>
 						<svg height={0} width={0}>

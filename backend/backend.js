@@ -64,6 +64,20 @@ const keyMap = {
 	Summary: 'description',
 };
 
+const countries = [
+	'Irlanda',
+	'Polônia',
+	'Dinamarca',
+	'Senegal',
+	'Gana',
+	'Etiópia',
+	'Guiana',
+	'Ecuador',
+	'Cuba',
+	'Papua Nova Guiné',
+	'Vanuatu',
+];
+
 const keywords = [
 	'aero',
 	'militar',
@@ -977,53 +991,55 @@ const dataGenerator = () => {
 		.fromFile('../datasets/final_pt_no_keywords.csv')
 		.then((json) => {
 			_.forEach(json, (row, index) => {
-				if (row.country === 'India') row.country_pt = 'Índia';
-				else if (row.country === 'Indonesia') row.country_pt = 'Indonésia';
-				else if (row.country === 'Turkey') row.country_pt = 'Turquia';
-				let words = row.description.split('.')[0].split(' ');
-				// Clean whitespaces / remove special characters / remove useless words
-				let wordsMapped = words.map((el, index3) => {
-					let newEl = el.replace(/[^A-Za-z0-9]/g, '');
-					newEl.trim();
-					newEl.toLowerCase();
-					return newEl;
-				});
-
-				// Filter undefineds or empty words / Remove unnecessary words
-				let wordsFiltered = wordsMapped.filter((el, index3) => {
-					if (el) {
-						let found = false;
-						for (let item of keywords) {
-							const regex = new RegExp(`^${item}`, 'i');
-							if (el.match(regex)) {
-								found = true;
-							}
-						}
-						return found;
-					} else {
-						return false;
-					}
-				});
-
-				// Count occurrences of each word
-				let wordsCounted = _.countBy(wordsFiltered, (el) => {
-					return el;
-				});
-
-				// Remove rows with no keywords
-				if (_.isEmpty(wordsCounted)) {
-					return;
-				}
-
-				// Create array with custom object for each word to associate with count
-				row.keywords = [];
-				_.forEach(_.entries(wordsCounted), (el) => {
-					row.keywords.push({
-						word: el[0],
-						counter: el[1],
+				if (countries.includes(row.country_pt)) {
+					if (row.country === 'India') row.country_pt = 'Índia';
+					else if (row.country === 'Indonesia') row.country_pt = 'Indonésia';
+					else if (row.country === 'Turkey') row.country_pt = 'Turquia';
+					let words = row.description.split('.')[0].split(' ');
+					// Clean whitespaces / remove special characters / remove useless words
+					let wordsMapped = words.map((el, index3) => {
+						let newEl = el.replace(/[^A-Za-z0-9]/g, '');
+						newEl.trim();
+						newEl.toLowerCase();
+						return newEl;
 					});
-				});
-				data.push(row);
+
+					// Filter undefineds or empty words / Remove unnecessary words
+					let wordsFiltered = wordsMapped.filter((el, index3) => {
+						if (el) {
+							let found = false;
+							for (let item of keywords) {
+								const regex = new RegExp(`^${item}`, 'i');
+								if (el.match(regex)) {
+									found = true;
+								}
+							}
+							return found;
+						} else {
+							return false;
+						}
+					});
+
+					// Count occurrences of each word
+					let wordsCounted = _.countBy(wordsFiltered, (el) => {
+						return el;
+					});
+
+					// Remove rows with no keywords
+					if (_.isEmpty(wordsCounted)) {
+						return;
+					}
+
+					// Create array with custom object for each word to associate with count
+					row.keywords = [];
+					_.forEach(_.entries(wordsCounted), (el) => {
+						row.keywords.push({
+							word: el[0],
+							counter: el[1],
+						});
+					});
+					data.push(row);
+				}
 			});
 		})
 		// .then(() => {
