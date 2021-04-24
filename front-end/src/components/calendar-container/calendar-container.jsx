@@ -104,8 +104,13 @@ export default class CalendarContainer extends PureComponent {
 				<React.Fragment>
 					<div className='row calendar-container__title w-100 mx-0 my-2 mb-4'>
 						<div className='col px-0'>
-							<span className='calendar-container__title__text'>
+							<span className='calendar-container__title__text d-flex justify-content-start align-items-end'>
 								Calendário
+								<span className='ml-2 d-inline-block calendar-container__title__text__desc'>
+									Através do calendário poderá explorar em que ano ocorreram os
+									acidentes de avião especificados e como varia a quantidade
+									total de casos ao longo do tempo.
+								</span>
 							</span>
 						</div>
 					</div>

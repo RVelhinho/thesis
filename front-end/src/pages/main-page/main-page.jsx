@@ -350,11 +350,6 @@ const MainPage = ({
 				</div>
 				<div className='col px-0'>
 					<div className='row mx-0 main-page-container__right-section__top-row'>
-						<div className='main-page-container__right-section__top-row__title'>
-							<span className='main-page-container__right-section__top-row__title__text'>
-								Mapa
-							</span>
-						</div>
 						<div className='col px-0' onMouseEnter={() => onMouseEnterMap()}>
 							<MapContainer
 								disabled={mapData.disabled}

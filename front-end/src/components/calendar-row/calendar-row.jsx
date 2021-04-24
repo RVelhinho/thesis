@@ -44,7 +44,7 @@ const CalendarRow = React.memo(
 						: { opacity: 1 }
 				}
 				onMouseOver={() => onMouseOverYear()}
-				onClick={() => onClickYear(year)}
+				//onClick={() => onClickYear(year)}
 			>
 				<div className='row mx-0'>
 					<div className='col px-0 d-flex justify-content-between'>

@@ -156,35 +156,46 @@ export default class MapContainer extends PureComponent {
 			selectedTimeFrame,
 		} = this.state;
 		return (
-			<Map
-				center={[position.lat, position.lon]}
-				zoom={position.zoom}
-				scrollWheelZoom={false}
-				attributionControl={false}
-				preferCanvas
-				maxZoom={10}
-				minZoom={3}
-				onzoomend={(e) => this.handleChangeZoom(e.target._zoom)}
-				whenReady={() => {
-					$('.leaflet-control-zoom').on('mouseenter', function () {
-						onMouseOverZoom();
-					});
+			<React.Fragment>
+				<div className='map-title'>
+					<span className='map-title__text'>
+						Mapa
+						<span className='d-block map-title__text__desc'>
+							Através do mapa poderá explorar todas as localizações onde
+							ocorreram acidentes de avião e como varia a quantitade total de
+							casos nos diversos cantos do mundo.
+						</span>
+					</span>
+				</div>
+				<Map
+					center={[position.lat, position.lon]}
+					zoom={position.zoom}
+					scrollWheelZoom={true}
+					attributionControl={false}
+					preferCanvas
+					maxZoom={10}
+					minZoom={3}
+					onzoomend={(e) => this.handleChangeZoom(e.target._zoom)}
+					whenReady={() => {
+						$('.leaflet-control-zoom').on('mouseenter', function () {
+							onMouseOverZoom();
+						});
 
-					$('.leaflet-control-zoom-in').on('click', function (e) {
-						onClickZoom();
-					});
-					$('.leaflet-control-zoom-out').on('click', function (e) {
-						onClickZoom();
-					});
-				}}
-				doubleClickZoom={false}
-			>
-				<TileLayer
-					attribution='<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank" class="jawg-attrib">&copy; <b>Jawg</b>Maps</a> | <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap is open data licensed under ODbL" target="_blank" class="osm-attrib">&copy; OSM contributors</a>'
-					url='https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token=xvznkI6fJOyMEKW1KCrQciEbK0Yvip6Je5Z6vmFz96xIPExT9T07LIDzHuoDFK15'
-				/>
+						$('.leaflet-control-zoom-in').on('click', function (e) {
+							onClickZoom();
+						});
+						$('.leaflet-control-zoom-out').on('click', function (e) {
+							onClickZoom();
+						});
+					}}
+					doubleClickZoom={false}
+				>
+					<TileLayer
+						attribution='<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank" class="jawg-attrib">&copy; <b>Jawg</b>Maps</a> | <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap is open data licensed under ODbL" target="_blank" class="osm-attrib">&copy; OSM contributors</a>'
+						url='https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?lang=&access-token=xvznkI6fJOyMEKW1KCrQciEbK0Yvip6Je5Z6vmFz96xIPExT9T07LIDzHuoDFK15'
+					/>
 
-				{/* <svg height={0} width={0}>
+					{/* <svg height={0} width={0}>
 					<defs>
 						{data.length !== 0 &&
 							data.map((loc, index) => {
@@ -212,61 +223,61 @@ export default class MapContainer extends PureComponent {
 							})}
 					</defs>
 				</svg> */}
-				{/* {zoomLevel === 'high' &&
+					{/* {zoomLevel === 'high' &&
 					selectedCountry === '' && */}
-				{data.length !== 0 &&
-					data.map((loc, index) => {
-						return (
-							<React.Fragment key={index}>
-								{loc.total.map((el, index2) => {
-									if (el.lat) {
-										let selected = false;
-										_.forEach(selectedCircles, (circle, index) => {
-											if (circle.id === el.id) {
-												selected = true;
-												return false;
-											}
-										});
-										return (
-											<CircleMarker
-												key={index2}
-												center={[el.lat, el.lon]}
-												fillColor={selected ? '#de2874' : '#107996'}
-												radius={10}
-												weight={0}
-												onMouseOver={(e) => {
-													onMouseOverMapCircle();
-													e.target.openPopup();
-												}}
-												onMouseOut={(e) => e.target.closePopup()}
-												onClick={() => onClickMapCircle(el)}
-											>
+					{data.length !== 0 &&
+						data.map((loc, index) => {
+							return (
+								<React.Fragment key={index}>
+									{loc.total.map((el, index2) => {
+										if (el.lat) {
+											let selected = false;
+											_.forEach(selectedCircles, (circle, index) => {
+												if (circle.id === el.id) {
+													selected = true;
+													return false;
+												}
+											});
+											return (
 												<CircleMarker
+													key={index2}
 													center={[el.lat, el.lon]}
 													fillColor={selected ? '#de2874' : '#107996'}
-													fillOpacity={1}
-													radius={3}
+													radius={10}
 													weight={0}
-												></CircleMarker>
-												<Popup>
-													<CustomToolTip
-														type={tooltipType + '--circle'}
-														country={el.country_pt}
-														date={el.date}
-														aircraft={el.aircraft}
-														keywords={el.keywords}
-														color={selected ? '#de2874' : '#107996'}
-													/>
-												</Popup>
-											</CircleMarker>
-										);
-									}
-									return null;
-								})}
-							</React.Fragment>
-						);
-					})}
-				{/* {zoomLevel === 'high' &&
+													onMouseOver={(e) => {
+														onMouseOverMapCircle();
+														e.target.openPopup();
+													}}
+													onMouseOut={(e) => e.target.closePopup()}
+													onClick={() => onClickMapCircle(el)}
+												>
+													<CircleMarker
+														center={[el.lat, el.lon]}
+														fillColor={selected ? '#de2874' : '#107996'}
+														fillOpacity={1}
+														radius={3}
+														weight={0}
+													></CircleMarker>
+													<Popup>
+														<CustomToolTip
+															type={tooltipType + '--circle'}
+															country={el.country_pt}
+															date={el.date}
+															aircraft={el.aircraft}
+															keywords={el.keywords}
+															color={selected ? '#de2874' : '#107996'}
+														/>
+													</Popup>
+												</CircleMarker>
+											);
+										}
+										return null;
+									})}
+								</React.Fragment>
+							);
+						})}
+					{/* {zoomLevel === 'high' &&
 					selectedCountry !== '' &&
 					data.length !== 0 &&
 					data.map((loc, index) => {
@@ -322,7 +333,7 @@ export default class MapContainer extends PureComponent {
 							);
 						}
 					})} */}
-				{/* {zoomLevel === 'low' &&
+					{/* {zoomLevel === 'low' &&
 					data.map((loc, index) => {
 						return (
 							<React.Fragment key={index}>
@@ -368,7 +379,7 @@ export default class MapContainer extends PureComponent {
 							</React.Fragment>
 						);
 					})} */}
-				{/* <div
+					{/* <div
 					className={
 						!disabled
 							? 'map-container__legend'
@@ -457,7 +468,8 @@ export default class MapContainer extends PureComponent {
 						</div>
 					</div>
 				</div> */}
-			</Map>
+				</Map>
+			</React.Fragment>
 		);
 	}
 }
