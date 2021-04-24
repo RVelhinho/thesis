@@ -180,8 +180,8 @@ export default class MapContainer extends PureComponent {
 				doubleClickZoom={false}
 			>
 				<TileLayer
-					attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-					url='https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
+					attribution='<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank" class="jawg-attrib">&copy; <b>Jawg</b>Maps</a> | <a href="https://www.openstreetmap.org/copyright" title="OpenStreetMap is open data licensed under ODbL" target="_blank" class="osm-attrib">&copy; OSM contributors</a>'
+					url='https://{s}.tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token=xvznkI6fJOyMEKW1KCrQciEbK0Yvip6Je5Z6vmFz96xIPExT9T07LIDzHuoDFK15'
 				/>
 
 				{/* <svg height={0} width={0}>
@@ -212,9 +212,9 @@ export default class MapContainer extends PureComponent {
 							})}
 					</defs>
 				</svg> */}
-				{zoomLevel === 'high' &&
-					selectedCountry === '' &&
-					data.length !== 0 &&
+				{/* {zoomLevel === 'high' &&
+					selectedCountry === '' && */}
+				{data.length !== 0 &&
 					data.map((loc, index) => {
 						return (
 							<React.Fragment key={index}>
@@ -266,7 +266,7 @@ export default class MapContainer extends PureComponent {
 							</React.Fragment>
 						);
 					})}
-				{zoomLevel === 'high' &&
+				{/* {zoomLevel === 'high' &&
 					selectedCountry !== '' &&
 					data.length !== 0 &&
 					data.map((loc, index) => {
@@ -321,8 +321,8 @@ export default class MapContainer extends PureComponent {
 								</React.Fragment>
 							);
 						}
-					})}
-				{zoomLevel === 'low' &&
+					})} */}
+				{/* {zoomLevel === 'low' &&
 					data.map((loc, index) => {
 						return (
 							<React.Fragment key={index}>
@@ -367,7 +367,7 @@ export default class MapContainer extends PureComponent {
 								</CircleMarker>
 							</React.Fragment>
 						);
-					})}
+					})} */}
 				{/* <div
 					className={
 						!disabled

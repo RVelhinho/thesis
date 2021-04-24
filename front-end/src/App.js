@@ -87,7 +87,7 @@ export default class App extends Component {
 				categoryAxis: 'plane',
 			},
 			overviewData: {
-				open: false,
+				open: true,
 				data: [],
 			},
 			filter: {

@@ -12,13 +12,13 @@
 	&__icon {
 		cursor: pointer;
 		width: 3em;
-		transform: rotate(180deg);
+		transform: rotate(0);
 		padding-right: 0;
 		padding-left: 1em;
 		filter: brightness(0) saturate(100%) invert(29%) sepia(31%) saturate(4639%)
 			hue-rotate(170deg) brightness(91%) contrast(87%);
 		&--minimize {
-			transform: rotate(0);
+			transform: rotate(180deg);
 			padding-right: 1em;
 			padding-left: 0;
 		}

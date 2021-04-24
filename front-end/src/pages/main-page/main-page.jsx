@@ -86,7 +86,13 @@ const MainPage = ({
 					/>
 				)}
 			<div className='row mx-0 w-100 h-100'>
-				<div className={'col-3 px-0 main-page-container__left-section'}>
+				<div
+					className={
+						overviewData.open
+							? 'col-3 px-0 main-page-container__left-section'
+							: 'col-auto px-0 main-page-container__left-section'
+					}
+				>
 					{/* {calendarData.data.length === 0 && (
 						<div className='main-page-container__no-data-container'>
 							<img
@@ -342,7 +348,7 @@ const MainPage = ({
 						onClickMaximize={onClickMaximize}
 					/>
 				</div>
-				<div className='col-9 px-0'>
+				<div className='col px-0'>
 					<div className='row mx-0 main-page-container__right-section__top-row'>
 						<div className='main-page-container__right-section__top-row__title'>
 							<span className='main-page-container__right-section__top-row__title__text'>
