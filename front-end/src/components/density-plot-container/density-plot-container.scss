@@ -12,3 +12,23 @@
 	line:nth-last-child(2) {
 	display: none;
 }
+
+.density-title {
+	position: relative;
+	top: 0%;
+	left: 2%;
+	width: 98%;
+	height: 15%;
+	&__text {
+		width: 90%;
+		font-size: 1.32rem;
+		font-family: OpenSans-Regular;
+		font-weight: 600;
+		&__desc {
+			display: block;
+			font-size: 0.9rem;
+			font-family: OpenSans-Regular;
+			font-weight: 400;
+		}
+	}
+}

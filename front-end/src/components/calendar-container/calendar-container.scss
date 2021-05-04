@@ -17,15 +17,14 @@
 		position: relative;
 		top: 0%;
 		left: 5%;
-		height: 5%;
+		height: 15%;
 		&__text {
-			width: auto;
+			width: 90%;
 			font-size: 1.32rem;
 			font-family: OpenSans-Regular;
 			font-weight: 600;
 			&__desc {
-				white-space: nowrap;
-				width: auto;
+				width: 90%;
 				font-size: 0.9rem;
 				font-family: OpenSans-Regular;
 				font-weight: 400;
@@ -34,8 +33,8 @@
 	}
 	&__content {
 		position: relative;
-		height: 80%;
 		margin: 2% 4%;
+		height: 80%;
 		&__circles {
 			height: 100%;
 			position: relative;

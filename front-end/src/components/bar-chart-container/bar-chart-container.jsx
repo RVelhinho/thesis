@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import {
 	BarChart,
 	Bar,
@@ -7,7 +6,6 @@ import {
 	XAxis,
 	YAxis,
 	Tooltip,
-	LabelList,
 	ResponsiveContainer,
 	CartesianGrid,
 	Rectangle,

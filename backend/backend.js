@@ -65,17 +65,16 @@ const keyMap = {
 };
 
 const countries = [
-	'Irlanda',
-	'Polônia',
-	'Dinamarca',
+	'Noruega',
+	'Angola',
+	'México',
+	'Austrália',
+	'França',
+	'Grécia',
 	'Senegal',
-	'Gana',
-	'Etiópia',
-	'Guiana',
-	'Ecuador',
-	'Cuba',
-	'Papua Nova Guiné',
-	'Vanuatu',
+	'Brasil',
+	'Arábia Saudita',
+	'China',
 ];
 
 const keywords = [
@@ -991,7 +990,11 @@ const dataGenerator = () => {
 		.fromFile('../datasets/final_pt_no_keywords.csv')
 		.then((json) => {
 			_.forEach(json, (row, index) => {
-				if (countries.includes(row.country_pt)) {
+				if (
+					countries.includes(row.country_pt) &&
+					parseInt(row.year) >= 1990 &&
+					parseInt(row.year) <= 2000
+				) {
 					if (row.country === 'India') row.country_pt = 'Índia';
 					else if (row.country === 'Indonesia') row.country_pt = 'Indonésia';
 					else if (row.country === 'Turkey') row.country_pt = 'Turquia';

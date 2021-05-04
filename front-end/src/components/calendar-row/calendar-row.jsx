@@ -2,7 +2,6 @@ import React from 'react';
 import _ from 'lodash';
 import { getTimeColor } from '../../utils/time';
 import './calendar-row.scss';
-import PropTypes from 'prop-types';
 
 const CalendarRow = React.memo(
 	({
@@ -10,11 +9,8 @@ const CalendarRow = React.memo(
 		data,
 		currentCircle,
 		onClickCalendarCircle,
-		onMouseOverYear,
 		onMouseOverCalendarCircle,
 		onMouseOutCalendarCircle,
-		onClickYear,
-		selectedYear,
 		selectedCircles,
 	}) => {
 		const getContinentColor = (continent) => {
@@ -36,16 +32,7 @@ const CalendarRow = React.memo(
 			onClickCalendarCircle(el);
 		};
 		return (
-			<div
-				className='calendar-row-container'
-				style={
-					selectedYear != year && selectedYear != -1
-						? { opacity: 0.3 }
-						: { opacity: 1 }
-				}
-				onMouseOver={() => onMouseOverYear()}
-				//onClick={() => onClickYear(year)}
-			>
+			<div className='calendar-row-container'>
 				<div className='row mx-0'>
 					<div className='col px-0 d-flex justify-content-between'>
 						<span className='calendar-row-container__year'>{year}</span>

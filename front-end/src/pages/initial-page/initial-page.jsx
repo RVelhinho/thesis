@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import _ from 'lodash';
 import { NavLink } from 'react-router-dom';
-import participantService from '../../services/participantService';
 import './initial-page.scss';
 
 class InitialPage extends Component {

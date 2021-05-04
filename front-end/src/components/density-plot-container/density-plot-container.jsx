@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
 import {
 	AreaChart,
 	Area,
@@ -13,11 +12,11 @@ import {
 	ResponsiveContainer,
 	Dot,
 	Brush,
+	Label,
 } from 'recharts';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import { getRoundedValue } from '../../utils/math';
 import './density-plot-container.scss';
-import { points } from '@turf/turf';
 
 class DensityPlotContainer extends PureComponent {
 	constructor(props) {
@@ -96,8 +95,8 @@ class DensityPlotContainer extends PureComponent {
 					<Rectangle
 						x={x}
 						width={1}
-						y={10}
-						height={height + 30}
+						y={14}
+						height={height + 5}
 						stroke={color}
 					/>
 					<line
@@ -192,81 +191,110 @@ class DensityPlotContainer extends PureComponent {
 		return (
 			<div
 				onMouseEnter={() => onMouseOverDensityPlot()}
-				style={{ width: '100%', height: '90%' }}
+				style={{ width: '100%', height: '100%' }}
 			>
-				<ResponsiveContainer>
-					<AreaChart
-						className='density-plot-container'
-						data={data}
-						margin={{
-							top: 40,
-							right: 30,
-							left: -20,
-							bottom: -20,
-						}}
-					>
-						<svg height={0} width={0}>
-							<linearGradient
-								id={'density-plot-gradient'}
-								x1='0'
-								y1='0'
-								x2='1'
-								y2='0'
-							>
-								<stop offset={'0%'} stopColor={'#34ebc0'} stopOpacity={1} />
-								<stop offset={'33%'} stopColor={'#34ebc0'} stopOpacity={1} />
-								<stop offset={'66%'} stopColor={'#34ebc0'} stopOpacity={1} />
-								<stop offset={'99%'} stopColor={'#34ebc0'} stopOpacity={1} />
-							</linearGradient>
-						</svg>
+				<div className='density-title'>
+					<span className='density-title__text'>Filtros</span>
+					<span className='density-title__text__desc'>
+						Aqui poderá explorar como variou a ocorrência de acidentes de avião
+						e filtrar por país ou ano.
+					</span>
+				</div>
+				<div style={{ width: '100%', height: '80%' }}>
+					<ResponsiveContainer>
+						<AreaChart
+							className='density-plot-container'
+							data={data}
+							margin={{
+								top: 20,
+								right: 30,
+								left: 0,
+								bottom: 0,
+							}}
+						>
+							<svg height={0} width={0}>
+								<linearGradient
+									id={'density-plot-gradient'}
+									x1='0'
+									y1='0'
+									x2='1'
+									y2='0'
+								>
+									<stop offset={'0%'} stopColor={'#34ebc0'} stopOpacity={1} />
+									<stop offset={'33%'} stopColor={'#34ebc0'} stopOpacity={1} />
+									<stop offset={'66%'} stopColor={'#34ebc0'} stopOpacity={1} />
+									<stop offset={'99%'} stopColor={'#34ebc0'} stopOpacity={1} />
+								</linearGradient>
+							</svg>
 
-						<CartesianGrid strokeDasharray='5' />
-						<XAxis
-							type='category'
-							domain={['auto', 'auto']}
-							tickLine={false}
-							dataKey={categoryAxis}
-							tickSize={10}
-							height={55}
-							axisLine={false}
-							tick={<this.CustomTickXAxis />}
-						/>
-						<YAxis
-							type='number'
-							domain={[minValue * 0.85, maxValue * 1.15]}
-							allowDataOverflow={true}
-							tickLine={false}
-							ticks={[
-								Math.floor(minValue),
-								Math.floor(tick1),
-								Math.floor(tick2),
-								Math.floor(tick3),
-								Math.floor(maxValue),
-							]}
-							tickLine={false}
-							axisLine={false}
-							tick={<this.CustomTickYAxis />}
-						/>
-						<Tooltip
-							content={<CustomToolTip type={tooltipType} color={color} />}
-							wrapperStyle={{ zIndex: 1000 }}
-							cursor={<this.CustomCursor color={color} />}
-						/>
-						<Area
-							type={lineType}
-							dataKey={dataKey}
-							stroke={color}
-							fill={color}
-							fillOpacity={0.5}
-							dot={<this.CustomDot />}
-							activeDot={<this.CustomActiveDot />}
-							animationDuration={300}
-							onMouseOver={this.handleMouseOverDensityArea}
-							onAnimationStart={this.handleAnimationStart}
-							onAnimationEnd={this.handleAnimationEnd}
-						/>
-					</AreaChart>
-				</ResponsiveContainer>
+							<CartesianGrid strokeDasharray='5' />
+							<XAxis
+								type='category'
+								domain={['auto', 'auto']}
+								tickLine={false}
+								dataKey={categoryAxis}
+								tickSize={10}
+								height={55}
+								axisLine={false}
+								tick={<this.CustomTickXAxis />}
+							>
+								<Label
+									value='Ano'
+									offset={100}
+									position='inside'
+									dy={10}
+									stroke={'#606060'}
+									strokeWidth={0}
+								/>
+							</XAxis>
+							<YAxis
+								type='number'
+								domain={[0, maxValue * 1.15]}
+								allowDataOverflow={false}
+								ticks={[
+									0,
+									Math.floor(minValue * 0.85),
+									Math.floor(tick1),
+									Math.floor(tick2),
+									Math.floor(tick3),
+									Math.floor(maxValue * 1.15),
+								]}
+								tickLine={false}
+								axisLine={false}
+								tick={<this.CustomTickYAxis />}
+							>
+								<Label
+									value='Total de acidentes de avião'
+									angle={-90}
+									offset={0}
+									position='inside'
+									dx={-10}
+									stroke={'#606060'}
+									strokeWidth={0}
+								/>
+							</YAxis>
+							<Tooltip
+								content={<CustomToolTip type={tooltipType} color={color} />}
+								wrapperStyle={{ zIndex: 1000 }}
+								cursor={<this.CustomCursor color={color} />}
+							/>
+							<Area
+								type={lineType}
+								dataKey={dataKey}
+								stroke={color}
+								fill={color}
+								fillOpacity={0.5}
+								dot={<this.CustomDot />}
+								activeDot={<this.CustomActiveDot />}
+								animationDuration={300}
+								onMouseOver={this.handleMouseOverDensityArea}
+								onAnimationStart={this.handleAnimationStart}
+								onAnimationEnd={this.handleAnimationEnd}
+							/>
+							<Brush dataKey={categoryAxis} height={20} />
+						</AreaChart>
+					</ResponsiveContainer>
+				</div>
 			</div>
 		);
 	}

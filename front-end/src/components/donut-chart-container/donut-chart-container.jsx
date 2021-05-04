@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from 'recharts';
 import './donut-chart-container.scss';
 
@@ -25,7 +24,6 @@ export default class DonutChartContainer extends PureComponent {
 			startAngle,
 			endAngle,
 			fill,
-			payload,
 			value,
 		} = props;
 		const sin = Math.sin(-RADIAN * midAngle);
@@ -49,15 +47,6 @@ export default class DonutChartContainer extends PureComponent {
 					endAngle={endAngle}
 					fill={fill}
 				/>
-				{/* <Sector
-					cx={cx}
-					cy={cy}
-					startAngle={startAngle}
-					endAngle={endAngle}
-					innerRadius={outerRadius + 6}
-					outerRadius={outerRadius + 10}
-					fill={fill}
-				/> */}
 				<path
 					d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
 					stroke={fill}

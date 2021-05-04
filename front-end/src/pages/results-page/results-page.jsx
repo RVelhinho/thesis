@@ -4,11 +4,9 @@ import axios from 'axios';
 import _ from 'lodash';
 import { Spinner } from '../../components/spinner/spinner';
 import { getInteractionLog } from '../../services/interactionService';
-import participantService from '../../services/participantService';
 import icoLeftArrow from '../../assets/images/left-arrow.svg';
 import icoDownload from '../../assets/images/download.svg';
 import './results-page.scss';
-import { data } from 'jquery';
 
 class ResultsPage extends Component {
 	constructor(props) {

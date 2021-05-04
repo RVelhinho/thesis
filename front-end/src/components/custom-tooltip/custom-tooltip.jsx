@@ -29,8 +29,9 @@ function CustomToolTip(props) {
 				</div>
 			</div>
 		);
-	} else if (type === 'map--circle') {
-		const { color, country, date, aircraft, keywords } = props;
+	} else if (type === 'map') {
+		const { color, loc } = props;
+		const keywords = JSON.parse(loc.keywords);
 		return (
 			<div
 				className='custom-tooltip w-auto d-inline-block'
@@ -41,7 +42,7 @@ function CustomToolTip(props) {
 						PAÍS
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
-						{country}
+						{loc.country}
 					</span>
 				</div>
 				<hr className='separator' />
@@ -53,7 +54,7 @@ function CustomToolTip(props) {
 						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
 						style={{ color: color }}
 					>
-						{date}
+						{loc.date}
 					</span>
 				</div>
 				<div className='custom-tooltip__row mb-1'>
@@ -61,7 +62,7 @@ function CustomToolTip(props) {
 						Aeronave
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
-						{aircraft}
+						{loc.aircraft}
 					</span>
 				</div>
 				<div className='custom-tooltip__row w-auto'>

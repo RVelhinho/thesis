@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import _, { findIndex } from 'lodash';
 import axios from 'axios';
 import L from 'leaflet';
 import * as turf from '@turf/turf';
@@ -66,8 +66,26 @@ export default class App extends Component {
 				tooltipType: 'density',
 			},
 			mapData: {
-				disabled: true,
-				data: [],
+				data: {
+					type: 'FeatureCollection',
+					features: [],
+				},
+				dataSelected: {
+					type: 'FeatureCollection',
+					features: [],
+				},
+				lastSelectedIndex: -1,
+				startingPosition: {
+					lat: 38.712458,
+					lon: -9.140459,
+					zoom: 0,
+				},
+				selectedEl: {},
+				showPopup: {},
+				minScale: 1,
+				scale: 1,
+				minZoom: 3,
+				interactionDisabled: false,
 				tooltipType: 'map',
 			},
 			donutChartData: {
@@ -107,6 +125,26 @@ export default class App extends Component {
 		};
 		this._isMounted = true;
 	}
+
+	handleSubmitIdentifier = async (id) => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await participantService.submitParticipantId(
+				this.cancelTokenSource.token,
+				id
+			);
+			this.cancelTokenSource = null;
+			this.setState(() => {
+				return { participantId: id };
+			});
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
 
 	randomPointInPoly = (polygon) => {
 		let bounds = polygon.getBounds();
@@ -183,35 +221,6 @@ export default class App extends Component {
 			});
 		}
 	};
-
-	getWordColorAux(value, totalValue, weight) {
-		if (weight >= 500) {
-			return '#000000';
-		} else {
-			const rate = value / totalValue;
-			if (rate < 0.1) {
-				return '#ed8c15';
-			} else if (rate < 0.2) {
-				return '#ec7c15';
-			} else if (rate < 0.3) {
-				return '#eb6c15';
-			} else if (rate < 0.4) {
-				return '#ea5c15';
-			} else if (rate < 0.5) {
-				return '#e94c15';
-			} else if (rate < 0.6) {
-				return '#e83c15';
-			} else if (rate < 0.7) {
-				return '#e72c15';
-			} else if (rate < 0.8) {
-				return '#e61c15';
-			} else if (rate < 0.9) {
-				return '#e50c15';
-			} else if (rate < 1) {
-				return '#e4Dc15';
-			}
-		}
-	}
 
 	async componentDidMount() {
 		this.handleDataInteraction(
@@ -354,7 +363,26 @@ export default class App extends Component {
 				calendarData.data = yearData;
 			}
 			densityPlotData.data = yearAuxData;
-			mapData.data = countryData;
+			countryData.map((el) => {
+				el.total.map((el2) => {
+					const newEl = {
+						lat: el2.lat,
+						lon: el2.lon,
+						innerColor: '#107996',
+						index: mapData.data.features.length,
+						...el2,
+					};
+					mapData.data.features.push({
+						type: 'Feature',
+						properties: {
+							...newEl,
+						},
+						geometry: { type: 'Point', coordinates: [el2.lon, el2.lat] },
+					});
+					return el2;
+				});
+				return el;
+			});
 			donutChartData.data = survivalRateData;
 			let max = -1;
 			_.forEach(keywordData, (el) => {
@@ -395,13 +423,71 @@ export default class App extends Component {
 		}
 	};
 
+	handleClickCircle = (circle) => {
+		if (_.isEmpty(circle)) {
+			return;
+		}
+		const overviewData = _.cloneDeep(this.state.overviewData);
+		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
+		const mapData = _.cloneDeep(this.state.mapData);
+		const overviewIndex = overviewData.data.findIndex(
+			(el) => el.id === circle.id
+		);
+		const mapIndex = mapData.data.features.findIndex(
+			(el) => el.properties.id === circle.id
+		);
+		if (overviewIndex !== -1) {
+			overviewData.data.splice(overviewIndex, 1);
+			selectedCircles.splice(overviewIndex, 1);
+			mapData.dataSelected.features.splice(overviewIndex, 1);
+			const newEl = {
+				type: 'Feature',
+				properties: {
+					...circle,
+				},
+				geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
+			};
+			mapData.data.features.push(newEl);
+		} else {
+			mapData.data.features.splice(mapIndex, 1);
+			const newEl = {
+				type: 'Feature',
+				properties: {
+					...circle,
+				},
+				geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
+			};
+			mapData.dataSelected.features.push(newEl);
+			overviewData.data.push(circle);
+			selectedCircles.push(circle);
+		}
+		overviewData.open = true;
+		this.setState(() => {
+			return { overviewData, selectedCircles, mapData };
+		});
+	};
+
+	handleMouseOutCalendarCircle = () => {
+		const calendarTooltip = { ...this.state.calendarTooltip };
+		calendarTooltip.date = '';
+		calendarTooltip.cx = '';
+		calendarTooltip.cy = '';
+		calendarTooltip.open = true;
+		calendarTooltip.country = '';
+		calendarTooltip.aircraft = '';
+		calendarTooltip.description = '';
+		this.setState(() => {
+			return { calendarTooltip };
+		});
+	};
+
 	handleMouseEnterCalendar = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Calendar',
-				'Calendar Enter',
+				'Calendar Enter View',
 				'Entered the Calendar view',
 				this.cancelTokenSource.token
 			);
@@ -421,68 +507,8 @@ export default class App extends Component {
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Map',
-				'Map Enter',
+				'Map Enter View',
 				'Entered the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleMouseEnterDonutChart = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'DonutChart',
-				'DonutChart Enter',
-				'Entered the DonutChart view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleMouseEnterWordCloud = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'WordCloud',
-				'WordCloud Enter',
-				'Entered the WordCloud view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleMouseEnterBarChart = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'BarChart',
-				'BarChart Enter',
-				'Entered the BarChart view',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;
@@ -501,7 +527,7 @@ export default class App extends Component {
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Overview',
-				'Overview Enter',
+				'Overview Enter View',
 				'Entered the Overview tab',
 				this.cancelTokenSource.token
 			);
@@ -569,524 +595,13 @@ export default class App extends Component {
 		this.handleClickCircle(circle);
 	};
 
-	handleMouseOverYear = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Calendar',
-				'Calendar Year Hover',
-				'Hovered a year on the Calendar view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickYear = async (year) => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Calendar',
-				'Calendar Year Click',
-				'Clicked a year on the Calendar view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		const filter = _.cloneDeep(this.state.filter);
-		const selected = _.cloneDeep(this.state.selected);
-		if (selected.year === year) {
-			selected.year = undefined;
-			filter.yearData = false;
-			this.handleDataInteraction(
-				selected.year,
-				selected.minDate,
-				selected.maxDate,
-				selected.country,
-				selected.continent,
-				selected.keyword,
-				selected.aircraft,
-				filter,
-				''
-			);
-		} else {
-			selected.year = year;
-			filter.yearData = true;
-			this.handleDataInteraction(
-				selected.year,
-				selected.minDate,
-				selected.maxDate,
-				selected.country,
-				selected.continent,
-				selected.keyword,
-				selected.aircraft,
-				filter,
-				''
-			);
-		}
-		this.setState(() => {
-			return { selected, filter };
-		});
-	};
-
-	handleMouseOverContinentCircle = async () => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Calendar',
-				'Calendar Continent Hover',
-				'Hovered a continent on the Calendar view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickContinentCircle = async (continent) => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Calendar',
-				'Calendar Continent Click',
-				'Clicked a continent on the Calendar view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		const selected = _.cloneDeep(this.state.selected);
-		const filter = _.cloneDeep(this.state.filter);
-		if (continent === selected.continent) {
-			selected.continent = undefined;
-		} else {
-			selected.continent = continent;
-		}
-		this.handleDataInteraction(
-			selected.year,
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			filter,
-			''
-		);
-		this.setState(() => {
-			return { selected };
-		});
-	};
-
-	handleMouseOverDensityPlot = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Density Plot',
-				'Density Plot Hover',
-				'Hovered the Density Plot view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleMouseOverMapRing = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Ring Hover',
-				'Hovered a ring on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickMapRing = async (country) => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Ring Click',
-				'Clicked a ring on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		const selected = _.cloneDeep(this.state.selected);
-		const filter = _.cloneDeep(this.state.filter);
-		selected.country = country;
-		this.handleDataInteraction(
-			selected.year,
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			filter,
-			''
-		);
-		this.setState(() => {
-			return { selected };
-		});
-	};
-
-	handleMouseOverTimeRing = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Time Ring Hover',
-				'Hovered a time ring on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickTimeRing = async (minDate, maxDate) => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Time Ring Click',
-				'Clicked a time ring on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		const filter = _.cloneDeep(this.state.filter);
-		const selected = _.cloneDeep(this.state.selected);
-		if (
-			(selected.year &&
-				minDate &&
-				selected.year >= minDate &&
-				maxDate &&
-				selected.year <= maxDate) ||
-			(selected.year && !minDate && maxDate && selected.year <= maxDate) ||
-			(selected.year && minDate && selected.year >= minDate && !maxDate)
-		) {
-			selected.minDate = minDate;
-			selected.maxDate = maxDate;
-		} else if (
-			selected.year &&
-			(selected.year < minDate || selected.year > maxDate)
-		) {
-			selected.minDate = 10000;
-			selected.maxDate = -1;
-		} else {
-			selected.minDate = minDate;
-			selected.maxDate = maxDate;
-		}
-		this.handleDataInteraction(
-			selected.year,
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			filter,
-			''
-		);
-		this.setState(() => {
-			return { selected };
-		});
-	};
-
-	handleMouseOverResetButton = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Reset Zoom Hover',
-				'Hovered the reset zoom button option on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickResetButton = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Reset Zoom Click',
-				'Clicked the reset zoom button option on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleMouseOverMapCircle = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Circle Hover',
-				'Hovered a map circle on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickMapCircle = async (circle) => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Circle Click',
-				'Clicked a circle on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		this.handleClickCircle(circle);
-	};
-
-	handleClickCircle = (circle) => {
-		const overviewData = _.cloneDeep(this.state.overviewData);
-		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
-		if (overviewData.location === circle.country) {
-			return null;
-		}
-		let found = false;
-		_.forEach(overviewData.data, (el, index) => {
-			if (el.id == circle.id) {
-				found = index;
-			}
-		});
-		if (typeof found === 'number') {
-			overviewData.data.splice(found, 1);
-			selectedCircles.splice(found, 1);
-		} else {
-			overviewData.data.push(circle);
-			selectedCircles.push(circle);
-		}
-		overviewData.open = true;
-		this.setState(() => {
-			return { overviewData, selectedCircles };
-		});
-	};
-
-	handleClickMinimize = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Overview',
-				'Overview Minimize',
-				'Minimized the Overview Tab',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		const overviewData = _.cloneDeep(this.state.overviewData);
-		overviewData.open = false;
-		this.setState(() => {
-			return { overviewData };
-		});
-	};
-
-	handleClickMaximize = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Overview',
-				'Overview Maximize',
-				'Maximized the Overview Tab',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		const overviewData = _.cloneDeep(this.state.overviewData);
-		overviewData.open = true;
-		this.setState(() => {
-			return { overviewData };
-		});
-	};
-
-	handleMouseOverZoom = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Zoom Hover',
-				'Hovered the zoom options on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickZoom = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Map',
-				'Map Zoom Click',
-				'Clicked the zoom options on the Map view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleZoomOut = () => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		const selected = _.cloneDeep(this.state.selected);
-		const filter = _.cloneDeep(this.state.filter);
-		selected.country = undefined;
-		this.handleDataInteraction(
-			selected.year,
-			selected.minDate,
-			selected.maxDate,
-			selected.country,
-			selected.continent,
-			selected.keyword,
-			selected.aircraft,
-			filter,
-			''
-		);
-		this.setState(() => {
-			return { selected };
-		});
-	};
-
 	handleMouseOverRemoveButton = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Overview',
-				'Overview Hover Remove Button',
+				'Overview Remove Button Hover',
 				'Hovered the Overview Remove Button',
 				this.cancelTokenSource.token
 			);
@@ -1106,7 +621,7 @@ export default class App extends Component {
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Overview',
-				'Overview Click Remove Button',
+				'Overview Remove Button Click',
 				'Click the Overview Remove Button',
 				this.cancelTokenSource.token
 			);
@@ -1120,10 +635,20 @@ export default class App extends Component {
 		}
 		const overviewData = { ...this.state.overviewData };
 		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
+		const mapData = _.cloneDeep(this.state.mapData);
 		_.forEach(overviewData.data, (el, index) => {
 			if (el.id == circle.id) {
 				overviewData.data.splice(index, 1);
 				selectedCircles.splice(index, 1);
+				mapData.dataSelected.features.splice(index, 1);
+				const newEl = {
+					type: 'Feature',
+					properties: {
+						...circle,
+					},
+					geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
+				};
+				mapData.data.features.push(newEl);
 				return false;
 			}
 		});
@@ -1133,7 +658,7 @@ export default class App extends Component {
 			overviewData.open = false;
 		}
 		this.setState(() => {
-			return { overviewData, selectedCircles };
+			return { overviewData, selectedCircles, mapData };
 		});
 	};
 
@@ -1144,14 +669,16 @@ export default class App extends Component {
 		});
 	};
 
-	handleMouseOverDonutChart = async () => {
+	handleMouseOverMap = async (loc) => {};
+
+	handleMouseEnterMapCircle = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
-				'Donut Chart',
-				'Donut Chart Hover',
-				'Hovered the Donut Chart view',
+				'Map',
+				'Map Circle Hover',
+				'Hovered a circle on the Map view',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;
@@ -1164,225 +691,36 @@ export default class App extends Component {
 		}
 	};
 
-	handleMouseOverWordCloud = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Word Cloud',
-				'Word Cloud Hover',
-				'Hovered a word on the Word Cloud view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
+	handleMouseClickMap = async (loc) => {
+		if (!_.isEmpty(loc)) {
+			try {
+				this.cancelTokenSource = axios.CancelToken.source();
+				const { data: result } = await interactionService.addInteractionLog(
+					new Date(),
+					'Map',
+					'Map Circle Click',
+					'Clicked a circle on the Map view',
+					this.cancelTokenSource.token
+				);
+				this.cancelTokenSource = null;
+			} catch (error) {
+				if (axios.isCancel(error)) {
+					//Do nothing
+				} else if (error.response && error.response.status === 400) {
+					alert('Error occured');
+				}
 			}
+			this.handleClickCircle(loc);
 		}
-	};
-
-	handleClickWordCloud = async (keyword) => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Word Cloud',
-				'Word Cloud Click',
-				'Cliked a word on the Word Cloud view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		this.handleClickWord(keyword);
-	};
-
-	handleClickWord = (keyword) => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		const filter = _.cloneDeep(this.state.filter);
-		const selected = _.cloneDeep(this.state.selected);
-		if (keyword === selected.keyword) {
-			selected.keyword = undefined;
-			filter.keywordData = false;
-			this.handleDataInteraction(
-				selected.year,
-				selected.minDate,
-				selected.maxDate,
-				selected.country,
-				selected.continent,
-				selected.keyword,
-				selected.aircraft,
-				filter,
-				''
-			);
-		} else {
-			selected.keyword = keyword;
-			filter.keywordData = true;
-			this.handleDataInteraction(
-				selected.year,
-				selected.minDate,
-				selected.maxDate,
-				selected.country,
-				selected.continent,
-				selected.keyword,
-				selected.aircraft,
-				filter,
-				''
-			);
-		}
-		this.setState(() => {
-			return { selected, filter };
-		});
-	};
-
-	handleMouseOverBarChart = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Bar Chart',
-				'Bar Chart Hover',
-				'Hovered a bar on the Bar Chart view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleClickBarChart = async ({ plane: aircraft }) => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Bar Chart',
-				'Bar Chart Click',
-				'Clicked a bar on the Bar Chart view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		this.handleClickBar(aircraft);
-	};
-
-	handleClickBar = (aircraft) => {
-		this.cancelTokenSource && this.cancelTokenSource.cancel();
-		const filter = _.cloneDeep(this.state.filter);
-		const selected = _.cloneDeep(this.state.selected);
-		if (aircraft === selected.aircraft) {
-			selected.aircraft = undefined;
-			filter.aircraftData = false;
-			this.handleDataInteraction(
-				selected.year,
-				selected.minDate,
-				selected.maxDate,
-				selected.country,
-				selected.continent,
-				selected.keyword,
-				selected.aircraft,
-				filter,
-				''
-			);
-		} else {
-			selected.aircraft = aircraft;
-			filter.aircraftData = true;
-			this.handleDataInteraction(
-				selected.year,
-				selected.minDate,
-				selected.maxDate,
-				selected.country,
-				selected.continent,
-				selected.keyword,
-				selected.aircraft,
-				filter,
-				''
-			);
-		}
-		this.setState(() => {
-			return { selected, filter };
-		});
-	};
-
-	handleSubmitIdentifier = async (id) => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await participantService.submitParticipantId(
-				this.cancelTokenSource.token,
-				id
-			);
-			this.cancelTokenSource = null;
-			this.setState(() => {
-				return { participantId: id };
-			});
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-	};
-
-	handleMinDateInputChange = ({ currentTarget: input }) => {
-		this.setState(() => {
-			return { inputMinDate: input.value };
-		});
-	};
-
-	handleMaxDateInputChange = ({ currentTarget: input }) => {
-		this.setState(() => {
-			return { inputMaxDate: input.value };
-		});
-	};
-
-	handleMouseOutCalendarCircle = () => {
-		const calendarTooltip = { ...this.state.calendarTooltip };
-		calendarTooltip.date = '';
-		calendarTooltip.cx = '';
-		calendarTooltip.cy = '';
-		calendarTooltip.open = true;
-		calendarTooltip.country = '';
-		calendarTooltip.aircraft = '';
-		calendarTooltip.description = '';
-		this.setState(() => {
-			return { calendarTooltip };
-		});
 	};
 
 	render() {
 		const {
 			calendarData,
-			densityPlotData,
 			mapData,
-			donutChartData,
-			wordCloudData,
-			barChartData,
 			overviewData,
-			randomPositions,
 			selectedCircles,
 			participantId,
-			selected,
-			inputMaxDate,
-			inputMinDate,
 			calendarTooltip,
 		} = this.state;
 		return (
@@ -1392,55 +730,22 @@ export default class App extends Component {
 						path='/visualization'
 						render={(props) => (
 							<MainPage
-								selected={selected}
 								calendarData={calendarData}
-								densityPlotData={densityPlotData}
-								mapData={mapData}
-								donutChartData={donutChartData}
-								wordCloudData={wordCloudData}
-								barChartData={barChartData}
-								overviewData={overviewData}
-								randomPositions={randomPositions}
+								calendarTooltip={calendarTooltip}
+								selectedCircles={selectedCircles}
 								onMouseEnterCalendar={this.handleMouseEnterCalendar}
-								onMouseEnterMap={this.handleMouseEnterMap}
-								onMouseEnterDonutChart={this.handleMouseEnterDonutChart}
-								onMouseEnterWordCloud={this.handleMouseEnterWordCloud}
-								onMouseEnterBarChart={this.handleMouseEnterBarChart}
-								onMouseEnterOverview={this.handleMouseEnterOverview}
 								onMouseOverCalendarCircle={this.handleMouseOverCalendarCircle}
+								onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
 								onClickCalendarCircle={this.handleClickCalendarCircle}
-								onMouseOverYear={this.handleMouseOverYear}
-								onClickYear={this.handleClickYear}
-								onMouseOverContinentCircle={this.handleMouseOverContinentCircle}
-								onClickContinentCircle={this.handleClickContinentCircle}
-								onMouseOverDensityPlot={this.handleMouseOverDensityPlot}
-								onMouseOverMapRing={this.handleMouseOverMapRing}
-								onClickMapRing={this.handleClickMapRing}
-								onMouseOverTimeRing={this.handleMouseOverTimeRing}
-								onClickTimeRing={this.handleClickTimeRing}
-								onMouseOverResetButton={this.handleMouseOverResetButton}
-								onClickResetButton={this.handleClickResetButton}
-								onMouseOverMapCircle={this.handleMouseOverMapCircle}
-								onClickMapCircle={this.handleClickMapCircle}
-								onMouseOverZoom={this.handleMouseOverZoom}
-								onClickZoom={this.handleClickZoom}
-								onZoomOut={this.handleZoomOut}
-								onMouseOverDonutChart={this.handleMouseOverDonutChart}
-								onMouseOverWordCloud={this.handleMouseOverWordCloud}
-								onClickWordCloud={this.handleClickWordCloud}
-								onMouseOverBarChart={this.handleMouseOverBarChart}
-								onClickBarChart={this.handleClickBarChart}
+								mapData={mapData}
+								onMouseEnterMap={this.handleMouseEnterMap}
+								onMouseEnterMapCircle={this.handleMouseEnterMapCircle}
+								onMouseOverMap={this.handleMouseOverMap}
+								onMouseClickMap={this.handleMouseClickMap}
+								overviewData={overviewData}
+								onMouseEnterOverview={this.handleMouseEnterOverview}
 								onMouseOverRemoveButton={this.handleMouseOverRemoveButton}
 								onClickRemoveCrash={this.handleClickRemoveCrash}
-								selectedCircles={selectedCircles}
-								onClickMinimize={this.handleClickMinimize}
-								onClickMaximize={this.handleClickMaximize}
-								inputMinDate={inputMinDate}
-								inputMaxDate={inputMaxDate}
-								onMinDateInputChange={this.handleMinDateInputChange}
-								onMaxDateInputChange={this.handleMaxDateInputChange}
-								calendarTooltip={calendarTooltip}
-								onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
 								{...props}
 							/>
 						)}
