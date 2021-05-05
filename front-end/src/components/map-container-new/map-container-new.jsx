@@ -150,7 +150,7 @@ class MapContainerNew extends PureComponent {
 					}
 					onHover={(e) => this.handleMouseOverMap(e)}
 					onMouseEnter={(e) => this.handleMouseEnterMapCircle(e)}
-					onMouseDown={() => onMouseClickMap(selectedEl)}
+					onNativeClick={() => onMouseClickMap(selectedEl)}
 					getCursor={this.getCursor}
 					interactiveLayerIds={[...layerList]}
 				>

@@ -42,7 +42,7 @@ function CustomToolTip(props) {
 						PAÍS
 					</span>
 					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
-						{loc.country}
+						{loc.country_pt}
 					</span>
 				</div>
 				<hr className='separator' />

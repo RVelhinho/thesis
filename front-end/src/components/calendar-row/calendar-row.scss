@@ -3,7 +3,8 @@
 	margin: 4% 2%;
 	&__year {
 		font-family: OpenSans-Regular;
-		font-size: 1.06rem;
+		font-size: 0.9rem;
+		font-weight: 600;
 		color: #606060;
 		width: auto;
 	}
@@ -15,7 +16,7 @@
 		width: auto;
 	}
 	&__circle-container {
-		min-height: 2.5em;
+		min-height: 2em;
 		height: auto;
 		padding: 2% 1%;
 		box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);

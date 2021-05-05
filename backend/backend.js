@@ -66,14 +66,14 @@ const keyMap = {
 
 const countries = [
 	'Noruega',
-	'Angola',
+	'Nigéria',
 	'México',
-	'Austrália',
+	'Alemanha',
 	'França',
 	'Grécia',
 	'Senegal',
 	'Brasil',
-	'Arábia Saudita',
+	'Itália',
 	'China',
 ];
 
