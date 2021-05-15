@@ -34,7 +34,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			background-color: #107996;
+			background-color: #d1784b;
 			color: white;
 			width: auto;
 			height: 2em;
@@ -52,7 +52,7 @@
 	&__crash-container {
 		border-radius: 8px;
 		position: relative;
-		height: 90%;
+		height: 80%;
 		border: 1px solid #d6d6d6;
 		&__shadow {
 			position: absolute;
@@ -68,7 +68,7 @@
 			height: auto;
 			max-height: 100%;
 			overflow-y: auto;
-			padding: 1em;
+			padding: 0.5em 1em;
 			overflow-x: hidden;
 			&__title {
 				font-size: 1.08rem;
@@ -107,4 +107,8 @@
 			}
 		}
 	}
+}
+
+.h-10 {
+	height: 10%;
 }

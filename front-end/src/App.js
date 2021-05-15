@@ -26,6 +26,8 @@ export default class App extends Component {
 				open: false,
 				cx: '',
 				cy: '',
+				id: '',
+				color: '#3b8194',
 			},
 			inputMaxDate: {
 				value: 2009,
@@ -84,7 +86,7 @@ export default class App extends Component {
 				showPopup: {},
 				minScale: 1,
 				scale: 1,
-				minZoom: 3,
+				minZoom: 2,
 				interactionDisabled: false,
 				tooltipType: 'map',
 			},
@@ -100,7 +102,7 @@ export default class App extends Component {
 			},
 			barChartData: {
 				data: [],
-				gradientColors: ['107996', '578591'],
+				gradientColors: ['3b8194', '578591'],
 				tooltipType: 'aircraft',
 				categoryAxis: 'plane',
 			},
@@ -166,7 +168,7 @@ export default class App extends Component {
 		}
 	};
 
-	createRandomPositions = (data, run) => {
+	createRandomPositions = (calendarData, data, run) => {
 		const randomPositions = [...this.state.randomPositions];
 		const countryPositions = { ...this.state.countryPositions };
 		if (run === 'initial') {
@@ -199,6 +201,14 @@ export default class App extends Component {
 					} else {
 						row.lat = randomPoint.geometry.coordinates[0];
 						row.lon = randomPoint.geometry.coordinates[1];
+						_.forEach(calendarData.data, (year) => {
+							_.forEach(year, (yearCircle) => {
+								if (yearCircle.id === row.id) {
+									yearCircle.lat = row.lat;
+									yearCircle.lon = row.lon;
+								}
+							});
+						});
 						countryPositions[row.country].lat.push(
 							randomPoint.geometry.coordinates[0]
 						);
@@ -358,17 +368,17 @@ export default class App extends Component {
 				),
 			]);
 			this.cancelTokenSource = null;
-			this.createRandomPositions(countryData, run);
 			if (filterView && !filterView.yearData) {
 				calendarData.data = yearData;
 			}
+			this.createRandomPositions(calendarData, countryData, run);
 			densityPlotData.data = yearAuxData;
 			countryData.map((el) => {
 				el.total.map((el2) => {
 					const newEl = {
 						lat: el2.lat,
 						lon: el2.lon,
-						innerColor: '#107996',
+						innerColor: '#3b8194',
 						index: mapData.data.features.length,
 						...el2,
 					};
@@ -423,10 +433,11 @@ export default class App extends Component {
 		}
 	};
 
-	handleClickCircle = (circle) => {
+	handleClickCircle = async (type, circle) => {
 		if (_.isEmpty(circle)) {
 			return;
 		}
+		const calendarTooltip = _.cloneDeep(this.state.calendarTooltip);
 		const overviewData = _.cloneDeep(this.state.overviewData);
 		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
 		const mapData = _.cloneDeep(this.state.mapData);
@@ -444,40 +455,107 @@ export default class App extends Component {
 				type: 'Feature',
 				properties: {
 					...circle,
+					innerColor: '#3b8194',
 				},
 				geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
 			};
 			mapData.data.features.push(newEl);
+			if (type === 'map') {
+				try {
+					this.cancelTokenSource = axios.CancelToken.source();
+					const { data: result } = await interactionService.addInteractionLog(
+						new Date(),
+						'Map',
+						'Map Circle Click Remove',
+						'Unselected a circle on the Map view',
+						this.cancelTokenSource.token
+					);
+					this.cancelTokenSource = null;
+				} catch (error) {
+					if (axios.isCancel(error)) {
+						//Do nothing
+					} else if (error.response && error.response.status === 400) {
+						alert('Error occured');
+					}
+				}
+			} else if (type === 'calendar') {
+				try {
+					this.cancelTokenSource = axios.CancelToken.source();
+					const { data: result } = await interactionService.addInteractionLog(
+						new Date(),
+						'Calendar',
+						'Calendar Circle Click Remove',
+						'Unselected a circle on the Calendar view',
+						this.cancelTokenSource.token
+					);
+					this.cancelTokenSource = null;
+				} catch (error) {
+					if (axios.isCancel(error)) {
+						//Do nothing
+					} else if (error.response && error.response.status === 400) {
+						alert('Error occured');
+					}
+				}
+			}
 		} else {
 			mapData.data.features.splice(mapIndex, 1);
 			const newEl = {
 				type: 'Feature',
 				properties: {
 					...circle,
+					innerColor: '#d1784b',
 				},
 				geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
 			};
 			mapData.dataSelected.features.push(newEl);
 			overviewData.data.push(circle);
 			selectedCircles.push(circle);
+			if (type === 'map') {
+				try {
+					this.cancelTokenSource = axios.CancelToken.source();
+					const { data: result } = await interactionService.addInteractionLog(
+						new Date(),
+						'Map',
+						'Map Circle Click Add',
+						'Selected a circle on the Map view',
+						this.cancelTokenSource.token
+					);
+					this.cancelTokenSource = null;
+				} catch (error) {
+					if (axios.isCancel(error)) {
+						//Do nothing
+					} else if (error.response && error.response.status === 400) {
+						alert('Error occured');
+					}
+				}
+			} else if (type === 'calendar') {
+				try {
+					this.cancelTokenSource = axios.CancelToken.source();
+					const { data: result } = await interactionService.addInteractionLog(
+						new Date(),
+						'Calendar',
+						'Calendar Circle Click Add',
+						'Selected a circle on the Calendar view',
+						this.cancelTokenSource.token
+					);
+					this.cancelTokenSource = null;
+				} catch (error) {
+					if (axios.isCancel(error)) {
+						//Do nothing
+					} else if (error.response && error.response.status === 400) {
+						alert('Error occured');
+					}
+				}
+			}
+		}
+		if (overviewData.data.length !== 0) {
+			calendarTooltip.color = '#d1784b';
+		} else {
+			calendarTooltip.color = '#3b8194';
 		}
 		overviewData.open = true;
 		this.setState(() => {
-			return { overviewData, selectedCircles, mapData };
-		});
-	};
-
-	handleMouseOutCalendarCircle = () => {
-		const calendarTooltip = { ...this.state.calendarTooltip };
-		calendarTooltip.date = '';
-		calendarTooltip.cx = '';
-		calendarTooltip.cy = '';
-		calendarTooltip.open = true;
-		calendarTooltip.country = '';
-		calendarTooltip.aircraft = '';
-		calendarTooltip.description = '';
-		this.setState(() => {
-			return { calendarTooltip };
+			return { overviewData, selectedCircles, mapData, calendarTooltip };
 		});
 	};
 
@@ -541,14 +619,19 @@ export default class App extends Component {
 		}
 	};
 
-	handleMouseOverCalendarCircle = async (e, circle) => {
+	handleMouseEnterCalendarCircle = async (e, circle) => {
 		const calendarTooltip = { ...this.state.calendarTooltip };
 		calendarTooltip.cx = e.clientX - e.target.offsetLeft;
-		calendarTooltip.cy = e.clientY - 150;
+		if (circle.year <= 1994) {
+			calendarTooltip.cy = e.clientY;
+		} else {
+			calendarTooltip.cy = e.clientY - 150;
+		}
 		calendarTooltip.date = circle.date;
 		calendarTooltip.country = circle.country_pt;
 		calendarTooltip.aircraft = circle.aircraft;
 		calendarTooltip.keywords = circle.keywords;
+		calendarTooltip.id = circle.id;
 		calendarTooltip.open = true;
 		this.setState(() => {
 			return {
@@ -560,8 +643,40 @@ export default class App extends Component {
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Calendar',
-				'Calendar Circle Hover',
-				'Hovered a circle on the Calendar view',
+				'Calendar Circle Enter',
+				'Hovered the cursor into a circle on the Calendar view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
+	handleMouseLeaveCalendarCircle = async () => {
+		const calendarTooltip = { ...this.state.calendarTooltip };
+		calendarTooltip.date = '';
+		calendarTooltip.cx = '';
+		calendarTooltip.cy = '';
+		calendarTooltip.open = true;
+		calendarTooltip.country = '';
+		calendarTooltip.aircraft = '';
+		calendarTooltip.description = '';
+		calendarTooltip.id = '';
+		this.setState(() => {
+			return { calendarTooltip };
+		});
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Calendar',
+				'Calendar Circle Leave',
+				'Hovered the cursor out of a circle on the Calendar view',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;
@@ -575,44 +690,7 @@ export default class App extends Component {
 	};
 
 	handleClickCalendarCircle = async (circle) => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Calendar',
-				'Calendar Circle Click',
-				'Clicked a circle on the Calendar view',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
-		this.handleClickCircle(circle);
-	};
-
-	handleMouseOverRemoveButton = async () => {
-		try {
-			this.cancelTokenSource = axios.CancelToken.source();
-			const { data: result } = await interactionService.addInteractionLog(
-				new Date(),
-				'Overview',
-				'Overview Remove Button Hover',
-				'Hovered the Overview Remove Button',
-				this.cancelTokenSource.token
-			);
-			this.cancelTokenSource = null;
-		} catch (error) {
-			if (axios.isCancel(error)) {
-				//Do nothing
-			} else if (error.response && error.response.status === 400) {
-				alert('Error occured');
-			}
-		}
+		this.handleClickCircle('calendar', circle);
 	};
 
 	handleClickRemoveCrash = async (circle) => {
@@ -645,6 +723,7 @@ export default class App extends Component {
 					type: 'Feature',
 					properties: {
 						...circle,
+						innerColor: '#3b8194',
 					},
 					geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
 				};
@@ -662,6 +741,40 @@ export default class App extends Component {
 		});
 	};
 
+	handleClickRemoveAllCrashes = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Overview',
+				'Overview Remove All Button Click',
+				'Click the Overview Remove All Button',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+		const overviewData = { ...this.state.overviewData };
+		const selectedCircles = _.cloneDeep(this.state.selectedCircles);
+		const mapData = _.cloneDeep(this.state.mapData);
+		overviewData.data.length = 0;
+		selectedCircles.length = 0;
+		_.forEach(mapData.dataSelected.features, (el, index) => {
+			el.properties.innerColor = '#3b8194';
+			mapData.data.features.push(el);
+		});
+		mapData.dataSelected.features.length = 0;
+		overviewData.open = false;
+		this.setState(() => {
+			return { overviewData, selectedCircles, mapData };
+		});
+	};
+
 	handleCloseOverviewContainer = () => {
 		const overviewData = { ...this.baseOverviewData };
 		this.setState(() => {
@@ -671,14 +784,34 @@ export default class App extends Component {
 
 	handleMouseOverMap = async (loc) => {};
 
+	handleMouseLeaveMapCircle = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Map',
+				'Map Circle Leave',
+				'Hovered the cursor out of a circle on the Map view',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
 	handleMouseEnterMapCircle = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
 				'Map',
-				'Map Circle Hover',
-				'Hovered a circle on the Map view',
+				'Map Circle Enter',
+				'Hovered the cursor into a circle on the Map view',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;
@@ -692,25 +825,26 @@ export default class App extends Component {
 	};
 
 	handleMouseClickMap = async (loc) => {
-		if (!_.isEmpty(loc)) {
-			try {
-				this.cancelTokenSource = axios.CancelToken.source();
-				const { data: result } = await interactionService.addInteractionLog(
-					new Date(),
-					'Map',
-					'Map Circle Click',
-					'Clicked a circle on the Map view',
-					this.cancelTokenSource.token
-				);
-				this.cancelTokenSource = null;
-			} catch (error) {
-				if (axios.isCancel(error)) {
-					//Do nothing
-				} else if (error.response && error.response.status === 400) {
-					alert('Error occured');
-				}
+		this.handleClickCircle('map', loc);
+	};
+
+	handleStartInteraction = async () => {
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await interactionService.addInteractionLog(
+				new Date(),
+				'Visualization',
+				'Visualization Start Interaction',
+				'The user entered the visualization through the main menu',
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
 			}
-			this.handleClickCircle(loc);
 		}
 	};
 
@@ -734,18 +868,19 @@ export default class App extends Component {
 								calendarTooltip={calendarTooltip}
 								selectedCircles={selectedCircles}
 								onMouseEnterCalendar={this.handleMouseEnterCalendar}
-								onMouseOverCalendarCircle={this.handleMouseOverCalendarCircle}
-								onMouseOutCalendarCircle={this.handleMouseOutCalendarCircle}
+								onMouseEnterCalendarCircle={this.handleMouseEnterCalendarCircle}
+								onMouseLeaveCalendarCircle={this.handleMouseLeaveCalendarCircle}
 								onClickCalendarCircle={this.handleClickCalendarCircle}
 								mapData={mapData}
 								onMouseEnterMap={this.handleMouseEnterMap}
 								onMouseEnterMapCircle={this.handleMouseEnterMapCircle}
 								onMouseOverMap={this.handleMouseOverMap}
+								onMouseLeaveMapCircle={this.handleMouseLeaveMapCircle}
 								onMouseClickMap={this.handleMouseClickMap}
 								overviewData={overviewData}
 								onMouseEnterOverview={this.handleMouseEnterOverview}
-								onMouseOverRemoveButton={this.handleMouseOverRemoveButton}
 								onClickRemoveCrash={this.handleClickRemoveCrash}
+								onClickRemoveAllCrashes={this.handleClickRemoveAllCrashes}
 								{...props}
 							/>
 						)}
@@ -761,6 +896,7 @@ export default class App extends Component {
 						render={(props) => (
 							<InitialPage
 								participantId={participantId}
+								onStartInteraction={this.handleStartInteraction}
 								onSubmitIdentifier={this.handleSubmitIdentifier}
 								{...props}
 							/>

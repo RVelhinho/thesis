@@ -7,7 +7,7 @@
 		margin-top: 1em;
 		margin-left: 1em;
 		&:hover {
-			background-color: #107996;
+			background-color: #3b8194;
 			.results-page-container__image-container__image {
 				filter: brightness(0) saturate(100%) invert(100%) sepia(1%)
 					saturate(167%) hue-rotate(115deg) brightness(117%) contrast(100%);
@@ -25,7 +25,7 @@
 		font-size: 5rem;
 		font-family: OpenSans-Regular;
 		font-weight: 400;
-		color: #107996;
+		color: #3b8194;
 	}
 	&__download-icon {
 		position: absolute;
@@ -39,7 +39,7 @@
 	&__results-container {
 		width: 50%;
 		height: auto;
-		border: 1px solid #107996;
+		border: 1px solid #3b8194;
 		border-radius: 18px;
 		overflow: hidden;
 		&__header-container {
@@ -47,13 +47,13 @@
 			height: calc(0.1 * 35em);
 			&__attribute-container {
 				padding: 1em;
-				border-right: 1px solid #107996;
+				border-right: 1px solid #3b8194;
 				&__attribute {
 					width: auto;
 					font-size: 0.86rem;
 					font-family: OpenSans-Regular;
 					font-weight: 600;
-					color: #107996;
+					color: #3b8194;
 					text-align: center;
 				}
 			}

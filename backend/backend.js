@@ -65,20 +65,35 @@ const keyMap = {
 };
 
 const countries = [
-	'Noruega',
+	'Canadá',
 	'Nigéria',
-	'México',
 	'Alemanha',
+	'Argentina',
+	'México',
+	'Paraguai',
 	'França',
-	'Grécia',
-	'Senegal',
-	'Brasil',
-	'Itália',
+	'Peru',
 	'China',
+	'Senegal',
+	'Indonésia',
 ];
 
 const keywords = [
-	'aero',
+	'velocidade',
+	'luz',
+	'mato',
+	'pássaros',
+	'reabastecimento',
+	'erro',
+	'rio',
+	'oceano',
+	'vulcão',
+	'sobrecarre',
+	'falh',
+	'destruido',
+	'mar',
+	'incêndio',
+	'coli',
 	'militar',
 	'transp',
 	'desapare',
@@ -86,6 +101,7 @@ const keywords = [
 	'fumo',
 	'agua',
 	'nevoeiro',
+	'neblina',
 	'motor',
 	'abat',
 	'chuva',
@@ -96,14 +112,13 @@ const keywords = [
 	'montanh',
 	'chama',
 	'tempo',
-	'pous',
 	'vent',
 	'ar',
 	'névoa',
 	'defeituos',
 	'ravina',
 	'volcão',
-	'explo',
+	'explosão',
 	'obstáculo',
 	'estrada',
 	'floresta',
@@ -111,7 +126,7 @@ const keywords = [
 	'selva',
 	'encosta',
 	'campo',
-	'desvi',
+	'desvio',
 	'mergulh',
 	'sequestr',
 	'testemunh',
@@ -121,6 +136,8 @@ const keywords = [
 	'helicóptero',
 	'nuve',
 	'combustível',
+	'turbulência',
+	'luta',
 ];
 
 let countryToContinent = {
@@ -997,11 +1014,11 @@ const dataGenerator = () => {
 				) {
 					if (row.country === 'India') row.country_pt = 'Índia';
 					else if (row.country === 'Indonesia') row.country_pt = 'Indonésia';
-					else if (row.country === 'Turkey') row.country_pt = 'Turquia';
+					else if (row.country === 'Turkey') return;
 					let words = row.description.split('.')[0].split(' ');
 					// Clean whitespaces / remove special characters / remove useless words
 					let wordsMapped = words.map((el, index3) => {
-						let newEl = el.replace(/[^A-Za-z0-9]/g, '');
+						let newEl = el.replace(/[^\wáàâãéèêíìîóòôõúùû\s]/gi, '');
 						newEl.trim();
 						newEl.toLowerCase();
 						return newEl;
@@ -1010,6 +1027,7 @@ const dataGenerator = () => {
 					// Filter undefineds or empty words / Remove unnecessary words
 					let wordsFiltered = wordsMapped.filter((el, index3) => {
 						if (el) {
+							console.log(el);
 							let found = false;
 							for (let item of keywords) {
 								const regex = new RegExp(`^${item}`, 'i');

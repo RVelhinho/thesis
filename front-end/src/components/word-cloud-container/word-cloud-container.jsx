@@ -69,7 +69,7 @@ export default class WordCloudContainer extends PureComponent {
 					} else if (hoveredWord === d.text) {
 						return '#084554';
 					} else if (d.value / max >= 0.75) {
-						return '#107996';
+						return '#3b8194';
 					} else if (d.value / max >= 0.5) {
 						return '#267c94';
 					} else if (d.value / max >= 0.25) {

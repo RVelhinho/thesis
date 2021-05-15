@@ -15,8 +15,8 @@ export default class CalendarContainer extends PureComponent {
 
 	static propTypes = {};
 
-	handleMouseOverCalendarCircle = (e, circle, index, selected) => {
-		this.props.onMouseOverCalendarCircle(e, circle);
+	handleMouseEnterCalendarCircle = (e, circle, index, selected) => {
+		this.props.onMouseEnterCalendarCircle(e, circle);
 		this.setState(() => {
 			return {
 				currentCircle: circle.year + '-' + index,
@@ -42,7 +42,7 @@ export default class CalendarContainer extends PureComponent {
 			tooltipStyle,
 			onClickCalendarCircle,
 			selectedCircles,
-			onMouseOutCalendarCircle,
+			onMouseLeaveCalendarCircle,
 		} = this.props;
 		const { currentCircle } = this.state;
 		return (
@@ -70,10 +70,10 @@ export default class CalendarContainer extends PureComponent {
 										currentCircle={currentCircle}
 										tooltipStyle={tooltipStyle}
 										onClickCalendarCircle={onClickCalendarCircle}
-										onMouseOverCalendarCircle={
-											this.handleMouseOverCalendarCircle
+										onMouseEnterCalendarCircle={
+											this.handleMouseEnterCalendarCircle
 										}
-										onMouseOutCalendarCircle={() => onMouseOutCalendarCircle()}
+										onMouseLeaveCalendarCircle={onMouseLeaveCalendarCircle}
 										selectedCircles={selectedCircles}
 									/>
 								);

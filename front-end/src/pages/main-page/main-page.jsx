@@ -5,6 +5,7 @@ import MapContainerNew from '../../components/map-container-new/map-container-ne
 import OverviewContainer from '../../components/overview-container/overview-container';
 import CustomToolTip from '../../components/custom-tooltip/custom-tooltip';
 import './main-page.scss';
+import { select } from 'd3-selection';
 const MainPage = ({
 	calendarData,
 	mapData,
@@ -13,17 +14,18 @@ const MainPage = ({
 	onMouseEnterMap,
 	onMouseEnterMapCircle,
 	onMouseEnterOverview,
-	onMouseOverCalendarCircle,
+	onMouseEnterCalendarCircle,
+	onMouseLeaveCalendarCircle,
 	onClickCalendarCircle,
 	onMouseOverContinentCircle,
 	onCloseOverviewContainer,
 	onClickRemoveCrash,
-	onMouseOverRemoveButton,
+	onClickRemoveAllCrashes,
 	selectedCircles,
-	onMouseOutCalendarCircle,
 	calendarTooltip,
 	onMouseOverMap,
 	onMouseClickMap,
+	onMouseLeaveMapCircle,
 }) => {
 	return (
 		<div className='main-page-container'>
@@ -38,7 +40,11 @@ const MainPage = ({
 						aircraft={calendarTooltip.aircraft}
 						left={calendarTooltip.cx}
 						top={calendarTooltip.cy}
-						color={calendarTooltip.color}
+						color={
+							_.find(selectedCircles, (el) => el.id === calendarTooltip.id)
+								? '#d1784b'
+								: '#3b8194'
+						}
 					/>
 				)}
 			<div className='row mx-0 w-100 main-page-container__top-section'>
@@ -51,12 +57,11 @@ const MainPage = ({
 							data={calendarData.data}
 							hopLegendColors={calendarData.hopLegendColors}
 							tooltipType={calendarData.tooltipType}
-							onMouseOverCalendarCircle={onMouseOverCalendarCircle}
-							onMouseOverContinentCircle={onMouseOverContinentCircle}
+							onMouseEnterCalendarCircle={onMouseEnterCalendarCircle}
+							onMouseLeaveCalendarCircle={onMouseLeaveCalendarCircle}
 							onClickCalendarCircle={onClickCalendarCircle}
 							selectedCircles={selectedCircles}
 							calendarTooltip={calendarTooltip}
-							onMouseOutCalendarCircle={onMouseOutCalendarCircle}
 						/>
 					)}
 				</div>
@@ -77,12 +82,14 @@ const MainPage = ({
 								minScale={mapData.minScale}
 								minZoom={mapData.minZoom}
 								onMouseEnterMapCircle={onMouseEnterMapCircle}
+								onMouseLeaveMapCircle={onMouseLeaveMapCircle}
+								selectedCircles={selectedCircles}
 							/>
 						</div>
 					</div>
 				</div>
 				<div
-					className={'col-2 px-0 h-100'}
+					className={'col-3 px-0 h-100'}
 					onMouseEnter={() => onMouseEnterOverview()}
 				>
 					<OverviewContainer
@@ -90,7 +97,7 @@ const MainPage = ({
 						open={overviewData.open}
 						onCloseOverviewContainer={onCloseOverviewContainer}
 						onClickRemoveCrash={onClickRemoveCrash}
-						onMouseOverRemoveButton={onMouseOverRemoveButton}
+						onClickRemoveAllCrashes={onClickRemoveAllCrashes}
 					/>
 				</div>
 			</div>

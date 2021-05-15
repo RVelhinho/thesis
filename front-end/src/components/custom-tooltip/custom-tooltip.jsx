@@ -6,7 +6,7 @@ function CustomToolTip(props) {
 	if (type === 'map--ring') {
 		const { color, country, total } = props;
 		return (
-			<div className='custom-tooltip' style={{ borderColor: '#107996' }}>
+			<div className='custom-tooltip' style={{ borderColor: '#3b8194' }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						PAÍS
@@ -35,13 +35,16 @@ function CustomToolTip(props) {
 		return (
 			<div
 				className='custom-tooltip w-auto d-inline-block'
-				style={{ borderColor: '#107996' }}
+				style={{ borderColor: color }}
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						PAÍS
 					</span>
-					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'
+						style={{ color: color }}
+					>
 						{loc.country_pt}
 					</span>
 				</div>
@@ -73,7 +76,7 @@ function CustomToolTip(props) {
 						{keywords.length !== 0 &&
 							keywords.map((el, index) => (
 								<span className='custom-tooltip__keyword ' key={index}>
-									{el.word}{' '}
+									{el.word.toString().toLowerCase()}{' '}
 								</span>
 							))}
 						{keywords.length === 0 && <span>none</span>}
@@ -83,7 +86,7 @@ function CustomToolTip(props) {
 		);
 	} else if (type === 'density' && payload && payload.length !== 0) {
 		return (
-			<div className='custom-tooltip' style={{ borderColor: '#107996' }}>
+			<div className='custom-tooltip' style={{ borderColor: '#3b8194' }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						ANO
@@ -109,7 +112,7 @@ function CustomToolTip(props) {
 	} else if (type === 'aircraft' && payload && payload.length !== 0) {
 		const { color } = props;
 		return (
-			<div className='custom-tooltip' style={{ borderColor: '#107996' }}>
+			<div className='custom-tooltip' style={{ borderColor: '#3b8194' }}>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						AERONAVE
@@ -133,17 +136,20 @@ function CustomToolTip(props) {
 			</div>
 		);
 	} else if (type === 'calendar') {
-		const { date, country, keywords, aircraft } = props;
+		const { date, country, keywords, aircraft, color } = props;
 		return (
 			<div
 				className='custom-tooltip custom-tooltip--calendar w-auto d-inline-block'
-				style={{ borderColor: '#107996', top: props.top, left: props.left }}
+				style={{ borderColor: color, top: props.top, left: props.left }}
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>
 						DATA
 					</span>
-					<span className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--title-bold regionIdFont'
+						style={{ color: color }}
+					>
 						{date}
 					</span>
 				</div>
@@ -152,7 +158,10 @@ function CustomToolTip(props) {
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
 						País
 					</span>
-					<span className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: color }}
+					>
 						{country}
 					</span>
 				</div>
@@ -172,7 +181,7 @@ function CustomToolTip(props) {
 						{keywords.length !== 0 &&
 							keywords.map((el, index) => (
 								<span className='custom-tooltip__keyword' key={index}>
-									{el.word}
+									{el.word.toString().toLowerCase()}
 								</span>
 							))}
 						{keywords.length === 0 && <span>none</span>}
@@ -185,7 +194,7 @@ function CustomToolTip(props) {
 		return (
 			<div
 				className='custom-tooltip custom-tooltip--word'
-				style={{ borderColor: '#107996' }}
+				style={{ borderColor: '#3b8194' }}
 			>
 				<div className='custom-tooltip__row'>
 					<span className='custom-tooltip__font custom-tooltip__font--title mr-3'>

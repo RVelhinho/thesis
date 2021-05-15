@@ -12,8 +12,9 @@ export default class OverviewContainer extends Component {
 		const {
 			selectedCrashes,
 			open,
-			onMouseOverRemoveButton,
+
 			onClickRemoveCrash,
+			onClickRemoveAllCrashes,
 		} = this.props;
 		let sortedCrashes = _.cloneDeep(selectedCrashes);
 		if (selectedCrashes && selectedCrashes.length > 0) {
@@ -21,7 +22,7 @@ export default class OverviewContainer extends Component {
 		}
 		return (
 			<div className='overview-container'>
-				<div className='row mx-0 mb-4'>
+				<div className='row mx-0 h-10'>
 					<div className='col px-0 overview-container__count-container d-flex justify-content-between align-items-center'>
 						<div className='d-flex justify-content-between align-items-center'>
 							<span className='overview-container__count-container__count'>
@@ -93,13 +94,10 @@ export default class OverviewContainer extends Component {
 										</div>
 									</div>
 									<div className='row mx-0'>
-										<div
-											className='col px-0'
-											onMouseEnter={() => onMouseOverRemoveButton()}
-										>
+										<div className='col px-0'>
 											<Button
 												text='Remover'
-												color='red'
+												color='red-soft'
 												onClick={() => onClickRemoveCrash(el)}
 											/>
 										</div>
@@ -112,6 +110,16 @@ export default class OverviewContainer extends Component {
 						})}
 					</div>
 					<div className='overview-container__crash-container__shadow'></div>
+				</div>
+				<div className='overview-container__remove-all-container row mx-0 w-100 h-10'>
+					<div className='col px-0 d-flex justify-content-center align-items-center'>
+						<Button
+							text='Remover Todos'
+							color='red'
+							disabled={sortedCrashes.length === 0}
+							onClick={() => onClickRemoveAllCrashes()}
+						/>
+					</div>
 				</div>
 			</div>
 		);

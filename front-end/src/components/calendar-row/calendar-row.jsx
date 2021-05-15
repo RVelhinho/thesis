@@ -9,8 +9,8 @@ const CalendarRow = React.memo(
 		data,
 		currentCircle,
 		onClickCalendarCircle,
-		onMouseOverCalendarCircle,
-		onMouseOutCalendarCircle,
+		onMouseEnterCalendarCircle,
+		onMouseLeaveCalendarCircle,
 		selectedCircles,
 	}) => {
 		const getContinentColor = (continent) => {
@@ -38,10 +38,7 @@ const CalendarRow = React.memo(
 						<span className='calendar-row-container__year'>{year}</span>
 					</div>
 				</div>
-				<div
-					className='row mx-0 d-flex flex-wrap calendar-row-container__circle-container justify-content-start align-items-center'
-					onMouseLeave={() => onMouseOutCalendarCircle()}
-				>
+				<div className='row mx-0 d-flex flex-wrap calendar-row-container__circle-container justify-content-start align-items-center'>
 					{data.map((el, index) => {
 						let selected = false;
 						_.forEach(selectedCircles, (circle, index) => {
@@ -64,13 +61,14 @@ const CalendarRow = React.memo(
 									}
 									style={
 										selected
-											? { backgroundColor: '#de2874' }
-											: { backgroundColor: '#107996' }
+											? { backgroundColor: '#d1784b' }
+											: { backgroundColor: '#3b8194' }
 									}
 									onClick={(e) => handleClickCalendarCircle(e, el)}
-									onMouseOver={(e) =>
-										onMouseOverCalendarCircle(e, el, index, selected)
+									onMouseEnter={(e) =>
+										onMouseEnterCalendarCircle(e, el, index, selected)
 									}
+									onMouseLeave={() => onMouseLeaveCalendarCircle()}
 								></div>
 							</div>
 						);

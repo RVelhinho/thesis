@@ -8,6 +8,7 @@ import ReactMapGL, {
 } from 'react-map-gl';
 import CustomToolTip from '../custom-tooltip/custom-tooltip';
 import './map-container-new.scss';
+import { select } from 'd3-selection';
 
 class MapContainerNew extends PureComponent {
 	constructor(props) {
@@ -38,6 +39,9 @@ class MapContainerNew extends PureComponent {
 			this.props.onMouseOverMap(selectedEl);
 			//}
 		} else {
+			if (showPopup === true) {
+				this.props.onMouseLeaveMapCircle();
+			}
 			showPopup = false;
 			selectedEl = {};
 			this.setState(() => {
@@ -51,6 +55,7 @@ class MapContainerNew extends PureComponent {
 			this.props.onMouseEnterMapCircle();
 		}
 	};
+
 	render() {
 		const {
 			data,
@@ -62,6 +67,7 @@ class MapContainerNew extends PureComponent {
 			startingPosition,
 			scale,
 			onMouseClickMap,
+			selectedCircles,
 		} = this.props;
 		const { viewport, showPopup, selectedEl } = this.state;
 		let newScale = minScale;
@@ -77,7 +83,7 @@ class MapContainerNew extends PureComponent {
 			type: 'circle',
 			paint: {
 				'circle-radius': 5 * newScale,
-				'circle-color': '#107996',
+				'circle-color': '#3b8194',
 				'circle-opacity': 0.3,
 			},
 		};
@@ -86,7 +92,7 @@ class MapContainerNew extends PureComponent {
 			type: 'circle',
 			paint: {
 				'circle-radius': 2 * newScale,
-				'circle-color': '#107996',
+				'circle-color': '#3b8194',
 				'circle-opacity': 1,
 			},
 		};
@@ -95,7 +101,7 @@ class MapContainerNew extends PureComponent {
 			type: 'circle',
 			paint: {
 				'circle-radius': 5 * newScale,
-				'circle-color': '#de2874',
+				'circle-color': '#d1784b',
 				'circle-opacity': 0.3,
 			},
 		};
@@ -104,7 +110,7 @@ class MapContainerNew extends PureComponent {
 			type: 'circle',
 			paint: {
 				'circle-radius': 2 * newScale,
-				'circle-color': '#de2874',
+				'circle-color': '#d1784b',
 				'circle-opacity': 1,
 			},
 		};
@@ -187,7 +193,11 @@ class MapContainerNew extends PureComponent {
 								type={tooltipType}
 								language={language}
 								loc={selectedEl}
-								color={selectedEl.innerColor}
+								color={
+									_.find(selectedCircles, (el) => el.id === selectedEl.id)
+										? '#d1784b'
+										: '#3b8194'
+								}
 							/>
 						</Popup>
 					)}

@@ -145,12 +145,8 @@ export default class MapContainer extends PureComponent {
 			selectedCircles,
 			disabled,
 		} = this.props;
-		const {
-			position,
-			zoomLevel,
-			selectedCountry,
-			selectedTimeFrame,
-		} = this.state;
+		const { position, zoomLevel, selectedCountry, selectedTimeFrame } =
+			this.state;
 		return (
 			<React.Fragment>
 				<div className='map-title'>
@@ -208,7 +204,7 @@ export default class MapContainer extends PureComponent {
 												<CircleMarker
 													key={index2}
 													center={[el.lat, el.lon]}
-													fillColor={selected ? '#de2874' : '#107996'}
+													fillColor={selected ? '#d1784b' : '#3b8194'}
 													radius={10}
 													weight={0}
 													onMouseOver={(e) => {
@@ -220,7 +216,7 @@ export default class MapContainer extends PureComponent {
 												>
 													<CircleMarker
 														center={[el.lat, el.lon]}
-														fillColor={selected ? '#de2874' : '#107996'}
+														fillColor={selected ? '#d1784b' : '#3b8194'}
 														fillOpacity={1}
 														radius={3}
 														weight={0}
@@ -232,7 +228,7 @@ export default class MapContainer extends PureComponent {
 															date={el.date}
 															aircraft={el.aircraft}
 															keywords={el.keywords}
-															color={selected ? '#de2874' : '#107996'}
+															color={selected ? '#d1784b' : '#3b8194'}
 														/>
 													</Popup>
 												</CircleMarker>

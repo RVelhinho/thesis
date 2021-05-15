@@ -4,6 +4,10 @@
 	width: 100%;
 	height: 2em;
 	cursor: pointer;
+	&.disabled {
+		pointer-events: none;
+		opacity: 0.3;
+	}
 	&--default {
 		border-color: #578591;
 		background-color: white;
@@ -32,7 +36,12 @@
 	}
 	&--red {
 		border: none;
-		background-color: #d13b3b;
+		background-color: #d15c5c;
+	}
+	&--red-soft {
+		border: none;
+		background-color: #d15c5c;
+		opacity: 0.8;
 	}
 	&--grey {
 		border-color: #d7d7d7;
@@ -46,7 +55,8 @@
 		justify-content: center;
 		align-items: center;
 		&--orange,
-		&--red {
+		&--red,
+		&--red-soft {
 			color: white;
 		}
 		&--grey {

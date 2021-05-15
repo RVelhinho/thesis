@@ -25,14 +25,15 @@ class InitialPage extends Component {
 
 	render() {
 		const { inputValue } = this.state;
-		const { participantId, onSubmitIdentifier } = this.props;
+		const { participantId, onSubmitIdentifier, onStartInteraction } =
+			this.props;
 		if (participantId === 0) {
 			return (
 				<div className='initial-page-container'>
 					<div className='row w-100 h-50 mx-0 d-flex flex-column justify-content-center align-items-center'>
 						<div className='col px-0 d-flex flex-column justify-content-center align-items-center'>
 							<h1 className='initial-page-container__sub-title'></h1>
-							<h1 className='initial-page-container__title'>Identificador</h1>
+							<h1 className='initial-page-container__title-1'>Identificador</h1>
 						</div>
 					</div>
 					<div className='row mx-0 w-100 mb-4'>
@@ -57,25 +58,26 @@ class InitialPage extends Component {
 			);
 		} else {
 			return (
-				<div className='initial-page-container'>
-					<div className='row w-100 h-50 mx-0 d-flex flex-column justify-content-center align-items-center'>
+				<div className='initial-page-container d-flex justify-content-center align-items-center'>
+					<div className='row w-75 h-50 mx-0 d-flex justify-content-center align-items-center'>
 						<div className='col px-0 d-flex flex-column justify-content-center align-items-center'>
-							<h1 className='initial-page-container__sub-title'></h1>
-							<h1 className='initial-page-container__title'>Bem-vindo</h1>
+							<h1 className='initial-page-container__title-2'>Bem-vindo</h1>
 						</div>
 					</div>
-					<div className='row mx-0 w-100 h-50'>
-						<div className='col px-0 pr-4 d-flex justify-content-end align-items-top'>
+					<div className='initial-page-container__vertical-separator'></div>
+					<div className='row w-25 h-50 mx-0 d-flex flex-column justify-content-center align-items-center'>
+						<div className='col px-0 d-flex justify-content-center align-items-center'>
 							<NavLink
 								to='/visualization'
 								className='initial-page-container__button'
+								onClick={() => onStartInteraction()}
 							>
 								<h1 className='initial-page-container__button__content'>
 									Começar
 								</h1>
 							</NavLink>
 						</div>
-						<div className='col px-0 pl-4 d-flex justify-content-start align-items-top'>
+						<div className='col px-0 d-flex justify-content-center align-items-center'>
 							<NavLink to='/results' className='initial-page-container__button'>
 								<div className='initial-page-container__button__content'>
 									Resultados

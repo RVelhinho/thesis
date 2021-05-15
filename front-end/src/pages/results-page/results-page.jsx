@@ -124,7 +124,7 @@ class ResultsPage extends Component {
 											</span>
 										</div>
 									</div>
-									<hr className='my-0' style={{ borderColor: '#107996' }} />
+									<hr className='my-0' style={{ borderColor: '#3b8194' }} />
 								</div>
 								<div className='results-page-container__results-container__logs-container'>
 									{interactionData.data.map((el, index) => {
