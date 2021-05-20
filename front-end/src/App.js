@@ -10,6 +10,7 @@ import ResultsPage from './pages/results-page/results-page.jsx';
 import crashService from './services/crashService';
 import interactionService from './services/interactionService';
 import participantService from './services/participantService';
+import pageService from './services/pageService';
 import worldPoly from './utils/world-poly.json';
 import './App.scss';
 import './assets/scss/index.scss';
@@ -128,6 +129,29 @@ export default class App extends Component {
 		this._isMounted = true;
 	}
 
+	handlePageChange = async (newPage, inputValue) => {
+		if (newPage === 'video' && inputValue) {
+			this.handleSubmitIdentifier(inputValue);
+		}
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await pageService.submitCurrentPage(
+				this.cancelTokenSource.token,
+				newPage
+			);
+			this.cancelTokenSource = null;
+			this.setState(() => {
+				return { pageState: newPage };
+			});
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+	};
+
 	handleSubmitIdentifier = async (id) => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
@@ -233,17 +257,6 @@ export default class App extends Component {
 	};
 
 	async componentDidMount() {
-		this.handleDataInteraction(
-			undefined,
-			undefined,
-			undefined,
-			undefined,
-			undefined,
-			undefined,
-			undefined,
-			this.state.filter,
-			'initial'
-		);
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await participantService.getParticipantId(
@@ -260,6 +273,33 @@ export default class App extends Component {
 				alert('Error occured');
 			}
 		}
+		try {
+			this.cancelTokenSource = axios.CancelToken.source();
+			const { data: result } = await pageService.getCurrentPage(
+				this.cancelTokenSource.token
+			);
+			this.cancelTokenSource = null;
+			this.setState(() => {
+				return { pageState: result };
+			});
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				//Do nothing
+			} else if (error.response && error.response.status === 400) {
+				alert('Error occured');
+			}
+		}
+		this.handleDataInteraction(
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			this.state.filter,
+			'initial'
+		);
 	}
 
 	componentWillUnmount() {
@@ -856,7 +896,9 @@ export default class App extends Component {
 			selectedCircles,
 			participantId,
 			calendarTooltip,
+			pageState,
 		} = this.state;
+		console.log(pageState, participantId);
 		return (
 			<div className='container-fluid app-container px-0'>
 				<Switch>
@@ -895,7 +937,8 @@ export default class App extends Component {
 						path='/'
 						render={(props) => (
 							<InitialPage
-								participantId={participantId}
+								pageState={pageState}
+								onPageChange={this.handlePageChange}
 								onStartInteraction={this.handleStartInteraction}
 								onSubmitIdentifier={this.handleSubmitIdentifier}
 								{...props}

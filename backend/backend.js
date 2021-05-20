@@ -1001,6 +1001,7 @@ let interactionData = [];
 let countryArray = [];
 
 let participantId = 0;
+let currentPage = 'initial';
 
 const dataGenerator = () => {
 	const converter = csv()
@@ -1027,7 +1028,6 @@ const dataGenerator = () => {
 					// Filter undefineds or empty words / Remove unnecessary words
 					let wordsFiltered = wordsMapped.filter((el, index3) => {
 						if (el) {
-							console.log(el);
 							let found = false;
 							for (let item of keywords) {
 								const regex = new RegExp(`^${item}`, 'i');
@@ -1649,11 +1649,24 @@ app.post('/api/logs', (req, res) => {
 });
 
 app.get('/api/participant', (req, res) => {
+	console.log(participantId);
 	res.send(participantId.toString());
 });
 
 app.post('/api/participant', (req, res) => {
 	participantId = req.query.id;
+	console.log(participantId);
+	res.sendStatus(200);
+});
+
+app.get('/api/page', (req, res) => {
+	console.log(currentPage);
+	res.send(currentPage);
+});
+
+app.post('/api/page', (req, res) => {
+	currentPage = req.query.currentPage;
+	console.log(currentPage);
 	res.sendStatus(200);
 });
 

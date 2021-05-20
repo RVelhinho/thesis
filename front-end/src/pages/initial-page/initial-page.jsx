@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 import { NavLink } from 'react-router-dom';
+import YoutubeVideo from '../../components/youtube-video/youtube-video';
 import './initial-page.scss';
 
 class InitialPage extends Component {
@@ -25,9 +26,8 @@ class InitialPage extends Component {
 
 	render() {
 		const { inputValue } = this.state;
-		const { participantId, onSubmitIdentifier, onStartInteraction } =
-			this.props;
-		if (participantId === 0) {
+		const { pageState, onPageChange, onStartInteraction } = this.props;
+		if (pageState === 'initial') {
 			return (
 				<div className='initial-page-container'>
 					<div className='row w-100 h-50 mx-0 d-flex flex-column justify-content-center align-items-center'>
@@ -46,7 +46,7 @@ class InitialPage extends Component {
 							/>
 							<div
 								className='initial-page-container__button initial-page-container__button--small'
-								onClick={() => onSubmitIdentifier(this.state.inputValue)}
+								onClick={() => onPageChange('video', inputValue)}
 							>
 								<h1 className='initial-page-container__button__content initial-page-container__button__content--small'>
 									Submeter
@@ -56,7 +56,98 @@ class InitialPage extends Component {
 					</div>
 				</div>
 			);
-		} else {
+		} else if (pageState === 'video') {
+			return (
+				<div className='initial-page-container d-flex flex-column justify-content-center align-items-center'>
+					<div className='row w-100 h-50 mx-0 d-flex justify-content-between align-items-center'>
+						<div className='col-5 px-0 d-flex justify-content-end align-items-center'>
+							<div
+								className='initial-page-container__button'
+								onClick={() => onPageChange('map', undefined)}
+							>
+								<h1 className='initial-page-container__button__content'>
+									Vídeo 1
+								</h1>
+							</div>
+						</div>
+						<div className='col-5 px-0 d-flex justify-content-start align-items-center'>
+							<div
+								className='initial-page-container__button'
+								onClick={() => onPageChange('calendar', undefined)}
+							>
+								<h1 className='initial-page-container__button__content'>
+									Vídeo 2
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		} else if (pageState === 'map') {
+			return (
+				<div className='initial-page-container d-flex flex-column  justify-content-center align-items-center'>
+					<div className='row w-75 h-75 mx-0 d-flex justify-content-center align-items-center'>
+						<div className='col h-100 px-0 py-4 d-flex justify-content-center align-items-center'>
+							<YoutubeVideo embedId={'_XMbapECUZ0'} />
+						</div>
+					</div>
+					<div className='row mx-0 w-75 h-25 d-flex justify-content-center align-items-center'>
+						<div className='col h-100 px-0 d-flex justify-content-center align-items-center'>
+							<div
+								className='initial-page-container__button'
+								onClick={() => onPageChange('video', undefined)}
+							>
+								<h1 className='initial-page-container__button__content'>
+									Anterior
+								</h1>
+							</div>
+						</div>
+						<div className='col h-100 px-0 d-flex justify-content-center align-items-center'>
+							<div
+								className='initial-page-container__button'
+								onClick={() => onPageChange('final', undefined)}
+							>
+								<h1 className='initial-page-container__button__content'>
+									Seguinte
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		} else if (pageState === 'calendar') {
+			return (
+				<div className='initial-page-container d-flex flex-column  justify-content-center align-items-center'>
+					<div className='row w-75 h-75 mx-0 d-flex justify-content-center align-items-center'>
+						<div className='col h-100 px-0 py-4 d-flex justify-content-center align-items-center'>
+							<YoutubeVideo embedId={'HuzDdYIgcYM'} />
+						</div>
+					</div>
+					<div className='row mx-0 w-75 h-25 d-flex justify-content-center align-items-center'>
+						<div className='col h-100 px-0 d-flex justify-content-center align-items-center'>
+							<div
+								className='initial-page-container__button'
+								onClick={() => onPageChange('video', undefined)}
+							>
+								<h1 className='initial-page-container__button__content'>
+									Anterior
+								</h1>
+							</div>
+						</div>
+						<div className='col h-100 px-0 d-flex justify-content-center align-items-center'>
+							<div
+								className='initial-page-container__button'
+								onClick={() => onPageChange('final', undefined)}
+							>
+								<h1 className='initial-page-container__button__content'>
+									Seguinte
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		} else if (pageState === 'final') {
 			return (
 				<div className='initial-page-container d-flex justify-content-center align-items-center'>
 					<div className='row w-75 h-50 mx-0 d-flex justify-content-center align-items-center'>
