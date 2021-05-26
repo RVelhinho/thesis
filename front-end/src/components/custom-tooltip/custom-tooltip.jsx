@@ -51,6 +51,17 @@ function CustomToolTip(props) {
 				<hr className='separator' />
 				<div className='custom-tooltip__row mb-1'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Continente
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: color }}
+					>
+						{loc.continent}
+					</span>
+				</div>
+				<div className='custom-tooltip__row mb-1'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
 						Data
 					</span>
 					<span
@@ -136,7 +147,7 @@ function CustomToolTip(props) {
 			</div>
 		);
 	} else if (type === 'calendar') {
-		const { date, country, keywords, aircraft, color } = props;
+		const { date, country, continent, keywords, aircraft, color } = props;
 		return (
 			<div
 				className='custom-tooltip custom-tooltip--calendar w-auto d-inline-block'
@@ -154,6 +165,17 @@ function CustomToolTip(props) {
 					</span>
 				</div>
 				<hr className='separator' />
+				<div className='custom-tooltip__row mb-1'>
+					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
+						Continente
+					</span>
+					<span
+						className='custom-tooltip__font custom-tooltip__font--content font-weight-bold'
+						style={{ color: color }}
+					>
+						{continent}
+					</span>
+				</div>
 				<div className='custom-tooltip__row mb-1'>
 					<span className='custom-tooltip__font custom-tooltip__font--content mr-3'>
 						País

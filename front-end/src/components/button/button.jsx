@@ -2,7 +2,14 @@ import React from 'react';
 import './button.scss';
 
 const Button = React.memo(
-	({ text, color, onClick, onMouseEnter, disabled }) => {
+	({
+		text,
+		color,
+		onClick,
+		onMouseEnter,
+		disabled,
+		roundedCornersDisabled,
+	}) => {
 		return (
 			<div
 				className={
@@ -10,6 +17,7 @@ const Button = React.memo(
 						? `custom-button custom-button--${color} disabled`
 						: `custom-button custom-button--${color}`
 				}
+				style={roundedCornersDisabled ? { borderRadius: 0 } : {}}
 				onMouseEnter={onMouseEnter ? () => onMouseEnter() : null}
 				onClick={onClick ? () => onClick() : null}
 			>

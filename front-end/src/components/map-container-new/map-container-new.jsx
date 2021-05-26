@@ -31,35 +31,43 @@ class MapContainerNew extends PureComponent {
 		let showPopup = _.cloneDeep(this.state.showPopup);
 		let selectedEl = _.cloneDeep(this.state.selectedEl);
 		if (e.features && e.features.length !== 0) {
+			let newSelectedEl = {};
+			if (e.features.length > 1) {
+				let numArray = [];
+				_.forEach(e.features, (el) => numArray.push(el.properties.id));
+				newSelectedEl = e.features.find(
+					(el) => el.properties.id === _.max(numArray)
+				).properties;
+			} else {
+				newSelectedEl = _.cloneDeep(e.features[0].properties);
+			}
+			if (selectedEl.id !== newSelectedEl.id) {
+				this.props.onMouseOverMap(newSelectedEl, 'enter');
+			}
+			selectedEl = { ...newSelectedEl };
 			showPopup = true;
-			selectedEl = _.cloneDeep(e.features[0].properties);
 			this.setState(() => {
 				return { showPopup, selectedEl };
 			});
-			this.props.onMouseOverMap(selectedEl);
 			//}
 		} else {
-			if (showPopup === true) {
-				this.props.onMouseLeaveMapCircle();
+			if (!_.isEmpty(selectedEl)) {
+				this.props.onMouseOverMap(selectedEl, 'leave');
 			}
-			showPopup = false;
 			selectedEl = {};
+			showPopup = false;
 			this.setState(() => {
 				return { showPopup, selectedEl };
 			});
-		}
-	};
-
-	handleMouseEnterMapCircle = (e) => {
-		if (e.features && e.features.length !== 0) {
-			this.props.onMouseEnterMapCircle();
 		}
 	};
 
 	render() {
 		const {
 			data,
+			dataProxy,
 			dataSelected,
+			dataHovered,
 			minScale,
 			minZoom,
 			language,
@@ -68,6 +76,7 @@ class MapContainerNew extends PureComponent {
 			scale,
 			onMouseClickMap,
 			selectedCircles,
+			hoveredCircles,
 		} = this.props;
 		const { viewport, showPopup, selectedEl } = this.state;
 		let newScale = minScale;
@@ -78,6 +87,24 @@ class MapContainerNew extends PureComponent {
 		} else {
 			newScale = minScale;
 		}
+		const dataProxyLayerStyleLarge = {
+			id: 'data-proxy-style-large',
+			type: 'circle',
+			paint: {
+				'circle-radius': 5 * newScale,
+				'circle-color': 'transparent',
+				'circle-opacity': 0.3,
+			},
+		};
+		const dataProxyLayerStyleSmall = {
+			id: 'data-proxy-style-small',
+			type: 'circle',
+			paint: {
+				'circle-radius': 2 * newScale,
+				'circle-color': 'transparent',
+				'circle-opacity': 1,
+			},
+		};
 		const dataLayerStyleLarge = {
 			id: 'data-style-large',
 			type: 'circle',
@@ -93,6 +120,24 @@ class MapContainerNew extends PureComponent {
 			paint: {
 				'circle-radius': 2 * newScale,
 				'circle-color': '#3b8194',
+				'circle-opacity': 1,
+			},
+		};
+		const dataHoveredLayerStyleLarge = {
+			id: 'data-hovered-style-large',
+			type: 'circle',
+			paint: {
+				'circle-radius': 5 * newScale,
+				'circle-color': '#dba78a',
+				'circle-opacity': 0.3,
+			},
+		};
+		const dataHoveredLayerStyleSmall = {
+			id: 'data-hovered-style-small',
+			type: 'circle',
+			paint: {
+				'circle-radius': 2 * newScale,
+				'circle-color': '#dba78a',
 				'circle-opacity': 1,
 			},
 		};
@@ -115,17 +160,9 @@ class MapContainerNew extends PureComponent {
 			},
 		};
 		const layerList = [];
-		if (data && data.features && data.features.length !== 0) {
-			layerList.push('data-style-large');
-			layerList.push('data-style-small');
-		}
-		if (
-			dataSelected &&
-			dataSelected.features &&
-			dataSelected.features.length !== 0
-		) {
-			layerList.push('data-selected-style-large');
-			layerList.push('data-selected-style-small');
+		if (dataProxy && dataProxy.features && dataProxy.features.length !== 0) {
+			layerList.push('data-proxy-style-large');
+			layerList.push('data-proxy-style-small');
 		}
 		return (
 			<React.Fragment>
@@ -155,29 +192,26 @@ class MapContainerNew extends PureComponent {
 						this.handleChangeViewport(nextViewport)
 					}
 					onHover={(e) => this.handleMouseOverMap(e)}
-					onMouseEnter={(e) => this.handleMouseEnterMapCircle(e)}
 					onNativeClick={() => onMouseClickMap(selectedEl)}
 					getCursor={this.getCursor}
 					interactiveLayerIds={[...layerList]}
 				>
-					{data && data.features && data.features.length !== 0 && (
-						<Source id='data-source' type='geojson' data={data}>
-							<Layer {...dataLayerStyleLarge}></Layer>
-							<Layer {...dataLayerStyleSmall}></Layer>
-						</Source>
-					)}
-					{dataSelected &&
-						dataSelected.features &&
-						dataSelected.features.length !== 0 && (
-							<Source
-								id='data-source-selected'
-								type='geojson'
-								data={dataSelected}
-							>
-								<Layer {...dataSelectedLayerStyleLarge}></Layer>
-								<Layer {...dataSelectedLayerStyleSmall}></Layer>
-							</Source>
-						)}
+					<Source id='data-source-proxy' type='geojson' data={dataProxy}>
+						<Layer {...dataProxyLayerStyleLarge}></Layer>
+						<Layer {...dataProxyLayerStyleSmall}></Layer>
+					</Source>
+					<Source id='data-source' type='geojson' data={data}>
+						<Layer {...dataLayerStyleLarge}></Layer>
+						<Layer {...dataLayerStyleSmall}></Layer>
+					</Source>
+					<Source id='data-source-hovered' type='geojson' data={dataHovered}>
+						<Layer {...dataHoveredLayerStyleLarge}></Layer>
+						<Layer {...dataHoveredLayerStyleSmall}></Layer>
+					</Source>
+					<Source id='data-source-selected' type='geojson' data={dataSelected}>
+						<Layer {...dataSelectedLayerStyleLarge}></Layer>
+						<Layer {...dataSelectedLayerStyleSmall}></Layer>
+					</Source>
 					<NavigationControl
 						style={{ left: '10px', top: '10px' }}
 						showCompass={false}
@@ -186,6 +220,8 @@ class MapContainerNew extends PureComponent {
 						<Popup
 							latitude={selectedEl.lat}
 							longitude={selectedEl.lon}
+							captureClick={false}
+							captureDrag={false}
 							anchor='bottom'
 							closeButton={false}
 						>
@@ -196,6 +232,8 @@ class MapContainerNew extends PureComponent {
 								color={
 									_.find(selectedCircles, (el) => el.id === selectedEl.id)
 										? '#d1784b'
+										: _.find(hoveredCircles, (el) => el.id === selectedEl.id)
+										? '#dba78a'
 										: '#3b8194'
 								}
 							/>

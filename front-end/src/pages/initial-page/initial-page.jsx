@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import LineTo from 'react-lineto';
 import { NavLink } from 'react-router-dom';
 import YoutubeVideo from '../../components/youtube-video/youtube-video';
 import './initial-page.scss';
@@ -92,7 +93,7 @@ class InitialPage extends Component {
 						</div>
 					</div>
 					<div className='row mx-0 w-75 h-25 d-flex justify-content-center align-items-center'>
-						<div className='col h-100 px-0 d-flex justify-content-center align-items-center'>
+						<div className='col h-100 px-0 d-flex justify-content-center align-items-center '>
 							<div
 								className='initial-page-container__button'
 								onClick={() => onPageChange('video', undefined)}

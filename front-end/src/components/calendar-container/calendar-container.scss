@@ -3,6 +3,7 @@
 	width: 100%;
 	position: absolute;
 	top: 0;
+	box-shadow: 0 8px 5px rgba(0, 0, 0, 0.3);
 	&__buttons {
 		position: relative;
 		width: 100%;
@@ -35,6 +36,7 @@
 		position: relative;
 		margin: 2% 4%;
 		height: 80%;
+		background: #f7f7f7;
 		&__circles {
 			height: 100%;
 			position: relative;

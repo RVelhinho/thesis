@@ -12,7 +12,6 @@ const MainPage = ({
 	overviewData,
 	onMouseEnterCalendar,
 	onMouseEnterMap,
-	onMouseEnterMapCircle,
 	onMouseEnterOverview,
 	onMouseEnterCalendarCircle,
 	onMouseLeaveCalendarCircle,
@@ -22,10 +21,10 @@ const MainPage = ({
 	onClickRemoveCrash,
 	onClickRemoveAllCrashes,
 	selectedCircles,
+	hoveredCircles,
 	calendarTooltip,
 	onMouseOverMap,
 	onMouseClickMap,
-	onMouseLeaveMapCircle,
 }) => {
 	return (
 		<div className='main-page-container'>
@@ -36,6 +35,7 @@ const MainPage = ({
 						type={'calendar'}
 						date={calendarTooltip.date}
 						country={calendarTooltip.country}
+						continent={calendarTooltip.continent}
 						keywords={calendarTooltip.keywords}
 						aircraft={calendarTooltip.aircraft}
 						left={calendarTooltip.cx}
@@ -43,6 +43,8 @@ const MainPage = ({
 						color={
 							_.find(selectedCircles, (el) => el.id === calendarTooltip.id)
 								? '#d1784b'
+								: _.find(hoveredCircles, (el) => el.id === calendarTooltip.id)
+								? '#dba78a'
 								: '#3b8194'
 						}
 					/>
@@ -61,6 +63,7 @@ const MainPage = ({
 							onMouseLeaveCalendarCircle={onMouseLeaveCalendarCircle}
 							onClickCalendarCircle={onClickCalendarCircle}
 							selectedCircles={selectedCircles}
+							hoveredCircles={hoveredCircles}
 							calendarTooltip={calendarTooltip}
 						/>
 					)}
@@ -70,7 +73,9 @@ const MainPage = ({
 						<div className='col px-0' onMouseEnter={() => onMouseEnterMap()}>
 							<MapContainerNew
 								data={mapData.data}
+								dataProxy={mapData.dataProxy}
 								dataSelected={mapData.dataSelected}
+								dataHovered={mapData.dataHovered}
 								startingPosition={mapData.startingPosition}
 								tooltipType={mapData.tooltipType}
 								interactionDisabled={mapData.interactionDisabled}
@@ -81,9 +86,8 @@ const MainPage = ({
 								scale={mapData.scale}
 								minScale={mapData.minScale}
 								minZoom={mapData.minZoom}
-								onMouseEnterMapCircle={onMouseEnterMapCircle}
-								onMouseLeaveMapCircle={onMouseLeaveMapCircle}
 								selectedCircles={selectedCircles}
+								hoveredCircles={hoveredCircles}
 							/>
 						</div>
 					</div>

@@ -1,0 +1,42 @@
+.sort-dropdown {
+	position: absolute;
+	top: 100%;
+	width: 15em;
+	margin-top: 0.5em;
+	z-index: 1000;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 12px;
+	background: white;
+	box-shadow: 0 0px 3px rgba(0, 0, 0, 0.3);
+	cursor: pointer;
+	overflow: hidden;
+	&__option-container {
+		width: 100%;
+		padding: 0.5em 1em;
+		&__option {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			cursor: pointer;
+			> span {
+				user-select: none;
+				font-size: 0.96rem;
+				font-family: OpenSans-Regular;
+				font-weight: 600;
+				color: #4c4c4c;
+			}
+		}
+	}
+	&__option-container:nth-child(even) {
+		background: #fff;
+	}
+	&__option-container:nth-child(odd) {
+		background: #f7f7f7;
+	}
+	&__option-container:hover {
+		background: #e7e7e7;
+	}
+}

@@ -86,8 +86,7 @@
 	&__left-section {
 		height: 100%;
 		box-sizing: border-box;
-		border-right: 1px solid #c6c6c6;
-
+		z-index: 1000;
 		&__top-row {
 			height: 50%;
 			border-bottom: 1px solid #c6c6c6;

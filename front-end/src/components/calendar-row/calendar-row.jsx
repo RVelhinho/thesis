@@ -12,6 +12,7 @@ const CalendarRow = React.memo(
 		onMouseEnterCalendarCircle,
 		onMouseLeaveCalendarCircle,
 		selectedCircles,
+		hoveredCircles,
 	}) => {
 		const getContinentColor = (continent) => {
 			if (continent === 'América') {
@@ -40,7 +41,14 @@ const CalendarRow = React.memo(
 				</div>
 				<div className='row mx-0 d-flex flex-wrap calendar-row-container__circle-container justify-content-start align-items-center'>
 					{data.map((el, index) => {
+						let hovered = false;
 						let selected = false;
+						_.forEach(hoveredCircles, (circle, index) => {
+							if (circle.id === el.id) {
+								hovered = true;
+								return false;
+							}
+						});
 						_.forEach(selectedCircles, (circle, index) => {
 							if (circle.id === el.id) {
 								selected = true;
@@ -62,6 +70,8 @@ const CalendarRow = React.memo(
 									style={
 										selected
 											? { backgroundColor: '#d1784b' }
+											: hovered
+											? { backgroundColor: '#dba78a' }
 											: { backgroundColor: '#3b8194' }
 									}
 									onClick={(e) => handleClickCalendarCircle(e, el)}

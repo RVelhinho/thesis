@@ -42,6 +42,7 @@ export default class CalendarContainer extends PureComponent {
 			tooltipStyle,
 			onClickCalendarCircle,
 			selectedCircles,
+			hoveredCircles,
 			onMouseLeaveCalendarCircle,
 		} = this.props;
 		const { currentCircle } = this.state;
@@ -75,6 +76,7 @@ export default class CalendarContainer extends PureComponent {
 										}
 										onMouseLeaveCalendarCircle={onMouseLeaveCalendarCircle}
 										selectedCircles={selectedCircles}
+										hoveredCircles={hoveredCircles}
 									/>
 								);
 							})}
