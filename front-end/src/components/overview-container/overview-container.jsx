@@ -35,19 +35,22 @@ export default class OverviewContainer extends Component {
 		this.dropdownRef = React.createRef();
 	}
 
-	handleSortBy = (sortObject) => {
+	handleSortBy = (e, sortObject) => {
 		const sortBy = _.cloneDeep(this.state.sortBy);
 		sortBy.key = sortObject.key;
 		sortBy.value = sortObject.value;
 		this.setState(() => {
 			return { sortBy };
 		});
-		this.handeToggleDropdown();
+		this.handleCloseDropdown();
+		this.props.onClickSortDropdownOption();
+		e.stopPropagation();
 	};
-	handeToggleDropdown = () => {
+	handleToggleDropdown = () => {
 		this.setState(() => {
 			return { sortDropdownOpen: !this.state.sortDropdownOpen };
 		});
+		this.props.onClickSortDropdown();
 	};
 	handleCloseDropdown = () => {
 		this.setState(() => {
@@ -66,11 +69,14 @@ export default class OverviewContainer extends Component {
 		let sortedCrashes = _.cloneDeep(selectedCrashes);
 		if (selectedCrashes && selectedCrashes.length > 0) {
 			if (sortBy.key === 'date') {
-				sortedCrashes = _.sortBy(selectedCrashes, 'year');
+				sortedCrashes = _.sortBy(selectedCrashes, (el) => {
+					const date = new Date(el.date_sort);
+					return date;
+				});
 			} else if (sortBy.key === 'country a-z') {
 				sortedCrashes = _.sortBy(selectedCrashes, 'country_pt');
 			} else if (sortBy.key === 'continent a-z') {
-				sortedCrashes = _.sortBy(selectedCrashes, 'continent');
+				sortedCrashes = _.sortBy(selectedCrashes, 'continent_sort');
 			}
 		}
 		return (
@@ -91,8 +97,12 @@ export default class OverviewContainer extends Component {
 				</div>
 				<div className='row mx-0 h-5'>
 					<div
-						className='col px-0 overview-container__sort-container d-flex justify-content-between align-items-center'
-						onClick={() => this.handeToggleDropdown()}
+						className={
+							sortDropdownOpen
+								? 'col px-0 overview-container__sort-container d-flex justify-content-between align-items-center selected'
+								: 'col px-0 overview-container__sort-container d-flex justify-content-between align-items-center'
+						}
+						onClick={() => this.handleToggleDropdown()}
 					>
 						<div className='d-flex justify-content-between align-items-center'>
 							<span className='overview-container__sort-container__title'>
@@ -116,6 +126,12 @@ export default class OverviewContainer extends Component {
 				<div className='overview-container__crash-container'>
 					<div className='overview-container__crash-container__crashes'>
 						{sortedCrashes.map((el, index) => {
+							let keywords;
+							if (typeof el.keywords === 'string') {
+								keywords = JSON.parse(el.keywords);
+							} else {
+								keywords = el.keywords;
+							}
 							return (
 								<React.Fragment key={index}>
 									<div className='overview-container__crash-container__crashes__info-container'>
@@ -125,14 +141,14 @@ export default class OverviewContainer extends Component {
 													<div className='row mx-0'>
 														<div className='col px-0'>
 															<span className='overview-container__crash-container__crashes__title'>
-																Localização
+																País
 															</span>
 														</div>
 													</div>
 													<div className='row mx-0'>
 														<div className='col px-0'>
 															<span className='overview-container__crash-container__crashes__text'>
-																{el.country_pt}, {el.continent}
+																{el.country_pt}
 															</span>
 														</div>
 													</div>
@@ -150,6 +166,65 @@ export default class OverviewContainer extends Component {
 															<span className='overview-container__crash-container__crashes__text'>
 																{el.date}
 															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className='row mx-0 mb-4'>
+												<div className='col px-0'>
+													<div className='row mx-0'>
+														<div className='col px-0'>
+															<span className='overview-container__crash-container__crashes__title'>
+																Continente
+															</span>
+														</div>
+													</div>
+													<div className='row mx-0'>
+														<div className='col px-0'>
+															<span className='overview-container__crash-container__crashes__text'>
+																{el.continent}
+															</span>
+														</div>
+													</div>
+												</div>
+												<div className='col px-0'>
+													<div className='row mx-0'>
+														<div className='col px-0'>
+															<span className='overview-container__crash-container__crashes__title'>
+																Aeronave
+															</span>
+														</div>
+													</div>
+													<div className='row mx-0'>
+														<div className='col px-0'>
+															<span className='overview-container__crash-container__crashes__text'>
+																{el.aircraft}
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className='row mx-0 mb-4'>
+												<div className='col px-0'>
+													<div className='row mx-0 mb-2'>
+														<div className='col px-0'>
+															<span className='overview-container__crash-container__crashes__sub-title'>
+																Palavras-Chave
+															</span>
+														</div>
+													</div>
+													<div className='row mx-0'>
+														<div className='col-auto px-0 d-flex justify-content-start align-items-start'>
+															{keywords.map((el2, index2) => {
+																return (
+																	<span
+																		key={index2}
+																		className='overview-container__crash-container__crashes__keyword-container'
+																	>
+																		{el2.word}
+																	</span>
+																);
+															})}
 														</div>
 													</div>
 												</div>

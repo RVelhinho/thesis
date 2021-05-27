@@ -34,7 +34,7 @@ export default class Dropdown extends Component {
 						<div
 							key={index}
 							className='sort-dropdown__option-container'
-							onClick={() => onSortBy(el)}
+							onClick={(e) => onSortBy(e, el)}
 						>
 							<div className='sort-dropdown__option-container__option'>
 								<span>{el.value}</span>

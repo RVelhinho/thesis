@@ -140,7 +140,7 @@ export default class App extends Component {
 	}
 
 	handlePageChange = async (newPage, inputValue) => {
-		if (newPage === 'video' && inputValue) {
+		if (newPage === 'general' && inputValue) {
 			this.handleSubmitIdentifier(inputValue);
 		}
 		try {
@@ -939,6 +939,25 @@ export default class App extends Component {
 						geometry: { type: 'Point', coordinates: [circle.lon, circle.lat] },
 					});
 				}
+			} else {
+				if (hoveredCircles.length !== 0) {
+					hoveredCircles.length = 0;
+					_.forEach(mapData.dataHovered.features, (el) => {
+						const newEl = {
+							type: 'Feature',
+							properties: {
+								...el.properties,
+								innerColor: '#3b8194',
+							},
+							geometry: {
+								type: 'Point',
+								coordinates: [el.properties.lon, el.properties.lat],
+							},
+						};
+						mapData.data.features.push(newEl);
+					});
+					mapData.dataHovered.features.length = 0;
+				}
 			}
 			this.setState(() => {
 				return { hoveredCircles, selectedCircles, mapData };
@@ -997,14 +1016,14 @@ export default class App extends Component {
 		this.handleClickCircle('map', loc);
 	};
 
-	handleMapZoom = async () => {
+	handleClickSortDropdown = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
-				'Map',
-				'Map Zoom',
-				'Zoomed on the Map View',
+				'Overview',
+				'Overview Sort Click',
+				'Opened the sorting dropdown',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;
@@ -1017,14 +1036,14 @@ export default class App extends Component {
 		}
 	};
 
-	handleMapPan = async () => {
+	handleClickSortDropdownOption = async () => {
 		try {
 			this.cancelTokenSource = axios.CancelToken.source();
 			const { data: result } = await interactionService.addInteractionLog(
 				new Date(),
-				'Map',
-				'Map Pan',
-				'Panned on the Map View',
+				'Overview',
+				'Overview Sort Option Click',
+				'Selected an option from the sorting dropdown',
 				this.cancelTokenSource.token
 			);
 			this.cancelTokenSource = null;
@@ -1091,6 +1110,8 @@ export default class App extends Component {
 								onMouseEnterOverview={this.handleMouseEnterOverview}
 								onClickRemoveCrash={this.handleClickRemoveCrash}
 								onClickRemoveAllCrashes={this.handleClickRemoveAllCrashes}
+								onClickSortDropdown={this.handleClickSortDropdown}
+								onClickSortDropdownOption={this.handleClickSortDropdownOption}
 								{...props}
 							/>
 						)}

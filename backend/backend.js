@@ -1059,6 +1059,16 @@ const dataGenerator = () => {
 							counter: el[1],
 						});
 					});
+					const dateParts = row.date.split('/');
+					row.date = dateParts[1] + '/' + dateParts[0] + '/' + dateParts[2];
+					row.date_sort =
+						dateParts[2] + '/' + dateParts[0] + '/' + dateParts[1];
+					row.continent_sort = row.continent;
+					if (row.continent_sort === 'Ásia') {
+						row.continent_sort = 'Asia';
+					} else if (row.continent_sort === 'África') {
+						row.continent_sort = 'Africa';
+					}
 					data.push(row);
 				}
 			});
@@ -1649,24 +1659,20 @@ app.post('/api/logs', (req, res) => {
 });
 
 app.get('/api/participant', (req, res) => {
-	console.log(participantId);
 	res.send(participantId.toString());
 });
 
 app.post('/api/participant', (req, res) => {
 	participantId = req.query.id;
-	console.log(participantId);
 	res.sendStatus(200);
 });
 
 app.get('/api/page', (req, res) => {
-	console.log(currentPage);
 	res.send(currentPage);
 });
 
 app.post('/api/page', (req, res) => {
 	currentPage = req.query.currentPage;
-	console.log(currentPage);
 	res.sendStatus(200);
 });
 

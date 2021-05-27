@@ -25,6 +25,8 @@ const MainPage = ({
 	calendarTooltip,
 	onMouseOverMap,
 	onMouseClickMap,
+	onClickSortDropdown,
+	onClickSortDropdownOption,
 }) => {
 	return (
 		<div className='main-page-container'>
@@ -102,6 +104,8 @@ const MainPage = ({
 						onCloseOverviewContainer={onCloseOverviewContainer}
 						onClickRemoveCrash={onClickRemoveCrash}
 						onClickRemoveAllCrashes={onClickRemoveAllCrashes}
+						onClickSortDropdown={onClickSortDropdown}
+						onClickSortDropdownOption={onClickSortDropdownOption}
 					/>
 				</div>
 			</div>

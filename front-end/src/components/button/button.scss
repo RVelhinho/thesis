@@ -41,6 +41,9 @@
 	&--red-soft {
 		border: none;
 		background-color: #d15c5c;
+		&:hover {
+			background-color: #b14e4e;
+		}
 		opacity: 0.8;
 	}
 	&--grey {
