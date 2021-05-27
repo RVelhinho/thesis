@@ -67,7 +67,7 @@ class InitialPage extends Component {
 						</div>
 					</div>
 					<div className='row w-75 h-25 mx-0 d-flex justify-content-between align-items-center'>
-						<div className='col-3 px-0 d-flex justify-content-end align-items-center'>
+						<div className='col-5 px-0 d-flex justify-content-end align-items-center'>
 							<div
 								className='initial-page-container__button'
 								onClick={() => onPageChange('map', undefined)}
@@ -77,7 +77,7 @@ class InitialPage extends Component {
 								</h1>
 							</div>
 						</div>
-						<div className='col-3 px-0 d-flex justify-content-center align-items-center'>
+						<div className='col-5 px-0 d-flex justify-content-start align-items-center'>
 							<div
 								className='initial-page-container__button'
 								onClick={() => onPageChange('calendar', undefined)}
@@ -87,7 +87,7 @@ class InitialPage extends Component {
 								</h1>
 							</div>
 						</div>
-						<div className='col-3 px-0 d-flex justify-content-start align-items-center'>
+						{/* <div className='col-3 px-0 d-flex justify-content-start align-items-center'>
 							<div
 								className='initial-page-container__button'
 								onClick={() => onPageChange('final', undefined)}
@@ -96,7 +96,7 @@ class InitialPage extends Component {
 									Opção 3
 								</h1>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 			);
