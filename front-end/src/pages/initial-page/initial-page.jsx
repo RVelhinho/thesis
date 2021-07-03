@@ -28,7 +28,6 @@ class InitialPage extends Component {
 	render() {
 		const { inputValue } = this.state;
 		const { pageState, onPageChange, onStartInteraction } = this.props;
-		console.log(pageState);
 		if (pageState === 'initial') {
 			return (
 				<div className='initial-page-container'>

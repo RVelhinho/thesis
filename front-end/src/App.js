@@ -421,6 +421,7 @@ export default class App extends Component {
 			if (filterView && !filterView.yearData) {
 				calendarData.data = yearData;
 			}
+			console.log(calendarData.data);
 			this.createRandomPositions(calendarData, countryData, run);
 			densityPlotData.data = yearAuxData;
 			countryData.map((el) => {
