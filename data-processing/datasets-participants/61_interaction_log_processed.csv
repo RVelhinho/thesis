@@ -1,0 +1,143 @@
+﻿Identifier;Time Stamp;Idiom;Type of Interaction;Description;Condition;Task 1;Task 2
+61;2021-07-26T13:11:57.989Z;Visualization;Visualization Start First Task;The user started the first task;3;2;3
+61;2021-07-26T13:11:59.606Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:12:44.014Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:12:44.047Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:44.108Z;Calendar;Calendar Circle Click Add;Selected a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:45.558Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:46.809Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:46.869Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:46.916Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:12:47.255Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:12:47.756Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;2;3
+61;2021-07-26T13:12:48.356Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:12:48.556Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:12:48.958Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:49.018Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:49.020Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:49.217Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:49.361Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:52.709Z;Calendar;Calendar Circle Click Add;Selected a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:53.209Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:12:53.458Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:04.712Z;Calendar;Calendar Circle Click Add;Selected a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:05.010Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:05.056Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:05.457Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:13:16.907Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;2;3
+61;2021-07-26T13:13:17.458Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:17.808Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:13:18.410Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:20.659Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:21.062Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:23.208Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:23.268Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:25.810Z;Calendar;Calendar Circle Click Add;Selected a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:26.559Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:26.606Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:26.757Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:13:34.457Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:34.756Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:13:35.109Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:35.168Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:35.168Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:35.267Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:13:35.466Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:13:36.008Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:36.308Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:13:36.506Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:36.757Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:13:37.061Z;Overview;Overview Sort Click;Opened the sorting dropdown;3;2;3
+61;2021-07-26T13:13:43.562Z;Overview;Overview Sort Option Click;Selected an option from the sorting dropdown;3;2;3
+61;2021-07-26T13:13:47.108Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:47.458Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:13:47.710Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:47.910Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:48.309Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:49.909Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:50.809Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:52.508Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:52.568Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:52.657Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:53.558Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:53.760Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:53.760Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:53.806Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:13:53.816Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:13:53.867Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:13:54.857Z;Overview;Overview Sort Click;Opened the sorting dropdown;3;2;3
+61;2021-07-26T13:13:55.957Z;Overview;Overview Sort Option Click;Selected an option from the sorting dropdown;3;2;3
+61;2021-07-26T13:13:56.758Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:13:57.007Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:13:57.210Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:57.269Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:57.810Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:59.659Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:13:59.809Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:01.509Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:02.759Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:03.018Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:04.009Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:04.160Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:04.319Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:05.558Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:07.510Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:08.460Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:09.409Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:09.810Z;Calendar;Calendar Circle Click Add;Selected a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:11.959Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:12.007Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:14:12.057Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:14:17.857Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:14:18.408Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:14:19.209Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:19.267Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:19.418Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:20.858Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:20.960Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:22.759Z;Calendar;Calendar Circle Click Add;Selected a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:23.561Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;2;3
+61;2021-07-26T13:14:23.662Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:14:23.807Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:14:28.356Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;2;3
+61;2021-07-26T13:14:34.308Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:14:35.308Z;Visualization;Visualization End First Task;The user ended the first task;3;2;3
+61;2021-07-26T13:15:16.758Z;Visualization;Visualization Start Second Task;The user started the second task;3;2;3
+61;2021-07-26T13:15:19.912Z;Overview;Overview Remove All Button Click;Click the Overview Remove All Button;3;2;3
+61;2021-07-26T13:15:20.808Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:15:21.758Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:15:22.808Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:15:23.509Z;Calendar;Calendar Enter View;Entered the Calendar view;3;2;3
+61;2021-07-26T13:15:25.909Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:15:33.118Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:35.161Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:37.842Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;2;3
+61;2021-07-26T13:15:38.711Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:15:38.759Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:39.211Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:15:41.460Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:44.515Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;2;3
+61;2021-07-26T13:15:44.868Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:15:45.009Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:15:48.064Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;2;3
+61;2021-07-26T13:15:48.559Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:15:49.211Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:50.911Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:15:52.011Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:53.710Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:15:54.067Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:55.860Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:15:56.738Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:15:58.911Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:16:01.911Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:16:03.560Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:16:04.060Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:16:06.211Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:16:08.161Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;2;3
+61;2021-07-26T13:16:09.062Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;2;3
+61;2021-07-26T13:16:11.311Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;2;3
+61;2021-07-26T13:16:12.210Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;2;3
+61;2021-07-26T13:16:12.358Z;Overview;Overview Enter View;Entered the Overview tab;3;2;3
+61;2021-07-26T13:16:20.759Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;2;3
+61;2021-07-26T13:16:26.309Z;Map;Map Enter View;Entered the Map view;3;2;3
+61;2021-07-26T13:16:27.309Z;Visualization;Visualization End Second Task;The user ended the second task;3;2;3
