@@ -3,3 +3,4 @@ pandas
 hdbscan
 sklearn
 matplotlib
+kneed
