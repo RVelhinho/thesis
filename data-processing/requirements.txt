@@ -4,3 +4,4 @@ hdbscan
 sklearn
 matplotlib
 kneed
+scipy

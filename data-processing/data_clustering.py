@@ -1,10 +1,12 @@
 # import required libraries
 import pandas as pd
+import numpy as np
 from sklearn import cluster
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from scipy import stats
 from kneed import KneeLocator
 import matplotlib.pyplot as plt
 import hdbscan
@@ -59,11 +61,11 @@ def compute_silhouette_score(features, total_inits, total_iter):
 def cluster_data():
     # Initialization
     pd.set_option('display.max_rows', None)
-    df = pd.read_csv(f"./datasets-participants-clustering/participants-personality.csv", sep=',')
     print("")
     alg = input("Which algorithm do you want to run?\n")
     print("")
     if (alg == 'hdbscan'):
+        df = pd.read_csv(f"./datasets-participants-clustering/participants-personality-trimmed.csv", sep=',')
         total_traits = int(input("How many features do you want for clustering?\n"))
         print("")
         cluster_traits = []
@@ -77,6 +79,7 @@ def cluster_data():
         df['Cluster'] = predicted_labels
         df.to_csv('./datasets-participants-clustering/hdbscan_clustered.csv', index = False)
     elif (alg == 'kmeans'):
+        df = pd.read_csv(f"./datasets-participants-clustering/participants-personality-trimmed.csv", sep=',')
         total_traits = int(input("How many features do you want for clustering?\n"))
         print("")
         cluster_traits = []
@@ -110,6 +113,7 @@ def cluster_data():
         print(f"The number of iterations required to converge was {converge_iter}\n")
         df.to_csv(f"./datasets-participants-clustering/kmeans_{total_clusters}_clustered.csv", index = False)
     elif (alg == 'silhouette'):
+        df = pd.read_csv(f"./datasets-participants-clustering/participants-personality-trimmed.csv", sep=',')
         total_traits = int(input("How many features do you want for clustering?\n"))
         print("")
         cluster_traits = []
@@ -125,6 +129,7 @@ def cluster_data():
         print("")
         compute_silhouette_score(scaled_data,total_inits,total_iter)
     elif (alg == 'elbow'):
+        df = pd.read_csv(f"./datasets-participants-clustering/participants-personality-trimmed.csv", sep=',')
         total_traits = int(input("How many features do you want for clustering?\n"))
         print("")
         cluster_traits = []
@@ -139,6 +144,17 @@ def cluster_data():
         total_iter = int(input("What is the max amount of iterations allowed?\n"))
         print("")
         compute_elbow_plot(scaled_data,total_inits, total_iter)
+    elif (alg == 'trim'):
+        df = pd.read_csv(f"./datasets-participants-clustering/participants-personality.csv", sep=',')
+        df = df[(np.abs(stats.zscore(df['total_time'])) < 3)]
+        df = df[(np.abs(stats.zscore(df['total_time_map'])) < 3)]
+        df = df[(np.abs(stats.zscore(df['total_time_calendar'])) < 3)]
+        s0 = df[df['condition'] == 1].sample(20).index if df[df['condition'] == 1].shape[0] > 20 else df[df['condition'] == 1].index
+        s1 = df[df['condition'] == 2].sample(20).index if df[df['condition'] == 2].shape[0] > 20 else df[df['condition'] == 2].index
+        s2 = df[df['condition'] == 3].sample(20).index if df[df['condition'] == 3].shape[0] > 20 else df[df['condition'] == 3].index
+        s3 = s0.union(s1)
+        df = df.loc[s2.union(s3)]
+        df.to_csv(f"./datasets-participants-clustering/participants-personality-trimmed.csv", index = False)
        
 
 if __name__ == '__main__':
