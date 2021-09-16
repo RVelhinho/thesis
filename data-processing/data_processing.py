@@ -10,7 +10,7 @@ from data_auxiliary import format_sequential_map_hovers, format_str_to_date, rem
 ######################################################
 
 def create_count_csv(df, id):
-    df = df.iloc[[0]][['identifier', 'condition', 'task_1', 'task_2', 'total_time','total_time_map', 'total_time_calendar','total_time_overview', 'total_circle_clicks','total_circle_clicks_add','total_circle_clicks_remove', 'total_circle_clicks_map','total_circle_clicks_map_add','total_circle_clicks_map_remove', 'total_circle_clicks_calendar','total_circle_clicks_calendar_add', 'total_circle_clicks_calendar_remove', 'total_remove_single_clicks', 'total_remove_all_clicks', 'total_sort_open_clicks', 'total_sort_option_clicks', 'total_circle_hovers', 'total_circle_hovers_map', 'total_circle_hovers_calendar', 'map_circle_hover', 'map_circle_click_add', 'map_circle_click_remove', 'calendar_circle_hover','calendar_circle_click_add', 'calendar_circle_click_remove', 'overview_remove_single', 'overview_remove_all', 'overview_sort_open', 'overview_sort_option']]
+    df = df.iloc[[0]][['identifier', 'condition', 'task_1', 'task_2', 'total_time','total_time_map', 'total_time_calendar','total_time_overview','total_interactions', 'total_circle_clicks','total_circle_clicks_add','total_circle_clicks_remove', 'total_circle_clicks_map','total_circle_clicks_map_add','total_circle_clicks_map_remove', 'total_circle_clicks_calendar','total_circle_clicks_calendar_add', 'total_circle_clicks_calendar_remove', 'total_remove_single_clicks', 'total_remove_all_clicks', 'total_sort_open_clicks', 'total_sort_option_clicks', 'total_circle_hovers', 'total_circle_hovers_map', 'total_circle_hovers_calendar', 'map_circle_hover', 'map_circle_click_add', 'map_circle_click_remove', 'calendar_circle_hover','calendar_circle_click_add', 'calendar_circle_click_remove', 'overview_remove_single', 'overview_remove_all', 'overview_sort_open', 'overview_sort_option']]
     writeHeader = True if id == 1 else False
     df.to_csv('./datasets-participants-count/all_interactions_count.csv', mode='a', header=writeHeader, index = False)
 
@@ -178,7 +178,8 @@ def csv_path_format(df):
     return df
 
 def csv_count_format(df):
-    df['total_circle_clicks'] = df.loc[(df['type_of_interaction'].str.contains('Click'))].shape[0]
+    df['total_interactions'] = df.loc[((df['type_of_interaction'] != 'Visualization Start First Task') & (df['type_of_interaction'] != 'Visualization End First Task') & (df['type_of_interaction'] != 'Visualization Start Second Task') & (df['type_of_interaction'] != 'Visualization End Second Task') & (df['type_of_interaction'] != 'Map Enter View') & (df['type_of_interaction'] != 'Calendar Enter View') & (df['type_of_interaction'] != 'Overview Enter View'))].shape[0]
+    df['total_circle_clicks'] = df.loc[((df['type_of_interaction'].str.contains('Circle')) & (df['type_of_interaction'].str.contains('Click')))].shape[0]
     df['total_circle_clicks_add'] = df.loc[(df['type_of_interaction'].str.contains('Click')) & (df['type_of_interaction'].str.contains('Add'))].shape[0]
     df['total_circle_clicks_remove']  = df.loc[(df['type_of_interaction'].str.contains('Click')) & (df['type_of_interaction'].str.contains('Remove'))].shape[0]
     df['total_circle_clicks_map'] = df.loc[(df['type_of_interaction'].str.contains('Click')) & (df['type_of_interaction'].str.contains('Map'))].shape[0]
