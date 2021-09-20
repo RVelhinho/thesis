@@ -1,0 +1,16 @@
+condition,age,total
+Map,<18,0
+Map,18-24,17
+Map,25-39,3
+Map,40-60,0
+Map,>60,0
+Calendar,<18,0
+Calendar,18-24,17
+Calendar,25-39,3
+Calendar,40-60,0
+Calendar,>60,0
+None,<18,0
+None,18-24,14
+None,25-39,3
+None,40-60,3
+None,>60,0

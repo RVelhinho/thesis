@@ -1,0 +1,16 @@
+condition,education,total
+Map,High School,5
+Map,Bachelor's Degree,10
+Map,Master's Degree,4
+Map,Doctorate,0
+Map,Other,1
+Calendar,High School,3
+Calendar,Bachelor's Degree,12
+Calendar,Master's Degree,4
+Calendar,Doctorate,1
+Calendar,Other,0
+None,High School,5
+None,Bachelor's Degree,12
+None,Master's Degree,3
+None,Doctorate,0
+None,Other,0
