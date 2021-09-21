@@ -1,7 +1,7 @@
 condition,gender,total
-Map,Male,17
-Map,Female,3
-Calendar,Male,17
-Calendar,Female,3
-None,Male,13
-None,Female,7
+Map Anchor,Male,17
+Map Anchor,Female,3
+Calendar Anchor,Male,17
+Calendar Anchor,Female,3
+No Anchor,Male,13
+No Anchor,Female,7

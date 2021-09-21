@@ -1,16 +1,16 @@
 condition,education,total
-Map,High School,5
-Map,Bachelor's Degree,10
-Map,Master's Degree,4
-Map,Doctorate,0
-Map,Other,1
-Calendar,High School,3
-Calendar,Bachelor's Degree,12
-Calendar,Master's Degree,4
-Calendar,Doctorate,1
-Calendar,Other,0
-None,High School,5
-None,Bachelor's Degree,12
-None,Master's Degree,3
-None,Doctorate,0
-None,Other,0
+Map Anchor,High School,5
+Map Anchor,Bachelor's Degree,10
+Map Anchor,Master's Degree,4
+Map Anchor,Doctorate,0
+Map Anchor,Other,1
+Calendar Anchor,High School,3
+Calendar Anchor,Bachelor's Degree,12
+Calendar Anchor,Master's Degree,4
+Calendar Anchor,Doctorate,1
+Calendar Anchor,Other,0
+No Anchor,High School,5
+No Anchor,Bachelor's Degree,12
+No Anchor,Master's Degree,3
+No Anchor,Doctorate,0
+No Anchor,Other,0

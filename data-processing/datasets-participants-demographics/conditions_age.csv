@@ -1,16 +1,16 @@
 condition,age,total
-Map,<18,0
-Map,18-24,17
-Map,25-39,3
-Map,40-60,0
-Map,>60,0
-Calendar,<18,0
-Calendar,18-24,17
-Calendar,25-39,3
-Calendar,40-60,0
-Calendar,>60,0
-None,<18,0
-None,18-24,14
-None,25-39,3
-None,40-60,3
-None,>60,0
+Map Anchor,<18,0
+Map Anchor,18-24,17
+Map Anchor,25-39,3
+Map Anchor,40-60,0
+Map Anchor,>60,0
+Calendar Anchor,<18,0
+Calendar Anchor,18-24,17
+Calendar Anchor,25-39,3
+Calendar Anchor,40-60,0
+Calendar Anchor,>60,0
+No Anchor,<18,0
+No Anchor,18-24,14
+No Anchor,25-39,3
+No Anchor,40-60,3
+No Anchor,>60,0
