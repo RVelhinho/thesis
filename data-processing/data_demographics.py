@@ -146,6 +146,36 @@ def create_clusters_education_file(df):
     df_new.to_csv(f"./datasets-participants-demographics/clusters_education.csv", index = False)
     return
 
+def create_all_glasses_file(df):
+    data = {'glasses': ['Yes','No'],'total': [0,0]}
+    df_new = pd.DataFrame(data)
+    df_new.loc[(df_new['glasses']== 'Yes') ,'total'] = df[(df['Glasses'] == 'Yes')].shape[0]
+    df_new.loc[(df_new['glasses']== 'No') ,'total'] = df[(df['Glasses'] == 'No')].shape[0]
+    df_new.to_csv(f"./datasets-participants-demographics/all_glasses.csv", index = False)
+    return
+
+def create_conditions_glasses_file(df):
+    data = {'condition': ['Map Anchor','Map Anchor', 'Calendar Anchor','Calendar Anchor', 'No Anchor','No Anchor'],'glasses': ['Yes','No','Yes','No','Yes','No'],'total': [0,0,0,0,0,0]}
+    df_new = pd.DataFrame(data)
+    df_new.loc[(df_new['glasses']== 'Yes') & (df_new['condition'] == 'Map Anchor') ,'total'] = df[(df['Glasses'] == 'Yes') & (df['condition'] == 1)].shape[0]
+    df_new.loc[(df_new['glasses']== 'No') & (df_new['condition'] == 'Map Anchor') ,'total'] = df[(df['Glasses'] == 'No') & (df['condition'] == 1)].shape[0]
+    df_new.loc[(df_new['glasses']== 'Yes') & (df_new['condition'] == 'Calendar Anchor') ,'total'] = df[(df['Glasses'] == 'Yes') & (df['condition'] == 2)].shape[0]
+    df_new.loc[(df_new['glasses']== 'No') & (df_new['condition'] == 'Calendar Anchor')  ,'total'] = df[(df['Glasses'] == 'No') & (df['condition'] == 2)].shape[0]
+    df_new.loc[(df_new['glasses']== 'Yes') & (df_new['condition'] == 'No Anchor')  ,'total'] = df[(df['Glasses'] == 'Yes') & (df['condition'] == 3) ].shape[0]
+    df_new.loc[(df_new['glasses']== 'No') & (df_new['condition'] == 'No Anchor')  ,'total'] = df[(df['Glasses'] == 'No') & (df['condition'] == 3)].shape[0]
+    df_new.to_csv(f"./datasets-participants-demographics/conditions_glasses.csv", index = False)
+    return
+
+def create_clusters_glasses_file(df):
+    data = {'cluster': ['Cluster 1','Cluster 1', 'Cluster 2','Cluster 2'],'glasses': ['Yes','No','Yes','No'],'total': [0,0,0,0]}
+    df_new = pd.DataFrame(data)
+    df_new.loc[(df_new['glasses']== 'Yes') & (df_new['cluster'] == 'Cluster 1') ,'total'] = df[(df['Glasses'] == 'Yes') & (df['Cluster'] == 0)].shape[0]
+    df_new.loc[(df_new['glasses']== 'No') & (df_new['cluster'] == 'Cluster 1') ,'total'] = df[(df['Glasses'] == 'No') & (df['Cluster'] == 0)].shape[0]
+    df_new.loc[(df_new['glasses']== 'Yes') & (df_new['cluster'] == 'Cluster 2') ,'total'] = df[(df['Glasses'] == 'Yes') & (df['Cluster'] == 2)].shape[0]
+    df_new.loc[(df_new['glasses']== 'No') & (df_new['cluster'] == 'Cluster 2')  ,'total'] = df[(df['Glasses'] == 'No') & (df['Cluster'] == 2)].shape[0]
+    df_new.to_csv(f"./datasets-participants-demographics/clusters_glasses.csv", index = False)
+    return
+
 def create_all_time_map_file(df):
     df_new = df.loc[:,['total_time_map']]
     df_new.to_csv(f"./datasets-participants-demographics/all_time_map.csv", index = False)
@@ -236,57 +266,6 @@ def create_conditions_clusters_dimensions_file(df):
     df_new.to_csv(f"./datasets-participants-demographics/conditions_clusters_dimensions.csv", index = False)
     return 
 
-def create_top_5_interactions():
-    # All Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/all_network.csv", index = False)
-    # Condition Map Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_map_network.csv", index = False)
-    # Condition Calendar Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_calendar_network.csv", index = False)
-    # Condition None Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_none_network.csv", index = False)
-    # Cluster 1 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/clusters_1_network.csv", index = False)
-    # Cluster 2 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/clusters_2_network.csv", index = False)
-    # Condition Map Cluster 1 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_map_clusters_1_network.csv", index = False)
-    # Condition Map Cluster 2 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_map_clusters_2_network.csv", index = False)
-    # Condition Calendar Cluster 1 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_calendar_clusters_1_network.csv", index = False)
-    # Condition Calendar Cluster 2 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_calendar_clusters_2_network.csv", index = False)
-    # Condition None Cluster 1 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_none_clusters_1_network.csv", index = False)
-    # Condition Calendar Cluster 2 Network
-    data = {'interaction': ['','','','',''],'score': [0,0]}
-    df_new = pd.DataFrame(data)
-    df_new.to_csv(f"./datasets-participants-demographics/top-5-interactions/conditions_none_clusters_2_network.csv", index = False)
-    return
-
 def create_dimensions_time_file(df):
     df_new = df.loc[:,['Internal','PowerfulOthers','Chance','total_time_map','total_time_calendar']]
     df_new.to_csv(f"./datasets-participants-demographics/dimensions_time.csv", index = False)
@@ -322,8 +301,10 @@ def create_demographics_files():
     create_conditions_dimensions_file(df)
     create_clusters_dimensions_file(df)
     create_conditions_clusters_dimensions_file(df)
-    #create_top_5_interactions()
     create_dimensions_time_file(df)
+    create_all_glasses_file(df)
+    create_conditions_glasses_file(df)
+    create_clusters_glasses_file(df)
     
 
 
