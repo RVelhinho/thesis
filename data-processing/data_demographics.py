@@ -40,6 +40,18 @@ def create_conditions_file(df):
     df_new.to_csv(f"./datasets-participants-demographics/conditions_distribution.csv", index = False)
     return
 
+def create_conditions_clusters_file(df):
+    data = {'condition': ['Map Anchor','Map Anchor','Calendar Anchor','Calendar Anchor','No Anchor','No Anchor'],'cluster':['Cluster 1', 'Cluster 2','Cluster 1', 'Cluster 2','Cluster 1', 'Cluster 2'],'total': [0,0,0,0,0,0]}
+    df_new = pd.DataFrame(data)
+    df_new.loc[(df_new['condition']== 'Map Anchor') & (df_new['cluster'] == 'Cluster 1') ,'total'] = df[(df['condition'] == 1) & (df['Cluster'] == 0)].shape[0]
+    df_new.loc[(df_new['condition']== 'Calendar Anchor') & (df_new['cluster'] == 'Cluster 1'),'total'] = df[(df['condition'] == 2) & (df['Cluster'] == 0)].shape[0]
+    df_new.loc[(df_new['condition']== 'No Anchor') & (df_new['cluster'] == 'Cluster 1'),'total'] = df[(df['condition'] == 3) & (df['Cluster'] == 0)].shape[0]
+    df_new.loc[(df_new['condition']== 'Map Anchor') & (df_new['cluster'] == 'Cluster 2') ,'total'] = df[(df['condition'] == 1) & (df['Cluster'] == 1)].shape[0]
+    df_new.loc[(df_new['condition']== 'Calendar Anchor') & (df_new['cluster'] == 'Cluster 2'),'total'] = df[(df['condition'] == 2) & (df['Cluster'] == 1)].shape[0]
+    df_new.loc[(df_new['condition']== 'No Anchor') & (df_new['cluster'] == 'Cluster 2'),'total'] = df[(df['condition'] == 3) & (df['Cluster'] == 1)].shape[0]
+    df_new.to_csv(f"./datasets-participants-demographics/conditions_clusters_distribution.csv", index = False)
+    return
+
 def create_conditions_gender_file(df):
     data = {'condition': ['Map Anchor','Map Anchor','Calendar Anchor','Calendar Anchor','No Anchor','No Anchor'], 'gender': ['Male', 'Female','Male', 'Female','Male', 'Female'], 'total': [0,0,0,0,0,0]}
     df_new = pd.DataFrame(data)
@@ -176,104 +188,6 @@ def create_clusters_glasses_file(df):
     df_new.to_csv(f"./datasets-participants-demographics/clusters_glasses.csv", index = False)
     return
 
-def create_all_time_map_file(df):
-    df_new = df.loc[:,['total_time_map']]
-    df_new.to_csv(f"./datasets-participants-demographics/all_time_map.csv", index = False)
-    return
-
-def create_all_time_calendar_file(df):
-    df_new = df.loc[:,['total_time_calendar']]
-    df_new.to_csv(f"./datasets-participants-demographics/all_time_calendar.csv", index = False)
-    return
-
-def create_conditions_time_map_file(df):
-    df_new = df.loc[:,['condition','total_time_map']]
-    df_new.loc[(df_new['condition'] == 1), 'condition'] = 'Map Anchor'
-    df_new.loc[(df_new['condition'] == 2), 'condition'] = 'Calendar Anchor'
-    df_new.loc[(df_new['condition'] == 3), 'condition'] = 'No Anchor'
-    df_new.to_csv(f"./datasets-participants-demographics/conditions_time_map.csv", index = False)
-    return
-
-def create_conditions_time_calendar_file(df):
-    df_new = df.loc[:,['condition','total_time_calendar']]
-    df_new.loc[(df_new['condition'] == 1), 'condition'] = 'Map Anchor'
-    df_new.loc[(df_new['condition'] == 2), 'condition'] = 'Calendar Anchor'
-    df_new.loc[(df_new['condition'] == 3), 'condition'] = 'No Anchor'
-    df_new.to_csv(f"./datasets-participants-demographics/conditions_time_calendar.csv", index = False)
-    return
-
-def create_clusters_time_map_file(df):
-    df_new = df.loc[:,['Cluster','total_time_map']]
-    df_new.loc[(df_new['Cluster'] == 0), 'Cluster'] = 'Cluster 1'
-    df_new.loc[(df_new['Cluster'] == 1), 'Cluster'] = 'Cluster 2'
-    df_new.to_csv(f"./datasets-participants-demographics/clusters_time_map.csv", index = False)
-    return
-
-def create_clusters_time_calendar_file(df):
-    df_new = df.loc[:,['Cluster','total_time_calendar']]
-    df_new.loc[(df_new['Cluster'] == 0), 'Cluster'] = 'Cluster 1'
-    df_new.loc[(df_new['Cluster'] == 1), 'Cluster'] = 'Cluster 2'
-    df_new.to_csv(f"./datasets-participants-demographics/clusters_time_calendar.csv", index = False)
-    return
-
-def create_conditions_clusters_time_map_file(df):
-    df_new = df.loc[:,['condition','Cluster','total_time_map']]
-    df_new.loc[(df_new['condition'] == 1), 'condition'] = 'Map Anchor'
-    df_new.loc[(df_new['condition'] == 2), 'condition'] = 'Calendar Anchor'
-    df_new.loc[(df_new['condition'] == 3), 'condition'] = 'No Anchor'
-    df_new.loc[(df_new['Cluster'] == 0), 'Cluster'] = 'Cluster 1'
-    df_new.loc[(df_new['Cluster'] == 1), 'Cluster'] = 'Cluster 2'
-    df_new.to_csv(f"./datasets-participants-demographics/conditions_clusters_time_map.csv", index = False)
-    return
-
-def create_conditions_clusters_time_calendar_file(df):
-    df_new = df.loc[:,['condition','Cluster','total_time_calendar']]
-    df_new.loc[(df_new['condition'] == 1), 'condition'] = 'Map Anchor'
-    df_new.loc[(df_new['condition'] == 2), 'condition'] = 'Calendar Anchor'
-    df_new.loc[(df_new['condition'] == 3), 'condition'] = 'No Anchor'
-    df_new.loc[(df_new['Cluster'] == 0), 'Cluster'] = 'Cluster 1'
-    df_new.loc[(df_new['Cluster'] == 1), 'Cluster'] = 'Cluster 2'
-    df_new.to_csv(f"./datasets-participants-demographics/conditions_clusters_time_calendar.csv", index = False)
-    return
-
-def create_all_dimensions_file(df):
-    df_new = df.loc[:,['Internal','PowerfulOthers','Chance']]
-    df_new.to_csv(f"./datasets-participants-demographics/all_dimensions.csv", index = False)
-    return
-
-def create_conditions_dimensions_file(df):
-    df_new = df.loc[:,['Internal','PowerfulOthers','Chance','condition']]
-    df_new.loc[(df_new['condition'] == 1), 'condition'] = 'Map Anchor'
-    df_new.loc[(df_new['condition'] == 2), 'condition'] = 'Calendar Anchor'
-    df_new.loc[(df_new['condition'] == 3), 'condition'] = 'No Anchor'
-    df_new.to_csv(f"./datasets-participants-demographics/conditions_dimensions.csv", index = False)
-    return 
-
-def create_clusters_dimensions_file(df):
-    df_new = df.loc[:,['Internal','PowerfulOthers','Chance','Cluster']]
-    df_new.loc[(df_new['Cluster'] == 0), 'Cluster'] = 'Cluster 1'
-    df_new.loc[(df_new['Cluster'] == 1), 'Cluster'] = 'Cluster 2'
-    df_new.to_csv(f"./datasets-participants-demographics/clusters_dimensions.csv", index = False)
-    return 
-
-def create_conditions_clusters_dimensions_file(df):
-    df_new = df.loc[:,['Internal','PowerfulOthers','Chance','condition','Cluster']]
-    df_new.loc[(df_new['condition'] == 1), 'condition'] = 'Map Anchor'
-    df_new.loc[(df_new['condition'] == 2), 'condition'] = 'Calendar Anchor'
-    df_new.loc[(df_new['condition'] == 3), 'condition'] = 'No Anchor'
-    df_new.loc[(df_new['Cluster'] == 0), 'Cluster'] = 'Cluster 1'
-    df_new.loc[(df_new['Cluster'] == 1), 'Cluster'] = 'Cluster 2'
-    df_new.to_csv(f"./datasets-participants-demographics/conditions_clusters_dimensions.csv", index = False)
-    return 
-
-def create_dimensions_time_file(df):
-    df_new = df.loc[:,['Internal','PowerfulOthers','Chance','total_time_map','total_time_calendar']]
-    df_new.to_csv(f"./datasets-participants-demographics/dimensions_time.csv", index = False)
-    return
-
-
-    
-
 
 def create_demographics_files():
     pd.set_option('display.max_rows', None)
@@ -289,22 +203,10 @@ def create_demographics_files():
     create_clusters_gender_file(df)
     create_clusters_age_file(df)
     create_clusters_education_file(df)
-    create_all_time_map_file(df)
-    create_all_time_calendar_file(df)
-    create_conditions_time_map_file(df)
-    create_conditions_time_calendar_file(df)
-    create_clusters_time_map_file(df)
-    create_clusters_time_calendar_file(df)
-    create_conditions_clusters_time_map_file(df)
-    create_conditions_clusters_time_calendar_file(df)
-    create_all_dimensions_file(df)
-    create_conditions_dimensions_file(df)
-    create_clusters_dimensions_file(df)
-    create_conditions_clusters_dimensions_file(df)
-    create_dimensions_time_file(df)
-    create_all_glasses_file(df)
-    create_conditions_glasses_file(df)
-    create_clusters_glasses_file(df)
+    # create_all_glasses_file(df)
+    # create_conditions_glasses_file(df)
+    # create_clusters_glasses_file(df)
+    create_conditions_clusters_file(df)
     
 
 
