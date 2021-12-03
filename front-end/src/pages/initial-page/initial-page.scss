@@ -1,0 +1,72 @@
+.initial-page-container {
+	width: 100%;
+	height: 100%;
+	&__vertical-separator {
+		height: 80%;
+		width: 2px;
+		border-radius: 6px;
+		background-color: #3b8194;
+	}
+	&__title-1 {
+		text-align: center;
+		font-size: 5rem;
+		font-family: OpenSans-Regular;
+		font-weight: 400;
+		color: #3b8194;
+	}
+	&__title-2 {
+		text-align: center;
+		font-size: 10rem;
+		font-family: OpenSans-Regular;
+		font-weight: 400;
+		color: #3b8194;
+	}
+	&__sub-title {
+		text-align: center;
+		font-size: 2rem;
+		font-family: OpenSans-Regular;
+		font-weight: 600;
+		color: #3b8194;
+	}
+	&__input {
+		border-radius: 18px;
+		border: 1px solid #b6b6b6;
+		outline: none;
+		padding: 0.5em 1em;
+		height: 2.5em;
+	}
+	&__button {
+		width: 15rem;
+		height: 7rem;
+		border-radius: 18px;
+		border: 1px solid #3b8194;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		text-decoration: none !important;
+		&--small {
+			width: auto;
+			height: 2.5em;
+			padding: 0.5em 1em;
+		}
+		&__content {
+			text-align: center;
+			font-size: 2rem;
+			font-family: OpenSans-Regular;
+			font-weight: 400;
+			color: #3b8194;
+			margin-bottom: 0;
+			&--small {
+				font-size: 1rem;
+			}
+		}
+		&:hover {
+			border-color: #fff;
+			background-color: #3b8194;
+			.initial-page-container__button__content {
+				color: #fff;
+			}
+		}
+	}
+}

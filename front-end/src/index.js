@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'leaflet/dist/leaflet.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<Router>
+		<App />
+	</Router>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

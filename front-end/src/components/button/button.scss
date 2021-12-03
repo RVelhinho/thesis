@@ -1,0 +1,69 @@
+.custom-button {
+	border: 1px solid;
+	border-radius: 8px;
+	width: 100%;
+	height: 2em;
+	cursor: pointer;
+	&.disabled {
+		pointer-events: none;
+		opacity: 0.3;
+	}
+	&--default {
+		border-color: #578591;
+		background-color: white;
+		> span {
+			color: #578591;
+		}
+		&:hover,
+		&--selected {
+			border: none;
+			background-color: #578591;
+			> span {
+				color: #fff;
+			}
+		}
+	}
+	&--default-selected {
+		border: none;
+		background-color: #578591;
+		> span {
+			color: #fff;
+		}
+	}
+	&--orange {
+		border: none;
+		background-color: #ed8c15;
+	}
+	&--red {
+		border: none;
+		background-color: #d15c5c;
+	}
+	&--red-soft {
+		border: none;
+		background-color: #d15c5c;
+		&:hover {
+			background-color: #b14e4e;
+		}
+		opacity: 0.8;
+	}
+	&--grey {
+		border-color: #d7d7d7;
+		background-color: #e7e7e7;
+	}
+	&__text {
+		height: 100%;
+		font-family: OpenSans-Regular;
+		font-size: 1.02rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		&--orange,
+		&--red,
+		&--red-soft {
+			color: white;
+		}
+		&--grey {
+			color: #606060;
+		}
+	}
+}

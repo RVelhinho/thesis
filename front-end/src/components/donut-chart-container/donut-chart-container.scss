@@ -1,0 +1,17 @@
+.donut-chart-container {
+	&__info-container {
+		margin-top: 5%;
+		position: absolute;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		&__text {
+			font-size: 1.32rem;
+			font-family: OpenSans-Regular;
+			font-weight: 600;
+			color: #4c4c4c;
+		}
+	}
+}

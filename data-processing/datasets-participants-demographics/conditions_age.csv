@@ -1,0 +1,16 @@
+condition,age,total
+Map Anchor,<18,0
+Map Anchor,18-24,17
+Map Anchor,25-39,3
+Map Anchor,40-60,0
+Map Anchor,>60,0
+Calendar Anchor,<18,0
+Calendar Anchor,18-24,17
+Calendar Anchor,25-39,3
+Calendar Anchor,40-60,0
+Calendar Anchor,>60,0
+No Anchor,<18,0
+No Anchor,18-24,14
+No Anchor,25-39,3
+No Anchor,40-60,3
+No Anchor,>60,0

@@ -1,0 +1,191 @@
+﻿Identifier;Time Stamp;Idiom;Type of Interaction;Description;Condition;Task 1;Task 2
+60;2021-07-25T09:13:35.202Z;Visualization;Visualization Start First Task;The user started the first task;3;1;4
+60;2021-07-25T09:13:50.279Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:14:16.057Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:19.782Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:19.880Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:20.077Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:20.276Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:23.978Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:24.228Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:25.778Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:26.878Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:27.358Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:14:32.228Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:32.276Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:32.327Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:32.577Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:32.627Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:33.147Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:14:33.925Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;1;4
+60;2021-07-25T09:14:34.126Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:14:35.183Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:35.578Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:14:36.979Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:41.327Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:41.377Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:41.627Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:14:42.781Z;Overview;Overview Remove All Button Click;Click the Overview Remove All Button;3;1;4
+60;2021-07-25T09:14:42.925Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:14:43.477Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:43.576Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:43.976Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:45.677Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:47.475Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:52.730Z;Calendar;Calendar Enter View;Entered the Calendar view;3;1;4
+60;2021-07-25T09:14:53.678Z;Calendar;Calendar Circle Enter;Hovered the cursor into a circle on the Calendar view;3;1;4
+60;2021-07-25T09:14:55.978Z;Calendar;Calendar Circle Leave;Hovered the cursor out of a circle on the Calendar view;3;1;4
+60;2021-07-25T09:14:56.226Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:14:58.028Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:14:58.677Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:14:59.128Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:14:59.978Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:00.332Z;Map;Map Circle Click Remove;Unselected a circle on the Map view;3;1;4
+60;2021-07-25T09:15:01.128Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:03.578Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:03.627Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:04.378Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:05.528Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:08.227Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:15:09.577Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:09.627Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:10.627Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:14.229Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:14.375Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:16.478Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:15:17.377Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:17.525Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:15:19.326Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:15:22.127Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:26.427Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:26.925Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:15:27.826Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:15:28.876Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:28.927Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:29.427Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:30.827Z;Map;Map Circle Click Remove;Unselected a circle on the Map view;3;1;4
+60;2021-07-25T09:15:31.727Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:15:33.728Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:34.026Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:15:42.776Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:15:44.527Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:46.076Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:46.176Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:15:48.826Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:15:50.906Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:15:51.775Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:15:53.928Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:15:57.325Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:15:58.780Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;1;4
+60;2021-07-25T09:15:59.126Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:16:00.226Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:00.376Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:00.577Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:01.927Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:03.077Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:04.827Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:05.377Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:06.677Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:06.726Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:07.227Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:08.127Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:08.176Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:09.127Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:10.527Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:16:12.177Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:19.229Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:19.328Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:19.576Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:21.927Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:22.327Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:16:24.783Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:16:47.196Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.148Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.152Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.154Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.156Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.157Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.158Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.160Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.193Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.195Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.197Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.198Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.199Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.244Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.245Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.345Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.347Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.545Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.547Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.648Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.652Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.655Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.657Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.658Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.697Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.698Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.699Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.743Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.745Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.747Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.796Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.798Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.800Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:51.843Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:59.950Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:59.961Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:16:59.999Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:17:00.049Z;Visualization;Visualization End First Task;The user ended the first task;3;1;4
+60;2021-07-25T09:17:53.749Z;Visualization;Visualization Start Second Task;The user started the second task;3;1;4
+60;2021-07-25T09:18:01.952Z;Overview;Overview Remove All Button Click;Click the Overview Remove All Button;3;1;4
+60;2021-07-25T09:18:02.749Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:18:03.700Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:03.763Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:04.063Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:05.954Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:18:07.949Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:08.299Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:18:09.346Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;1;4
+60;2021-07-25T09:18:09.746Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:18:10.748Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:12.050Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:12.501Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:14.301Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:14.750Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:18.800Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:18:19.648Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:19.999Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:18:21.298Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;1;4
+60;2021-07-25T09:18:21.513Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:18:22.500Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:24.950Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:25.398Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:26.851Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:28.650Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:28.713Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:28.763Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:29.398Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:30.898Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:33.399Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:18:34.250Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:34.461Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:18:37.296Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:18:38.251Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:39.850Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:40.198Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:40.398Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:40.512Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:43.299Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:43.951Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:44.797Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:18:45.298Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:45.696Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:18:49.050Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:18:49.799Z;Map;Map Circle Enter;Hovered the cursor into a circle on the Map view;3;1;4
+60;2021-07-25T09:18:51.298Z;Map;Map Circle Click Add;Selected a circle on the Map view;3;1;4
+60;2021-07-25T09:18:53.299Z;Map;Map Circle Leave;Hovered the cursor out of a circle on the Map view;3;1;4
+60;2021-07-25T09:18:53.411Z;Overview;Overview Enter View;Entered the Overview tab;3;1;4
+60;2021-07-25T09:18:57.696Z;Overview;Overview Remove Button Click;Click the Overview Remove Button;3;1;4
+60;2021-07-25T09:19:03.650Z;Map;Map Enter View;Entered the Map view;3;1;4
+60;2021-07-25T09:19:04.650Z;Visualization;Visualization End Second Task;The user ended the second task;3;1;4

@@ -1,0 +1,9 @@
+$min-font: 12;
+$max-font: 14;
+$min-size: 300;
+$max-size: 1500;
+
+html {
+	@include fluid-typography($min-font, $max-font, $min-size, $max-size);
+	font-family: OpenSans-Regular, sans-serif;
+}

@@ -1,0 +1,37 @@
+.calendar-row-container {
+	position: relative;
+	margin: 4% 2%;
+	&__year {
+		font-family: OpenSans-Regular;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: #606060;
+		width: auto;
+	}
+	&__count {
+		font-family: OpenSans-Regular;
+		font-size: 1.02rem;
+		color: #606060;
+		font-weight: 600;
+		width: auto;
+	}
+	&__circle-container {
+		min-height: 2em;
+		height: auto;
+		padding: 2% 1%;
+		box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+		background-color: #fff;
+		border-radius: 8px;
+		&__circle {
+			width: 12px;
+			height: 12px;
+			background-color: white;
+			box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+			border-radius: 50%;
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
+}
